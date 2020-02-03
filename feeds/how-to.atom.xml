@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-03T22:56:01+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-03T22:56:01+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;
 &lt;h2&gt;一、安装 GIT&lt;/h2&gt;
@@ -86,5 +86,4 @@ $ ghp-import output -b gh-pages
 $ git push origin gh-pages:master
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-02-03T01:30:55+08:00</published><updated>2020-02-03T01:30:55+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry></feed>
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry></feed>
