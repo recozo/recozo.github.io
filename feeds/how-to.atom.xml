@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-03T22:56:01+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-05T01:16:50+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-05T01:16:50+08:00</published><updated>2020-02-05T01:16:50+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/vim-skills.html</id><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+10,112 s/^/    /
+&lt;/pre&gt;
+&lt;p&gt;删除空行以及只有空格的行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:g/^\s*$/d
+&lt;/pre&gt;
+</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;
 &lt;h2&gt;一、安装 GIT&lt;/h2&gt;

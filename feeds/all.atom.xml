@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-05T00:55:13+08:00</updated><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-02-05T00:55:13+08:00</published><updated>2020-02-05T00:55:13+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-05T01:21:48+08:00</updated><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-02-05T01:21:48+08:00</published><updated>2020-02-05T01:21:48+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
@@ -137,7 +137,15 @@ And whispered in the sounds of silence
 和房屋的大厅里
 在寂静的声音里低语
 &lt;/pre&gt;
-</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-05T01:16:50+08:00</published><updated>2020-02-05T01:16:50+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/vim-skills.html</id><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+10,112 s/^/    /
+&lt;/pre&gt;
+&lt;p&gt;删除空行以及只有空格的行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:g/^\s*$/d
+&lt;/pre&gt;
+</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;
 &lt;h2&gt;一、安装 GIT&lt;/h2&gt;
