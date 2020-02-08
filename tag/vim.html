@@ -20,7 +20,7 @@
                 <article>
                     <h1 class="entry-title"><a href="https://recozo.github.io/vim-skills.html">Vim skills</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-02-05T01:16:50.091369+08:00">
+        <abbr class="published" title="2020-02-05T03:57:41.678950+08:00">
                 Published: 2020-02-05
         </abbr>
 
@@ -36,6 +36,17 @@
 <p>删除空行以及只有空格的行:</p>
 <pre class="literal-block">
 :g/^\s*$/d
+</pre>
+<p>恢复删除操作:</p>
+<pre class="literal-block">
+vi对删除(d or x)或复制(y)有各自专用的 buffer，
+删除buffer会自动保留最近的9个删除操作(行内删除除外)至buffer，9个删除自动按照1-9保存，最近一次删除保存在1；
+可以使用 &quot;1pu.u.u etc 命令查看各个删除的内容
+
+复制buffer可保留26个命名（从a-z）复制内容，如果复制时未使用命名，自动使用a??
+&quot;d7yy
+&quot;a5dd
+此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
 </pre>
                 </article>
             </aside><!-- /#featured -->

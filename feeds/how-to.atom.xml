@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-05T01:16:50+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-05T01:16:50+08:00</published><updated>2020-02-05T01:16:50+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/vim-skills.html</id><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-05T03:57:41+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-05T03:57:41+08:00</published><updated>2020-02-05T03:57:41+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/vim-skills.html</id><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 10,112 s/^/    /
 &lt;/pre&gt;
 &lt;p&gt;删除空行以及只有空格的行:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 :g/^\s*$/d
+&lt;/pre&gt;
+&lt;p&gt;恢复删除操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi对删除(d or x)或复制(y)有各自专用的 buffer，
+删除buffer会自动保留最近的9个删除操作(行内删除除外)至buffer，9个删除自动按照1-9保存，最近一次删除保存在1；
+可以使用 &amp;quot;1pu.u.u etc 命令查看各个删除的内容
+
+复制buffer可保留26个命名（从a-z）复制内容，如果复制时未使用命名，自动使用a??
+&amp;quot;d7yy
+&amp;quot;a5dd
+此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
 &lt;/pre&gt;
 </content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
