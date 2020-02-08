@@ -25,8 +25,8 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-05T03:57:41.678950+08:00">
-                Published: 2020-02-05
+        <abbr class="published" title="2020-02-09T03:47:29.070549+08:00">
+                Published: 2020-02-09
         </abbr>
 
         <address class="vcard author">
@@ -53,6 +53,38 @@ vi对删除(d or x)或复制(y)有各自专用的 buffer，
 &quot;a5dd
 此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
 </pre>
+<div class="section" id="id1">
+<h2>代码编辑操作</h2>
+<p>在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块</p>
+<p>缩进设置:</p>
+<pre class="literal-block">
+:set autoindent             用于开启缩进功能
+:set shiftwidth=4   用于设置缩进（量）
+:set list           用于查看TAB与EOF，TAB 显示为 ^I，EOF 显示为 $
+</pre>
+<p>或者:</p>
+<pre class="literal-block">
+:set ai sw=4                省略格式
+</pre>
+<p>当处于编辑状态时可以使用以下快捷键快速调整缩进:</p>
+<pre class="literal-block">
+CTRL-T              增加一个缩进
+CTRL-D              减少一个缩进
+^ CTRL-D    （输入的^在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行仍然会保留之前的缩进
+0 CTRL-D    （输入的0在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行缩进为0
+</pre>
+<p>当处于命令状态时可以使用以下命令调整缩进:</p>
+<pre class="literal-block">
+&gt;&gt;          增加缩进，5&gt;&gt; 增加5个缩进宽度 set shiftwidth=4 指定的
+&lt;&lt;          减少缩进，5&lt;&lt; 减少5个缩进宽度
+</pre>
+<p>当处于命令状态时，可以使用 % 查看对应的 () [] {}，如果光标没有在括号上，vi 会自动从光标位置向前查找当前行的括号，然后移动到对应的括号上去;
+另一个有用的技巧是打开以下设置:</p>
+<pre class="literal-block">
+:set showmatch
+</pre>
+<p>与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样</p>
+</div>
 
     </div><!-- /.entry-content -->
 

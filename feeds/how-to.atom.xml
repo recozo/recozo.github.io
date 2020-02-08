@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-05T03:57:41+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-05T03:57:41+08:00</published><updated>2020-02-05T03:57:41+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/vim-skills.html</id><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-09T03:47:29+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-09T03:47:29+08:00</published><updated>2020-02-09T03:47:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-09:/vim-skills.html</id><summary type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 10,112 s/^/    /
 &lt;/pre&gt;
@@ -18,6 +18,63 @@ vi对删除(d or x)或复制(y)有各自专用的 buffer，
 &amp;quot;a5dd
 此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
 &lt;/pre&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;代码编辑操作&lt;/h2&gt;
+&lt;p&gt;在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块&lt;/p&gt;
+&lt;p&gt;缩进设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set autoindent             用于开启缩进功能
+:set …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+10,112 s/^/    /
+&lt;/pre&gt;
+&lt;p&gt;删除空行以及只有空格的行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:g/^\s*$/d
+&lt;/pre&gt;
+&lt;p&gt;恢复删除操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi对删除(d or x)或复制(y)有各自专用的 buffer，
+删除buffer会自动保留最近的9个删除操作(行内删除除外)至buffer，9个删除自动按照1-9保存，最近一次删除保存在1；
+可以使用 &amp;quot;1pu.u.u etc 命令查看各个删除的内容
+
+复制buffer可保留26个命名（从a-z）复制内容，如果复制时未使用命名，自动使用a??
+&amp;quot;d7yy
+&amp;quot;a5dd
+此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
+&lt;/pre&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;代码编辑操作&lt;/h2&gt;
+&lt;p&gt;在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块&lt;/p&gt;
+&lt;p&gt;缩进设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set autoindent             用于开启缩进功能
+:set shiftwidth=4   用于设置缩进（量）
+:set list           用于查看TAB与EOF，TAB 显示为 ^I，EOF 显示为 $
+&lt;/pre&gt;
+&lt;p&gt;或者:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set ai sw=4                省略格式
+&lt;/pre&gt;
+&lt;p&gt;当处于编辑状态时可以使用以下快捷键快速调整缩进:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-T              增加一个缩进
+CTRL-D              减少一个缩进
+^ CTRL-D    （输入的^在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行仍然会保留之前的缩进
+0 CTRL-D    （输入的0在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行缩进为0
+&lt;/pre&gt;
+&lt;p&gt;当处于命令状态时可以使用以下命令调整缩进:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;gt;&amp;gt;          增加缩进，5&amp;gt;&amp;gt; 增加5个缩进宽度 set shiftwidth=4 指定的
+&amp;lt;&amp;lt;          减少缩进，5&amp;lt;&amp;lt; 减少5个缩进宽度
+&lt;/pre&gt;
+&lt;p&gt;当处于命令状态时，可以使用 % 查看对应的 () [] {}，如果光标没有在括号上，vi 会自动从光标位置向前查找当前行的括号，然后移动到对应的括号上去;
+另一个有用的技巧是打开以下设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set showmatch
+&lt;/pre&gt;
+&lt;p&gt;与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样&lt;/p&gt;
+&lt;/div&gt;
 </content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;

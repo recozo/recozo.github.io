@@ -18,44 +18,10 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html">A reflection on a philosophical sayings</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/vim-skills.html">Vim skills</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-02-09T01:37:33.002797+08:00">
+        <abbr class="published" title="2020-02-09T03:47:29.070549+08:00">
                 Published: 2020-02-09
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
-</footer><!-- /.post-info --><p>最近有网上有句话特别流行</p>
-<blockquote>
-如果尖锐的批评完全消失，温和的批评将会变得刺耳。
-如果温和的批评也不被允许，沉默将被认为居心叵测。
-如果沉默也不再允许，赞扬不够卖力将是一种罪行。
-如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。
-——柏拉图</blockquote>
-<p>这句话觉得特别得受用，想认真看下出处，于是在谷歌和百度上分别查了一下，却没能找到柏拉图（Plato)的与此话关联的任何文章。</p>
-<p>于是按照时间范围开始查找，发现在2018年6月以前百度和谷歌上基本都没有这句话，这段话是从2018年的6月以来开始出现的，根据搜索结果来看，基本上从 bilibili 网站的主播个人签名开始出来的，然后慢慢地扩散到其它的如豆瓣和天涯，在大概2019年7月开始在博客和知乎上也开始出来了，也比较多了；</p>
-<p>这就有点尴尬，建议大家在转这段话时，不要带上柏拉图 ，这话跟柏拉图没关系。当然也可能我确实孤陋寡闻了，如果确实是柏拉图说的，还请赐教，谢谢。</p>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/vim-skills.html" rel="bookmark"
-                           title="Permalink to Vim skills">Vim skills</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-05T03:57:41.678950+08:00">
-                Published: 2020-02-05
         </abbr>
 
         <address class="vcard author">
@@ -63,7 +29,7 @@
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
 <p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
-</footer><!-- /.post-info -->                <p>在10行和112行之间插入4空格:</p>
+</footer><!-- /.post-info --><p>在10行和112行之间插入4空格:</p>
 <pre class="literal-block">
 10,112 s/^/    /
 </pre>
@@ -82,8 +48,74 @@ vi对删除(d or x)或复制(y)有各自专用的 buffer，
 &quot;a5dd
 此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
 </pre>
+<div class="section" id="id1">
+<h2>代码编辑操作</h2>
+<p>在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块</p>
+<p>缩进设置:</p>
+<pre class="literal-block">
+:set autoindent             用于开启缩进功能
+:set shiftwidth=4   用于设置缩进（量）
+:set list           用于查看TAB与EOF，TAB 显示为 ^I，EOF 显示为 $
+</pre>
+<p>或者:</p>
+<pre class="literal-block">
+:set ai sw=4                省略格式
+</pre>
+<p>当处于编辑状态时可以使用以下快捷键快速调整缩进:</p>
+<pre class="literal-block">
+CTRL-T              增加一个缩进
+CTRL-D              减少一个缩进
+^ CTRL-D    （输入的^在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行仍然会保留之前的缩进
+0 CTRL-D    （输入的0在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行缩进为0
+</pre>
+<p>当处于命令状态时可以使用以下命令调整缩进:</p>
+<pre class="literal-block">
+&gt;&gt;          增加缩进，5&gt;&gt; 增加5个缩进宽度 set shiftwidth=4 指定的
+&lt;&lt;          减少缩进，5&lt;&lt; 减少5个缩进宽度
+</pre>
+<p>当处于命令状态时，可以使用 % 查看对应的 () [] {}，如果光标没有在括号上，vi 会自动从光标位置向前查找当前行的括号，然后移动到对应的括号上去;
+另一个有用的技巧是打开以下设置:</p>
+<pre class="literal-block">
+:set showmatch
+</pre>
+<p>与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样</p>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
 
-                <a class="readmore" href="https://recozo.github.io/vim-skills.html">read more</a>
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="bookmark"
+                           title="Permalink to A reflection on a philosophical sayings">A reflection on a philosophical sayings</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-02-09T01:37:33.002797+08:00">
+                Published: 2020-02-09
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
+</footer><!-- /.post-info -->                <p>最近有网上有句话特别流行</p>
+<blockquote>
+如果尖锐的批评完全消失，温和的批评将会变得刺耳。
+如果温和的批评也不被允许，沉默将被认为居心叵测。
+如果沉默也不再允许，赞扬不够卖力将是一种罪行。
+如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。
+——柏拉图</blockquote>
+<p>这句话觉得特别得受用，想认真看下出处，于是在谷歌和百度上分别查了一下，却没能找到柏拉图（Plato)的与此话关联的任何文章。</p>
+<p>于是按照时间范围开始查找，发现在2018年6月以前百度和谷歌上基本都没有这句话，这段话是从2018年的6月以来开始出现的，根据搜索结果来看，基本上从 bilibili 网站的主播个人签名开始出来的，然后慢慢地扩散到其它的如豆瓣和天涯，在大概2019年7月开始在博客和知乎上也开始出来了，也比较多了；</p>
+<p>这就有点尴尬，建议大家在转这段话时，不要带上柏拉图 ，这话跟柏拉图没关系。当然也可能我确实孤陋寡闻了，如果确实是柏拉图说的，还请赐教，谢谢。</p>
+
+                <a class="readmore" href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
