@@ -1,30 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-09T03:47:29+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-09T03:47:29+08:00</published><updated>2020-02-09T03:47:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-09:/vim-skills.html</id><summary type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-10,112 s/^/    /
-&lt;/pre&gt;
-&lt;p&gt;删除空行以及只有空格的行:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-:g/^\s*$/d
-&lt;/pre&gt;
-&lt;p&gt;恢复删除操作:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-vi对删除(d or x)或复制(y)有各自专用的 buffer，
-删除buffer会自动保留最近的9个删除操作(行内删除除外)至buffer，9个删除自动按照1-9保存，最近一次删除保存在1；
-可以使用 &amp;quot;1pu.u.u etc 命令查看各个删除的内容
-
-复制buffer可保留26个命名（从a-z）复制内容，如果复制时未使用命名，自动使用a??
-&amp;quot;d7yy
-&amp;quot;a5dd
-此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
-&lt;/pre&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;代码编辑操作&lt;/h2&gt;
-&lt;p&gt;在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块&lt;/p&gt;
-&lt;p&gt;缩进设置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-:set autoindent             用于开启缩进功能
-:set …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-10T02:05:41+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-10T02:05:41+08:00</published><updated>2020-02-10T02:05:41+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-10:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 10,112 s/^/    /
 &lt;/pre&gt;
@@ -74,6 +50,80 @@ CTRL-D              减少一个缩进
 :set showmatch
 &lt;/pre&gt;
 &lt;p&gt;与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;窗口操作&lt;/h2&gt;
+&lt;p&gt;在 vim 中支持多窗口，可以打开多个窗口编辑，方便大多个文件中相互复制内容或相互参考内容&lt;/p&gt;
+&lt;p&gt;使用命令行打开多个窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vim -o file1 file2          小写o以纵向方式打开二个窗口
+vim -O5 file1 file2         大写O以水平方式打开五个窗口
+&lt;/pre&gt;
+&lt;p&gt;在 vim 内开窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:split filename             纵向开窗口，如果不录入 filename ，会打开当前编辑的同一文件（buffer）
+:vsplit filename            水平开窗口，如果不录入 filename ，会打开当前编辑的同一文件（buffer）
+:new                        纵向开窗口（空文件）
+CTRL-W s                    纵向开窗口（当前同一文件）
+CTRL-W v                    水平开窗口（当前同一文件）
+CTRL-W n                    纵向开窗口（空文件）
+&lt;/pre&gt;
+&lt;p&gt;切换窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W h
+CTRL-W j
+CTRL-W k
+CTRL-W l                    以上命令与 h j k l 的移动方面一致
+CTRL-W w                    以从上到下从左到右的方式循环切换窗口
+CTRL-W t                    移动到左上角窗口
+CTRL-W b                    移动到右下角窗口
+CTRL-W p                    回到上一个（最近访问过的）窗口
+&lt;/pre&gt;
+&lt;p&gt;移动窗口（不改动布局）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W r                    将当前窗口与右或下窗口交换位置，当右或下没窗口时与第一个交换
+CTRL-W R                    将当前窗口与左或上窗口交换位置，当左或上没窗口时与最后一个窗口交换
+CTRL-W x                    将当前窗口与右或下窗口交换位置，当右或下没窗口时，与前一个窗口交换位置
+3CTRL-W x                   将当前窗口与右或下第3个窗口交换位置
+&lt;/pre&gt;
+&lt;p&gt;移动窗口（改动布局）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W K                    将当前窗口移至最上方（全宽）
+CTRL-W J                    将当前窗口移至最下方（全宽）
+CTRL-W H                    将当前窗口移至最左边（全高）
+CTRL-W L                    将当前窗口移至最右边（全高）
+CTRL-W T                    将当前窗口移至一个新标签页
+&lt;/pre&gt;
+&lt;p&gt;调整窗口大小:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W =                    将所有窗口调整为一样大小
+:resize n                   设置窗口高度（行），如果不指定 n，则为可能的最大高度
+:resize +n                  增加窗口高度 n 行
+:resize -n                  减少窗口高度 n 行
+:vertical resize n          设置窗口宽度（列），如果不指定 n，则为可能的最大宽度
+:vertical resize +n         增加窗口宽度 n 列
+:verticla resize -n         减少窗口宽度 n 列
+&lt;/pre&gt;
+&lt;p&gt;BUFFERS操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:windo cmd                  对当前标签页的所有buffer（窗口）执行cmd操作
+:windo %s/oldcontent/newcontent/g
+:bufdo cmd                  对所有标签页的所有buffer（窗口）执行cmd操作
+&lt;/pre&gt;
+&lt;p&gt;标签页操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:tabnew filename            新建一个标签页，如果不指定filename，即打一个空文档
+:tabclose                   关闭当前标签页
+:tabonly                    关闭其它标签页
+&lt;/pre&gt;
+&lt;p&gt;关闭或退出窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W q 或 :quit            退出窗口
+CTRL-W c 或 :close           关闭窗口
+CTRL-W o 或 :only            关闭其它窗口
+:hide [cmd]                 退出窗口并隐藏buffer
+以上命令其它均要考虑buffer，但是暂时还没有使用buffer的高级用途，待以后吧 TODO
+&lt;/pre&gt;
 &lt;/div&gt;
 </content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
