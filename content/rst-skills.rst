@@ -1,8 +1,6 @@
 ReStructuredText 笔记
 #####################
 
-:date: 2010-10-03 10:20
-:modified: 2010-10-04 18:40
 :tags: rst, ReStructuredText
 :category: how-to
 :slug: restructuredtext-skills
