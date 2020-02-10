@@ -1,5 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-10T02:05:41+08:00</updated><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-10T02:05:41+08:00</published><updated>2020-02-10T02:05:41+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-10:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-11T05:33:01+08:00</updated><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-02-11T05:33:01+08:00</published><updated>2020-02-11T05:33:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-11:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;段落&lt;/h2&gt;
+&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
+缩进的段落会被视为引用段落。&lt;/p&gt;
+&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
+空格正常吗？好像正常。&lt;/p&gt;
+&lt;blockquote&gt;
+这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
+继续缩进部分的内容。&lt;/blockquote&gt;
+&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;行内标记&lt;/h2&gt;
+&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
+但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
+可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
+&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
+不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;列表&lt;/h2&gt;
+&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
+列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
+&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
+也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple" start="20"&gt;
+&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;嵌套项一，古怪！
+为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
+&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
+难道是pelican的bug??&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="9"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;新的列表吗？&lt;/li&gt;
+&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
+&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项二
+继续项二的内容&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;术语&lt;/dt&gt;
+&lt;dd&gt;定义列表将术语与定义关联在一起
+多个术语之间无须使用空行分隔&lt;/dd&gt;
+&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
+&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
+否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
+&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
+&lt;p class="last"&gt;这是段落二。
+当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
+&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
+当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
+对 :: 的处理如下：&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 如果它作为自己的段落出现，则该段落完全不在文档中
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后什么也没有
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后边有个冒号
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-10T02:05:41+08:00</published><updated>2020-02-10T02:05:41+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-10:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 10,112 s/^/    /
@@ -212,136 +344,4 @@ $ ghp-import output -b gh-pages
 $ git push origin gh-pages:master
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2010-10-03T10:20:00+08:00</published><updated>2010-10-04T18:40:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2010-10-03:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记&lt;/p&gt;
-</summary><content type="html">&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;段落&lt;/h2&gt;
-&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
-缩进的段落会被视为引用段落。&lt;/p&gt;
-&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
-空格正常吗？好像正常。&lt;/p&gt;
-&lt;blockquote&gt;
-这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
-继续缩进部分的内容。&lt;/blockquote&gt;
-&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;行内标记&lt;/h2&gt;
-&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
-但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
-可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
-&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
-不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h2&gt;列表&lt;/h2&gt;
-&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
-列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
-&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
-&lt;ol class="arabic"&gt;
-&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
-也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;嵌套项一&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol class="arabic simple" start="20"&gt;
-&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
-&lt;ol class="arabic simple" start="3"&gt;
-&lt;li&gt;嵌套项一，古怪！
-为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
-&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
-难道是pelican的bug??&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
-&lt;ol class="arabic simple" start="9"&gt;
-&lt;li&gt;嵌套项一&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;新的列表吗？&lt;/li&gt;
-&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
-&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表项二
-继续项二的内容&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
-&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;术语&lt;/dt&gt;
-&lt;dd&gt;定义列表将术语与定义关联在一起
-多个术语之间无须使用空行分隔&lt;/dd&gt;
-&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
-&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
-否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
-&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
-&lt;p class="last"&gt;这是段落二。
-当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
-&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
-&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
-当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
-对 :: 的处理如下：&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 如果它作为自己的段落出现，则该段落完全不在文档中
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 仔细看，上边的段落后什么也没有
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 仔细看，上边的段落后边有个冒号
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry></feed>
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry></feed>

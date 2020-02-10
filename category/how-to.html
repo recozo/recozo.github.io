@@ -18,7 +18,162 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/vim-skills.html">Vim skills</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/restructuredtext-skills.html">ReStructuredText 笔记</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-02-11T05:33:01.250701+08:00">
+                Published: 2020-02-11
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/rst.html">rst</a> <a href="https://recozo.github.io/tag/restructuredtext.html">ReStructuredText</a> </p>
+</footer><!-- /.post-info --><div class="section" id="id1">
+<h2>段落</h2>
+<p>段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
+缩进的段落会被视为引用段落。</p>
+<p>这是正常的段落，中文段落有什么要注意的吗？没有发现。
+空格正常吗？好像正常。</p>
+<blockquote>
+这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
+继续缩进部分的内容。</blockquote>
+<p>恢复正常段落，是正常的了吧！</p>
+</div>
+<div class="section" id="id2">
+<h2>行内标记</h2>
+<p>标准的reST行内标记非常简单：使用一个 * 用于： <em>斜体</em> ，两个星号 ** 用于： <strong>粗体</strong> ，两个反引号 `` 用于： <tt class="docutils literal"><span class="pre">fixed-space</span> literal(中文有固定间距？)</tt> 。
+但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
+可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。</p>
+<p>请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
+不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下<strong>没有空格</strong>是吧。</p>
+</div>
+<div class="section" id="id3">
+<h2>列表</h2>
+<p>和HTML一样，支持有序、无序和定义三种列表。
+列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。</p>
+<p>列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO</p>
+<ol class="arabic">
+<li><p class="first">有序列表由数字加上.号开始，与内容要有空格，这是列表项一
+也可以有多行，只要缩进级别一样就可以</p>
+</li>
+<li><p class="first">这是有序列表项二，一个空格</p>
+<blockquote>
+<ol class="arabic simple">
+<li>嵌套项一</li>
+<li>自动出数字</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first">这是有序列表项三，一个空格，嘿嘿</p>
+<blockquote>
+<ol class="arabic simple" start="20">
+<li>使用其它数字开始序列</li>
+<li>自动出数字</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first">这是有序列表项四，二个空格，嘿嘿</p>
+<ol class="arabic simple" start="3">
+<li>嵌套项一，古怪！
+为什么多个空格生成的HTML代码与一个空格的代码不一样？</li>
+<li>嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
+难道是pelican的bug??</li>
+<li>自动出数字</li>
+</ol>
+</li>
+<li><p class="first">这是有序列表项四，三个空格，嘿嘿</p>
+<ol class="arabic simple" start="9">
+<li>嵌套项一</li>
+<li>自动出数字</li>
+</ol>
+</li>
+</ol>
+<p>列表是不是由段落结束？</p>
+<ol class="arabic simple">
+<li>新的列表吗？</li>
+<li>不同的列表确实可以由段落分隔</li>
+<li>这儿使用了#. 但是没有沿用上一个列表的数字</li>
+</ol>
+<p>继续列表功能，无序列表</p>
+<ul>
+<li><p class="first">无序列表项一</p>
+</li>
+<li><p class="first">无序列表项二
+继续项二的内容</p>
+<blockquote>
+<ul>
+<li><p class="first">无序列表一级嵌套项</p>
+</li>
+<li><p class="first">无序列表一级嵌套项</p>
+<blockquote>
+<ul class="simple">
+<li>无序列表二级嵌套项</li>
+<li>无序列表二级嵌套项</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">还原到了最顶级列表</p>
+</li>
+</ul>
+<p>继续列表功能，定义列表</p>
+<dl class="docutils">
+<dt>术语</dt>
+<dd>定义列表将术语与定义关联在一起
+多个术语之间无须使用空行分隔</dd>
+<dt>术语不能超过一行</dt>
+<dd>定义必须相对术语缩进，和术语之间不能有空行分隔，
+否则就变成了引用段落了，是吧，哈哈</dd>
+<dt>这条术语与上一条有空行分隔</dt>
+<dd><p class="first">定义也可以有多个段落，这是段落一。</p>
+<p class="last">这是段落二。
+当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id4">
+<h2>预格式文本（代码块）</h2>
+<p>通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
+当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
+对 :: 的处理如下：</p>
+<pre class="literal-block">
+# 如果它作为自己的段落出现，则该段落完全不在文档中
+public class Test
+{
+}
+</pre>
+<p>如果前面有空格，则删除标记</p>
+<pre class="literal-block">
+# 仔细看，上边的段落后什么也没有
+public class Test
+{
+}
+</pre>
+<p>如果前面是非空格，则标记将替换为单个冒号:</p>
+<pre class="literal-block">
+# 仔细看，上边的段落后边有个冒号
+public class Test
+{
+}
+</pre>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/vim-skills.html" rel="bookmark"
+                           title="Permalink to Vim skills">Vim skills</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2020-02-10T02:05:41.780461+08:00">
                 Published: 2020-02-10
@@ -29,137 +184,11 @@
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
 <p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
-</footer><!-- /.post-info --><p>在10行和112行之间插入4空格:</p>
-<pre class="literal-block">
-10,112 s/^/    /
-</pre>
-<p>删除空行以及只有空格的行:</p>
-<pre class="literal-block">
-:g/^\s*$/d
-</pre>
-<p>恢复删除操作:</p>
-<pre class="literal-block">
-vi对删除(d or x)或复制(y)有各自专用的 buffer，
-删除buffer会自动保留最近的9个删除操作(行内删除除外)至buffer，9个删除自动按照1-9保存，最近一次删除保存在1；
-可以使用 &quot;1pu.u.u etc 命令查看各个删除的内容
+</footer><!-- /.post-info -->                <p class="first last">vi 与 vim 的学习笔记</p>
 
-复制buffer可保留26个命名（从a-z）复制内容，如果复制时未使用命名，自动使用a??
-&quot;d7yy
-&quot;a5dd
-此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
-</pre>
-<div class="section" id="id1">
-<h2>代码编辑操作</h2>
-<p>在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块</p>
-<p>缩进设置:</p>
-<pre class="literal-block">
-:set autoindent             用于开启缩进功能
-:set shiftwidth=4   用于设置缩进（量）
-:set list           用于查看TAB与EOF，TAB 显示为 ^I，EOF 显示为 $
-</pre>
-<p>或者:</p>
-<pre class="literal-block">
-:set ai sw=4                省略格式
-</pre>
-<p>当处于编辑状态时可以使用以下快捷键快速调整缩进:</p>
-<pre class="literal-block">
-CTRL-T              增加一个缩进
-CTRL-D              减少一个缩进
-^ CTRL-D    （输入的^在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行仍然会保留之前的缩进
-0 CTRL-D    （输入的0在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行缩进为0
-</pre>
-<p>当处于命令状态时可以使用以下命令调整缩进:</p>
-<pre class="literal-block">
-&gt;&gt;          增加缩进，5&gt;&gt; 增加5个缩进宽度 set shiftwidth=4 指定的
-&lt;&lt;          减少缩进，5&lt;&lt; 减少5个缩进宽度
-</pre>
-<p>当处于命令状态时，可以使用 % 查看对应的 () [] {}，如果光标没有在括号上，vi 会自动从光标位置向前查找当前行的括号，然后移动到对应的括号上去;
-另一个有用的技巧是打开以下设置:</p>
-<pre class="literal-block">
-:set showmatch
-</pre>
-<p>与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样</p>
-</div>
-<div class="section" id="id2">
-<h2>窗口操作</h2>
-<p>在 vim 中支持多窗口，可以打开多个窗口编辑，方便大多个文件中相互复制内容或相互参考内容</p>
-<p>使用命令行打开多个窗口:</p>
-<pre class="literal-block">
-vim -o file1 file2          小写o以纵向方式打开二个窗口
-vim -O5 file1 file2         大写O以水平方式打开五个窗口
-</pre>
-<p>在 vim 内开窗口:</p>
-<pre class="literal-block">
-:split filename             纵向开窗口，如果不录入 filename ，会打开当前编辑的同一文件（buffer）
-:vsplit filename            水平开窗口，如果不录入 filename ，会打开当前编辑的同一文件（buffer）
-:new                        纵向开窗口（空文件）
-CTRL-W s                    纵向开窗口（当前同一文件）
-CTRL-W v                    水平开窗口（当前同一文件）
-CTRL-W n                    纵向开窗口（空文件）
-</pre>
-<p>切换窗口:</p>
-<pre class="literal-block">
-CTRL-W h
-CTRL-W j
-CTRL-W k
-CTRL-W l                    以上命令与 h j k l 的移动方面一致
-CTRL-W w                    以从上到下从左到右的方式循环切换窗口
-CTRL-W t                    移动到左上角窗口
-CTRL-W b                    移动到右下角窗口
-CTRL-W p                    回到上一个（最近访问过的）窗口
-</pre>
-<p>移动窗口（不改动布局）:</p>
-<pre class="literal-block">
-CTRL-W r                    将当前窗口与右或下窗口交换位置，当右或下没窗口时与第一个交换
-CTRL-W R                    将当前窗口与左或上窗口交换位置，当左或上没窗口时与最后一个窗口交换
-CTRL-W x                    将当前窗口与右或下窗口交换位置，当右或下没窗口时，与前一个窗口交换位置
-3CTRL-W x                   将当前窗口与右或下第3个窗口交换位置
-</pre>
-<p>移动窗口（改动布局）:</p>
-<pre class="literal-block">
-CTRL-W K                    将当前窗口移至最上方（全宽）
-CTRL-W J                    将当前窗口移至最下方（全宽）
-CTRL-W H                    将当前窗口移至最左边（全高）
-CTRL-W L                    将当前窗口移至最右边（全高）
-CTRL-W T                    将当前窗口移至一个新标签页
-</pre>
-<p>调整窗口大小:</p>
-<pre class="literal-block">
-CTRL-W =                    将所有窗口调整为一样大小
-:resize n                   设置窗口高度（行），如果不指定 n，则为可能的最大高度
-:resize +n                  增加窗口高度 n 行
-:resize -n                  减少窗口高度 n 行
-:vertical resize n          设置窗口宽度（列），如果不指定 n，则为可能的最大宽度
-:vertical resize +n         增加窗口宽度 n 列
-:verticla resize -n         减少窗口宽度 n 列
-</pre>
-<p>BUFFERS操作:</p>
-<pre class="literal-block">
-:windo cmd                  对当前标签页的所有buffer（窗口）执行cmd操作
-:windo %s/oldcontent/newcontent/g
-:bufdo cmd                  对所有标签页的所有buffer（窗口）执行cmd操作
-</pre>
-<p>标签页操作:</p>
-<pre class="literal-block">
-:tabnew filename            新建一个标签页，如果不指定filename，即打一个空文档
-:tabclose                   关闭当前标签页
-:tabonly                    关闭其它标签页
-</pre>
-<p>关闭或退出窗口:</p>
-<pre class="literal-block">
-CTRL-W q 或 :quit            退出窗口
-CTRL-W c 或 :close           关闭窗口
-CTRL-W o 或 :only            关闭其它窗口
-:hide [cmd]                 退出窗口并隐藏buffer
-以上命令其它均要考虑buffer，但是暂时还没有使用buffer的高级用途，待以后吧 TODO
-</pre>
-</div>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+                <a class="readmore" href="https://recozo.github.io/vim-skills.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -181,33 +210,6 @@ CTRL-W o 或 :only            关闭其它窗口
 </footer><!-- /.post-info -->                <p class="first last">Getting setup a static web site with pelican, publishing on the github page</p>
 
                 <a class="readmore" href="https://recozo.github.io/install-pelican-on-debian.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/restructuredtext-skills.html" rel="bookmark"
-                           title="Permalink to ReStructuredText 笔记">ReStructuredText 笔记</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2010-10-03T10:20:00+08:00">
-                Published: 2010-10-03
-        </abbr>
-		<br />
-        <abbr class="modified" title="2010-10-04T18:40:00+08:00">
-                Updated: 2010-10-04
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/rst.html">rst</a> <a href="https://recozo.github.io/tag/restructuredtext.html">ReStructuredText</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">ReStructuredText 学习笔记</p>
-
-                <a class="readmore" href="https://recozo.github.io/restructuredtext-skills.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
