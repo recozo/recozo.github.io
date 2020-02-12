@@ -1,11 +1,14 @@
+#####################
 ReStructuredText 笔记
 #####################
-
+----------------
+这是文档的子标题
+----------------
 :tags: rst, ReStructuredText
 :category: how-to
 :slug: restructuredtext-skills
 :authors: Recozo
-:summary: ReStructuredText 学习笔记
+:summary: ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档
 
 段落
 ====
@@ -127,3 +130,129 @@ ReStructuredText 笔记
     public class Test
     {
     }
+
+章节标题
+========
+
+如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
+上下划线可使用以下符号（ = - ` : ' " ~ ^ _ * + # < > ），上下划线长度不能少于文本的长度，
+使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定
+
+* #, with overline, for parts，有上线，用于编
+* \*, with overline, for chapters，有上线，用于章
+* =, for sections，用于节
+* -, for subsections，用于小节
+* ^, for subsubsections，用于子小节
+* ", for paragraphs，用于款
+
+文档标题与子标题
+--------------------
+
+整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
+文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
+（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）
+
+.. _标题链接:
+
+章节标题可以作为链接目标，如链接到段落，可以使用 "段落_"，如果标题文本中含有空格，则还要用反引号包围标题，如 "`Section Header`_"。
+
+Section Header
+-----------------
+
+超链接
+============
+
+在 reST 中，超级链接由二部分组成，
+一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
+二是目标链接（Target Link），类似于HTML的链接地址;
+源链接与目标链接都是通过 _ 来定义的，
+源链接定义的格式如下： reference-name\_，也就是 _ 是在引用名之后；
+与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
+引用名如果包含空格，则需要使用反引号括起来，如 \`reference name\`。
+以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。
+
+具体形式可分为以下几种：
+
+独立链接：直接输入网址即可，例如：http://www.debian.org，此时没有对应链接文本，直接显示链接地址
+
+命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
+我喜欢的LINUX版本是 Debian_ 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）
+
+.. _Debian: http://www.debian.org
+
+匿名链接：链接目标与链接引用都使用 __ 进行标记。如 `我最喜欢的LINUX发行版本是 Debian`__ 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
+创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
+匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
+因为没有引用名，只能一次性配对使用，
+文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
+因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。
+
+__ http://www.debian.org
+
+锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。 ::
+
+     .. _标题链接:
+
+标题链接：reST 在定义标题时，还会自动定义一个 标题链接_ ::
+
+    标题名称
+    ========
+
+    跳转到 标题名称_
+
+嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 < > 括起来的）链接地址或者另一个链接引用，例如：
+See the `Python home page <http://www.python.org>`_ for info.
+This `link <Python home page_>`_ is an alias to the link above.
+从代码上来说，以上二句相同于是::
+
+    See the `Python home page`_ for info.  
+    This link_ is an alias to the link above.
+
+    .. _Python home page: http://www.python.org
+    .. _link: `Python home page`_
+
+尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。
+
+显示标记
+=========================================
+显示标记块（ `Explicit Markup Blocks <https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks>`_）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
+显示标记引导符以两个 . 加空格表示（.. ）;
+显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式::
+
+    .. explicit markup block begin
+    	second line
+	...
+	end line
+
+指令（ Directives ）
+=========================================
+指令（ `Directives <http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives>`_ ）是显式标记的通用块，是 reST 的扩展机制之一。
+指令格式::
+
+    .. directive-type:: directive-block
+
+由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
+指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）
+
+* 指令参数
+* 指令选项
+* 指令内容
+
+图片指令
+==========
+
+使用 `图片指令 <https://docutils.sourceforge.io/docs/ref/rst/directives.html#image>`_ 可以在文档中包含图片，例如::
+
+    .. image:: picture.jpeg
+
+图片指令有一个必选参数，和多个可选选项::
+
+    .. image:: picture.jpeg
+	:height: 100px
+        :width: 200 px
+	:scale: 50 %
+	:alt: alternate text
+	:align: right
+	:class: common options
+	:name: common options
+
