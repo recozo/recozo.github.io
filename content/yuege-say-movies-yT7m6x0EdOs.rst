@@ -1,7 +1,7 @@
 越哥说电影之一年到头
 ####################
 
-:tags: essay
+:tags: movie
 :category: article
 :slug: yuege-say-movies-yT7m6x0EdOs
 :authors: Recozo
