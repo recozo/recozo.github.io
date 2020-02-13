@@ -68,15 +68,21 @@ Install pelican on Debian 10
 
     Hello, welcome to my first blog !
 
-保存文件后，运行以下命令生成网站内容::
+保存文件。
 
-    $ pelican --autoreload --listen
+五、查看网站效果以及内容
+
+运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）::
+
+    $ pelican --autoreload --listen --ignore-cache
 
 在浏览器中访问以下地址可检查网站效果::
 
     http://localhost:8000
 
-五、使用 GITHUB 发布网站以及源文件
+可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果
+
+六、使用 GITHUB 发布网站以及源文件
 ----------------------------------
 
 # 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定::

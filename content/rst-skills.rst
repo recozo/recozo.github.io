@@ -201,8 +201,15 @@ __ http://www.debian.org
     跳转到 标题名称_
 
 嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 < > 括起来的）链接地址或者另一个链接引用，例如：
+
 See the `Python home page <http://www.python.org>`_ for info.
 This `link <Python home page_>`_ is an alias to the link above.
+
+::
+
+    See the `Python home page <http://www.python.org>`_ for info.
+    This `link <Python home page_>`_ is an alias to the link above.
+
 从代码上来说，以上二句相同于是::
 
     See the `Python home page`_ for info.  
