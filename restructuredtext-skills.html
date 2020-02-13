@@ -25,7 +25,7 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-13T03:09:27.852635+08:00">
+        <abbr class="published" title="2020-02-13T22:52:46.527446+08:00">
                 Published: 2020-02-13
         </abbr>
 
@@ -220,10 +220,14 @@ public class Test
 
 跳转到 标题名称_
 </pre>
-<p>嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &lt; &gt; 括起来的）链接地址或者另一个链接引用，例如：
-See the <a class="reference external" href="http://www.python.org">Python home page</a> for info.
-This <a class="reference external" href="http://www.python.org">link</a> is an alias to the link above.
-从代码上来说，以上二句相同于是:</p>
+<p>嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &lt; &gt; 括起来的）链接地址或者另一个链接引用，例如：</p>
+<p>See the <a class="reference external" href="http://www.python.org">Python home page</a> for info.
+This <a class="reference external" href="http://www.python.org">link</a> is an alias to the link above.</p>
+<pre class="literal-block">
+See the `Python home page &lt;http://www.python.org&gt;`_ for info.
+This `link &lt;Python home page_&gt;`_ is an alias to the link above.
+</pre>
+<p>从代码上来说，以上二句相同于是:</p>
 <pre class="literal-block">
 See the `Python home page`_ for info.
 This link_ is an alias to the link above.

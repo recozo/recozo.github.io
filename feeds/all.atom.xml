@@ -1,5 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-13T03:09:27+08:00</updated><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-02-13T03:09:27+08:00</published><updated>2020-02-13T03:09:27+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-13T23:12:29+08:00</updated><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-02-13T23:12:29+08:00</published><updated>2020-02-13T23:12:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
+越哥精彩点评摘录：&lt;/p&gt;
+&lt;p&gt;无论你是什么身份，无论你身在那里，&lt;/p&gt;
+&lt;p&gt;无论你是奋斗了一年，还是迷茫了一年，&lt;/p&gt;
+&lt;p&gt;一年到头，几乎每个中国人都盼望着能够和家人团聚；&lt;/p&gt;
+&lt;p&gt;每年这个时候，&lt;/p&gt;
+&lt;p&gt;有人想回家却不能回家，&lt;/p&gt;
+&lt;p&gt;也有人能回家却不愿回家，&lt;/p&gt;
+&lt;p&gt;还有人或许已经没有了家；&lt;/p&gt;
+&lt;p&gt;春运这个词，或许是中国人眼里最亲切，也最闹心的词了，&lt;/p&gt;
+&lt;p&gt;每一个游子，每一个父母，每一年都在盼望着，每一年都在等待着，&lt;/p&gt;
+&lt;p&gt;可春运越热闹，就证明我们平日里的欢聚就越少；&lt;/p&gt;
+&lt;p&gt;还有几天马上就是中国的新年了，相信现在仍然还有不少人在回家的路上，&lt;/p&gt;
+&lt;p&gt;去赴这场一年一次，或者是数年一次的团聚，&lt;/p&gt;
+&lt;p&gt;或许只有经历过这样的分离和这样的相聚，才能够真正理解一句话，&lt;/p&gt;
+&lt;p&gt;人生难得是欢聚。&lt;/p&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-13T23:09:26+08:00</published><updated>2020-02-13T23:09:26+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
+&lt;div class="section" id="git"&gt;
+&lt;h2&gt;一、安装 GIT&lt;/h2&gt;
+&lt;p&gt;执行以下命令安装git并设置git基本配置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install git
+$ git config --global user.email = &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
+$ git config --global user.name = &amp;quot;Recozo&amp;quot;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="virtualenv"&gt;
+&lt;h2&gt;二、安装 VIRTUALENV&lt;/h2&gt;
+&lt;p&gt;执行以下命令安装virtualenv并设置git忽略设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install virtualenv
+$ vi ~/.gitingore
+    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
+$ git config --global core.excludesfile '~/.gitignore'
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pelican"&gt;
+&lt;h2&gt;三、安装 PELICAN&lt;/h2&gt;
+&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ virtualenv -p /usr/bin/python3 ~/venvs/pelican
+$ cd ~/venvs/pelican
+$ source bin/activate
+$ git init
+$ touch README.md
+$ vi .gitignore
+    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
+    加入以下内容：
+        #pelican
+        output/
+$ pip install pelican ghp-import
+$ pip freeze | grep pelican &amp;gt; requirements.txt
+$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
+$ git add README.md .gitignore requirements.txt
+$ git commit -a -m 'Initial commit'
+$ pelican-quickstart
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;四、发布第一篇文章&lt;/h2&gt;
+&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi content/welcome-to-my-blog.rst
+&lt;/pre&gt;
+&lt;p&gt;示例:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Welcome to my blog !
+####################
+
+:tags: essay
+:category: article
+:slug: welcome-to-my-blog
+:authors: Recozo
+
+Hello, welcome to my first blog !
+&lt;/pre&gt;
+&lt;p&gt;保存文件。&lt;/p&gt;
+&lt;p&gt;五、查看网站效果以及内容&lt;/p&gt;
+&lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican --autoreload --listen --ignore-cache
+&lt;/pre&gt;
+&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+http://localhost:8000
+&lt;/pre&gt;
+&lt;p&gt;可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="github"&gt;
+&lt;h2&gt;六、使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
+&lt;p&gt;# 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+&lt;/pre&gt;
+&lt;p&gt;# 将源文件保存为 pelican 分支:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git push -u origin master:pelican
+&lt;/pre&gt;
+&lt;p&gt;# 发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-02-13T22:52:46+08:00</published><updated>2020-02-13T22:52:46+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;段落&lt;/h2&gt;
 &lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
@@ -186,10 +292,14 @@ public class Test
 
 跳转到 标题名称_
 &lt;/pre&gt;
-&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：
-See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
-This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.
-从代码上来说，以上二句相同于是:&lt;/p&gt;
+&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：&lt;/p&gt;
+&lt;p&gt;See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
+This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page &amp;lt;http://www.python.org&amp;gt;`_ for info.
+This `link &amp;lt;Python home page_&amp;gt;`_ is an alias to the link above.
+&lt;/pre&gt;
+&lt;p&gt;从代码上来说，以上二句相同于是:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 See the `Python home page`_ for info.
 This link_ is an alias to the link above.
@@ -542,92 +652,5 @@ And whispered in the sounds of silence
 和房屋的大厅里
 在寂静的声音里低语
 &lt;/pre&gt;
-</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T22:56:01+08:00</published><updated>2020-02-03T22:56:01+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
-&lt;div class="section" id="git"&gt;
-&lt;h2&gt;一、安装 GIT&lt;/h2&gt;
-&lt;p&gt;执行以下命令安装git并设置git基本配置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ sudo apt install git
-$ git config --global user.email = &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
-$ git config --global user.name = &amp;quot;Recozo&amp;quot;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="virtualenv"&gt;
-&lt;h2&gt;二、安装 VIRTUALENV&lt;/h2&gt;
-&lt;p&gt;执行以下命令安装virtualenv并设置git忽略设置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ sudo apt install virtualenv
-$ vi ~/.gitingore
-    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
-$ git config --global core.excludesfile '~/.gitignore'
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="pelican"&gt;
-&lt;h2&gt;三、安装 PELICAN&lt;/h2&gt;
-&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ virtualenv -p /usr/bin/python3 ~/venvs/pelican
-$ cd ~/venvs/pelican
-$ source bin/activate
-$ git init
-$ touch README.md
-$ vi .gitignore
-    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
-    加入以下内容：
-        #pelican
-        output/
-$ pip install pelican ghp-import
-$ pip freeze | grep pelican &amp;gt; requirements.txt
-$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
-$ git add README.md .gitignore requirements.txt
-$ git commit -a -m 'Initial commit'
-$ pelican-quickstart
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;四、发布第一篇文章&lt;/h2&gt;
-&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-vi content/welcome-to-my-blog.rst
-&lt;/pre&gt;
-&lt;p&gt;示例:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-Welcome to my blog !
-####################
-
-:tags: essay
-:category: article
-:slug: welcome-to-my-blog
-:authors: Recozo
-
-Hello, welcome to my first blog !
-&lt;/pre&gt;
-&lt;p&gt;保存文件后，运行以下命令生成网站内容:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ pelican --autoreload --listen
-&lt;/pre&gt;
-&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-http://localhost:8000
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="github"&gt;
-&lt;h2&gt;五、使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
-&lt;p&gt;# 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ git remote add origin https://github.com/recozo/recozo.github.io.git
-&lt;/pre&gt;
-&lt;p&gt;# 将源文件保存为 pelican 分支:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ git push -u origin master:pelican
-&lt;/pre&gt;
-&lt;p&gt;# 发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ pelican content/ -o output -s publishconf.py
-$ ghp-import output -b gh-pages
-$ git push origin gh-pages:master
-&lt;/pre&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-02-03T01:30:55+08:00</published><updated>2020-02-03T01:30:55+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
+</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-02-03T01:30:55+08:00</published><updated>2020-02-03T01:30:55+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
 </content><category term="article"></category><category term="essay"></category></entry></feed>

@@ -25,8 +25,8 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-03T22:56:01.940971+08:00">
-                Published: 2020-02-03
+        <abbr class="published" title="2020-02-13T23:09:26.868791+08:00">
+                Published: 2020-02-13
         </abbr>
 
         <address class="vcard author">
@@ -94,17 +94,20 @@ Welcome to my blog !
 
 Hello, welcome to my first blog !
 </pre>
-<p>保存文件后，运行以下命令生成网站内容:</p>
+<p>保存文件。</p>
+<p>五、查看网站效果以及内容</p>
+<p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
 <pre class="literal-block">
-$ pelican --autoreload --listen
+$ pelican --autoreload --listen --ignore-cache
 </pre>
 <p>在浏览器中访问以下地址可检查网站效果:</p>
 <pre class="literal-block">
 http://localhost:8000
 </pre>
+<p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
 </div>
 <div class="section" id="github">
-<h2>五、使用 GITHUB 发布网站以及源文件</h2>
+<h2>六、使用 GITHUB 发布网站以及源文件</h2>
 <p># 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
 <pre class="literal-block">
 $ git remote add origin https://github.com/recozo/recozo.github.io.git
