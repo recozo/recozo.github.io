@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-13T23:09:26+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-13T23:09:26+08:00</published><updated>2020-02-13T23:09:26+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-13T23:30:03+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-13T23:30:03+08:00</published><updated>2020-02-13T23:30:03+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;
 &lt;h2&gt;一、安装 GIT&lt;/h2&gt;
@@ -61,7 +61,9 @@ Welcome to my blog !
 Hello, welcome to my first blog !
 &lt;/pre&gt;
 &lt;p&gt;保存文件。&lt;/p&gt;
-&lt;p&gt;五、查看网站效果以及内容&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;五、查看网站效果以及内容&lt;/h2&gt;
 &lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 $ pelican --autoreload --listen --ignore-cache

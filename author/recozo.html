@@ -18,9 +18,124 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html">越哥说电影之一年到头</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/install-pelican-on-debian.html">Install pelican on Debian 10</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-02-13T23:12:29.090311+08:00">
+        <abbr class="published" title="2020-02-13T23:30:03.855111+08:00">
+                Published: 2020-02-13
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/virtualenv.html">virtualenv</a> <a href="https://recozo.github.io/tag/github.html">github</a> </p>
+</footer><!-- /.post-info --><p>本文假定系统为全新安装的 DEBIAN 10</p>
+<div class="section" id="git">
+<h2>一、安装 GIT</h2>
+<p>执行以下命令安装git并设置git基本配置:</p>
+<pre class="literal-block">
+$ sudo apt install git
+$ git config --global user.email = &quot;recozo&#64;outlook.com&quot;
+$ git config --global user.name = &quot;Recozo&quot;
+</pre>
+</div>
+<div class="section" id="virtualenv">
+<h2>二、安装 VIRTUALENV</h2>
+<p>执行以下命令安装virtualenv并设置git忽略设置:</p>
+<pre class="literal-block">
+$ sudo apt install virtualenv
+$ vi ~/.gitingore
+    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
+$ git config --global core.excludesfile '~/.gitignore'
+</pre>
+</div>
+<div class="section" id="pelican">
+<h2>三、安装 PELICAN</h2>
+<p>输入以下命令安装pelican并设置相关的运行环境:</p>
+<pre class="literal-block">
+$ virtualenv -p /usr/bin/python3 ~/venvs/pelican
+$ cd ~/venvs/pelican
+$ source bin/activate
+$ git init
+$ touch README.md
+$ vi .gitignore
+    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
+    加入以下内容：
+        #pelican
+        output/
+$ pip install pelican ghp-import
+$ pip freeze | grep pelican &gt; requirements.txt
+$ pip freeze | grep ghp-import &gt;&gt; requirements.txt
+$ git add README.md .gitignore requirements.txt
+$ git commit -a -m 'Initial commit'
+$ pelican-quickstart
+</pre>
+</div>
+<div class="section" id="id1">
+<h2>四、发布第一篇文章</h2>
+<p># 在 content 目录中保存文章:</p>
+<pre class="literal-block">
+vi content/welcome-to-my-blog.rst
+</pre>
+<p>示例:</p>
+<pre class="literal-block">
+Welcome to my blog !
+####################
+
+:tags: essay
+:category: article
+:slug: welcome-to-my-blog
+:authors: Recozo
+
+Hello, welcome to my first blog !
+</pre>
+<p>保存文件。</p>
+</div>
+<div class="section" id="id2">
+<h2>五、查看网站效果以及内容</h2>
+<p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
+<pre class="literal-block">
+$ pelican --autoreload --listen --ignore-cache
+</pre>
+<p>在浏览器中访问以下地址可检查网站效果:</p>
+<pre class="literal-block">
+http://localhost:8000
+</pre>
+<p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
+</div>
+<div class="section" id="github">
+<h2>六、使用 GITHUB 发布网站以及源文件</h2>
+<p># 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
+<pre class="literal-block">
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+</pre>
+<p># 将源文件保存为 pelican 分支:</p>
+<pre class="literal-block">
+$ git push -u origin master:pelican
+</pre>
+<p># 发布项目网站(<a class="reference external" href="https://recozo.github.io">https://recozo.github.io</a>)内容:</p>
+<pre class="literal-block">
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+</pre>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="bookmark"
+                           title="Permalink to 越哥说电影之一年到头">越哥说电影之一年到头</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-02-13T23:28:59.815813+08:00">
                 Published: 2020-02-13
         </abbr>
 
@@ -28,8 +143,8 @@
                 By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
         </address>
 <p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
-</footer><!-- /.post-info --><p><a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs">Youtube 观看</a>
+<p>tags: <a href="https://recozo.github.io/tag/movie.html">movie</a> </p>
+</footer><!-- /.post-info -->                <p><a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs">Youtube 观看</a>
 越哥精彩点评摘录：</p>
 <p>无论你是什么身份，无论你身在那里，</p>
 <p>无论你是奋斗了一年，还是迷茫了一年，</p>
@@ -45,33 +160,8 @@
 <p>去赴这场一年一次，或者是数年一次的团聚，</p>
 <p>或许只有经历过这样的分离和这样的相聚，才能够真正理解一句话，</p>
 <p>人生难得是欢聚。</p>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/install-pelican-on-debian.html" rel="bookmark"
-                           title="Permalink to Install pelican on Debian 10">Install pelican on Debian 10</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-13T23:09:26.868791+08:00">
-                Published: 2020-02-13
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/virtualenv.html">virtualenv</a> <a href="https://recozo.github.io/tag/github.html">github</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">Getting setup a static web site with pelican, publishing on the github page</p>
-
-                <a class="readmore" href="https://recozo.github.io/install-pelican-on-debian.html">read more</a>
+                <a class="readmore" href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
