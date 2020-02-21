@@ -18,7 +18,141 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/install-pelican-on-debian.html">Install pelican on Debian 10</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/ssh-skills.html">SSH 使用说明</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-02-22T03:33:45.372938+08:00">
+                Published: 2020-02-22
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/ssh.html">ssh</a> </p>
+</footer><!-- /.post-info --><div class="section" id="id1">
+<h2>代理功能</h2>
+<p>ssh 命令除了登陆外还有三种代理功能：</p>
+<p>正向代理（-L）：相当于 iptable 的 port forwarding</p>
+<p>反向代理（-R）：相当于 frp 或者 ngrok</p>
+<p>socks5 代理（-D）：相当于 ss/ssr</p>
+<p>如要长期高效的服务，应使用对应的专用软件。如没法安装软件，比如当你处在限制环境下想要访问下某个不可达到的目标，或者某个临时需求，那么 ssh 就是你的兜底方案。</p>
+<div class="section" id="id2">
+<h3>正向代理：</h3>
+<p>所谓“正向代理”就是在本地启动端口，把本地端口数据转发到远端。</p>
+<p>用法1：远程端口映射到其他机器:</p>
+<pre class="literal-block">
+# HostB 上启动一个 PortB 端口，映射到 HostC:PortC 上，在 HostB 上运行：
+HostB$ ssh -L 0.0.0.0:PortB:HostC:PortC user&#64;HostC
+</pre>
+<p>这时访问 HostB:PortB 相当于访问 HostC:PortC（和 iptable 的 port-forwarding 类似）。</p>
+<p>用法2：本地端口通过跳板映射到其他机器:</p>
+<pre class="literal-block">
+# HostA 上启动一个 PortA 端口，通过 HostB 转发到 HostC:PortC上，在 HostA 上运行：
+HostA$ ssh -L 0.0.0.0:PortA:HostC:PortC  user&#64;HostB
+</pre>
+<p>这时访问 HostA:PortA 相当于访问 HostC:PortC。</p>
+<p>两种用法的区别是，第一种用法本地到跳板机 HostB 的数据是明文的，
+而第二种用法一般本地就是 HostA，访问本地的 PortA，数据被 ssh 加密传输给 HostB 又转发给 HostC:PortC。</p>
+</div>
+<div class="section" id="id3">
+<h3>反向代理：</h3>
+<p>所谓“反向代理”就是让远端启动端口，把远端端口数据转发到本地:</p>
+<pre class="literal-block">
+# HostA 将自己可以访问的 HostB:PortB 暴露给外网服务器 HostC:PortC，在 HostA 上运行：
+HostA$ ssh -R HostC:PortC:HostB:PortB  user&#64;HostC
+</pre>
+<p>那么链接 HostC:PortC 就相当于链接 HostB:PortB。使用时需修改 HostC 的 /etc/ssh/sshd_config，添加:</p>
+<pre class="literal-block">
+GatewayPorts yes
+</pre>
+<p>相当于内网穿透，比如 HostA 和 HostB 是同一个内网下的两台可以互相访问的机器，HostC是外网跳板机，HostC不能访问 HostA，但是 HostA 可以访问 HostC。</p>
+<p>那么通过在内网 HostA 上运行 ssh -R 告诉 HostC，创建 PortC 端口监听，把该端口所有数据转发给我（HostA），我会再转发给同一个内网下的 HostB:PortB。</p>
+<p>同内网下的 HostA/HostB 也可以是同一台机器，换句话说就是内网 HostA 把自己可以访问的端口暴露给了外网 HostC。</p>
+</div>
+<div class="section" id="socks5">
+<h3>本地 socks5 代理</h3>
+<p>在 HostA 的本地 1080 端口启动一个 socks5 服务，通过本地 socks5 代理的数据会通过 ssh 链接先发送给 HostB，再从 HostB 转发送给远程主机:</p>
+<pre class="literal-block">
+HostA$ ssh -D localhost:1080  HostB
+</pre>
+<p>那么在 HostA 上面，浏览器配置 socks5 代理为 127.0.0.1:1080，看网页时就能把数据通过 HostB 代理出去，类似 ss/ssr 版本，只不过用 ssh 来实现。</p>
+</div>
+<div class="section" id="id4">
+<h3>使用优化</h3>
+<p>为了更好用一点，ssh 后面还可以加上：-CqTnN 参数，比如:</p>
+<pre class="literal-block">
+$ ssh -CqTnN -L 0.0.0.0:PortA:HostC:PortC  user&#64;HostB
+</pre>
+<p>其中 -C 为压缩数据，-q 安静模式，-T 禁止远程分配终端，-n 关闭标准输入，-N 不执行远程命令。此外视需要还可以增加 -f 参数，把 ssh 放到后台运行。</p>
+<p>这些 ssh 代理没有断线重连功能，链接断了命令就退出了，可以使用 autossh 保持链接。</p>
+<ol class="arabic">
+<li><p class="first">通过密钥验证用户身份，实现自动登录:</p>
+<pre class="literal-block">
+# 在 HostA 上生产公钥和私钥并将公钥安装到 HostC
+HostA$ ssh-keygen
+HostA$ ssh-copy-id user&#64;HostC
+</pre>
+</li>
+<li><p class="first">autossh的用法:</p>
+<pre class="literal-block">
+# -M 5678参数，负责通过5678端口监视连接状态，连接有问题时就会自动重连
+HostA$ autossh -M 5678 -R HostC:PortC:HostB:PortB  user&#64;HostC
+</pre>
+</li>
+<li><p class="first">自动运行 autossh:</p>
+<pre class="literal-block">
+# 以daemon方式执行，相当于root去执行autossh, ssh，这时刚才生成的用户 .ssh/authorized_keys 文件会不起效。
+# 有两种办法解决，一种是用autossh的参数指定.ssh路径；另外一种是以普通用户身份执行daemon，下面是第二种方式。
+HostA$ /bin/su -c '/usr/bin/autossh -M 5678 -R HostC:PortC:HostB:PortB  user&#64;HostC' - user
+# 根据系统配置自行启动方式
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>功能对比</h3>
+<p>正向代理（-L）的第一种用法可以用 iptable 的 port-forwarding 模拟，iptable 性能更好，但是需要 root 权限，ssh -L 性能不好，但是正向代理花样更多些。
+反向代理（-R）一般就作为没有安装 frp/ngrok/shootback 时候的一种代替，但是数据传输的性能和稳定性当然 frp 这些专用软件更好。
+socks5 代理（-D）其实是可以代替 ss/ssr 的，区别和上面类似。所以要长久使用，推荐安装对应软件，临时用一下 ssh 挺顺手。</p>
+</div>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/vim-skills.html" rel="bookmark"
+                           title="Permalink to Vim skills">Vim skills</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-02-22T02:58:42.724488+08:00">
+                Published: 2020-02-22
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
+</footer><!-- /.post-info -->                <p class="first last">vi 与 vim 的学习笔记</p>
+
+                <a class="readmore" href="https://recozo.github.io/vim-skills.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/install-pelican-on-debian.html" rel="bookmark"
+                           title="Permalink to Install pelican on Debian 10">Install pelican on Debian 10</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2020-02-13T23:30:03.855111+08:00">
                 Published: 2020-02-13
@@ -29,103 +163,11 @@
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
 <p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/virtualenv.html">virtualenv</a> <a href="https://recozo.github.io/tag/github.html">github</a> </p>
-</footer><!-- /.post-info --><p>本文假定系统为全新安装的 DEBIAN 10</p>
-<div class="section" id="git">
-<h2>一、安装 GIT</h2>
-<p>执行以下命令安装git并设置git基本配置:</p>
-<pre class="literal-block">
-$ sudo apt install git
-$ git config --global user.email = &quot;recozo&#64;outlook.com&quot;
-$ git config --global user.name = &quot;Recozo&quot;
-</pre>
-</div>
-<div class="section" id="virtualenv">
-<h2>二、安装 VIRTUALENV</h2>
-<p>执行以下命令安装virtualenv并设置git忽略设置:</p>
-<pre class="literal-block">
-$ sudo apt install virtualenv
-$ vi ~/.gitingore
-    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
-$ git config --global core.excludesfile '~/.gitignore'
-</pre>
-</div>
-<div class="section" id="pelican">
-<h2>三、安装 PELICAN</h2>
-<p>输入以下命令安装pelican并设置相关的运行环境:</p>
-<pre class="literal-block">
-$ virtualenv -p /usr/bin/python3 ~/venvs/pelican
-$ cd ~/venvs/pelican
-$ source bin/activate
-$ git init
-$ touch README.md
-$ vi .gitignore
-    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
-    加入以下内容：
-        #pelican
-        output/
-$ pip install pelican ghp-import
-$ pip freeze | grep pelican &gt; requirements.txt
-$ pip freeze | grep ghp-import &gt;&gt; requirements.txt
-$ git add README.md .gitignore requirements.txt
-$ git commit -a -m 'Initial commit'
-$ pelican-quickstart
-</pre>
-</div>
-<div class="section" id="id1">
-<h2>四、发布第一篇文章</h2>
-<p># 在 content 目录中保存文章:</p>
-<pre class="literal-block">
-vi content/welcome-to-my-blog.rst
-</pre>
-<p>示例:</p>
-<pre class="literal-block">
-Welcome to my blog !
-####################
+</footer><!-- /.post-info -->                <p class="first last">Getting setup a static web site with pelican, publishing on the github page</p>
 
-:tags: essay
-:category: article
-:slug: welcome-to-my-blog
-:authors: Recozo
-
-Hello, welcome to my first blog !
-</pre>
-<p>保存文件。</p>
-</div>
-<div class="section" id="id2">
-<h2>五、查看网站效果以及内容</h2>
-<p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
-<pre class="literal-block">
-$ pelican --autoreload --listen --ignore-cache
-</pre>
-<p>在浏览器中访问以下地址可检查网站效果:</p>
-<pre class="literal-block">
-http://localhost:8000
-</pre>
-<p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
-</div>
-<div class="section" id="github">
-<h2>六、使用 GITHUB 发布网站以及源文件</h2>
-<p># 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
-<pre class="literal-block">
-$ git remote add origin https://github.com/recozo/recozo.github.io.git
-</pre>
-<p># 将源文件保存为 pelican 分支:</p>
-<pre class="literal-block">
-$ git push -u origin master:pelican
-</pre>
-<p># 发布项目网站(<a class="reference external" href="https://recozo.github.io">https://recozo.github.io</a>)内容:</p>
-<pre class="literal-block">
-$ pelican content/ -o output -s publishconf.py
-$ ghp-import output -b gh-pages
-$ git push origin gh-pages:master
-</pre>
-</div>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+                <a class="readmore" href="https://recozo.github.io/install-pelican-on-debian.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -208,29 +250,6 @@ $ git push origin gh-pages:master
 </footer><!-- /.post-info -->                <p class="first last">培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了</p>
 
                 <a class="readmore" href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/vim-skills.html" rel="bookmark"
-                           title="Permalink to Vim skills">Vim skills</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-10T02:05:41.780461+08:00">
-                Published: 2020-02-10
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">vi 与 vim 的学习笔记</p>
-
-                <a class="readmore" href="https://recozo.github.io/vim-skills.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 

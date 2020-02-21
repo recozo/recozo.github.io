@@ -20,8 +20,8 @@
                 <article>
                     <h1 class="entry-title"><a href="https://recozo.github.io/vim-skills.html">Vim skills</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-02-10T02:05:41.780461+08:00">
-                Published: 2020-02-10
+        <abbr class="published" title="2020-02-22T02:58:42.724488+08:00">
+                Published: 2020-02-22
         </abbr>
 
         <address class="vcard author">
@@ -29,7 +29,18 @@
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
 <p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
-</footer><!-- /.post-info --><p>在10行和112行之间插入4空格:</p>
+</footer><!-- /.post-info --><p>连续录入多个相同的字符( <a class="reference external" href="https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode">参见</a> ):</p>
+<pre class="literal-block">
+50i- ESC
+# 如果当前是 INSERT 模式，可以使用 CTRL + O 临时进入命令模式
+CTRL+O 50i- ESC
+# CTRL+O 用于临时进入命令模式
+# 50 表示要重复的字数
+# i 表示插入命令
+# - 要插入的字符
+# ESC 离开插入模式（其实是退出当前的临时命令）
+</pre>
+<p>在10行和112行之间插入4空格:</p>
 <pre class="literal-block">
 10,112 s/^/    /
 </pre>
@@ -48,7 +59,7 @@ vi对删除(d or x)或复制(y)有各自专用的 buffer，
 &quot;a5dd
 此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
 </pre>
-<div class="section" id="id1">
+<div class="section" id="id2">
 <h2>代码编辑操作</h2>
 <p>在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块</p>
 <p>缩进设置:</p>
@@ -80,7 +91,7 @@ CTRL-D              减少一个缩进
 </pre>
 <p>与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样</p>
 </div>
-<div class="section" id="id2">
+<div class="section" id="id3">
 <h2>窗口操作</h2>
 <p>在 vim 中支持多窗口，可以打开多个窗口编辑，方便大多个文件中相互复制内容或相互参考内容</p>
 <p>使用命令行打开多个窗口:</p>
