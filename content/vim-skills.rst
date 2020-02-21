@@ -7,6 +7,17 @@ Vim skills
 :authors: Recozo
 :summary: vi 与 vim 的学习笔记
 
+连续录入多个相同的字符( `参见 <https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode>`_ )::
+
+    50i- ESC
+    # 如果当前是 INSERT 模式，可以使用 CTRL + O 临时进入命令模式
+    CTRL+O 50i- ESC
+    # CTRL+O 用于临时进入命令模式
+    # 50 表示要重复的字数
+    # i 表示插入命令
+    # - 要插入的字符
+    # ESC 离开插入模式（其实是退出当前的临时命令）
+
 在10行和112行之间插入4空格::
 
     10,112 s/^/    /
