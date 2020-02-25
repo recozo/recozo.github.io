@@ -1,105 +1,846 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-22T03:33:45+08:00</updated><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-02-22T03:33:45+08:00</published><updated>2020-02-22T03:33:45+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-22:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;代理功能&lt;/h2&gt;
-&lt;p&gt;ssh 命令除了登陆外还有三种代理功能：&lt;/p&gt;
-&lt;p&gt;正向代理（-L）：相当于 iptable 的 port forwarding&lt;/p&gt;
-&lt;p&gt;反向代理（-R）：相当于 frp 或者 ngrok&lt;/p&gt;
-&lt;p&gt;socks5 代理（-D）：相当于 ss/ssr&lt;/p&gt;
-&lt;p&gt;如要长期高效的服务，应使用对应的专用软件。如没法安装软件，比如当你处在限制环境下想要访问下某个不可达到的目标，或者某个临时需求，那么 ssh 就是你的兜底方案。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h3&gt;正向代理：&lt;/h3&gt;
-&lt;p&gt;所谓“正向代理”就是在本地启动端口，把本地端口数据转发到远端。&lt;/p&gt;
-&lt;p&gt;用法1：远程端口映射到其他机器:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-25T23:52:52+08:00</updated><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-02-25T23:52:52+08:00</published><updated>2020-02-25T23:52:52+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-25:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设置为播放和录制的默认设备；&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;此时你会发现播放音频或视频没有声音了，你可以理解为声音已经被传送至 CABLE Input 了，并且被作为 CABLE Output 的输入了，
+也就是我们已经将音频或视频的声音作为话筒的输入了。
+如果你录制的同时还想听到音频或视频的声音，可以打开 CABLE Output 的属性，点击 &lt;em&gt;侦听&lt;/em&gt; 面板，选择 &lt;em&gt;侦听此设备&lt;/em&gt; ，然后 &lt;em&gt;通过此设备播放&lt;/em&gt; 选择你的实际播放设备即可。
+也可以继续下载VB-Audio Additional Virtual …&lt;/p&gt;&lt;/blockquote&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设置为播放和录制的默认设备；&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;此时你会发现播放音频或视频没有声音了，你可以理解为声音已经被传送至 CABLE Input 了，并且被作为 CABLE Output 的输入了，
+也就是我们已经将音频或视频的声音作为话筒的输入了。
+如果你录制的同时还想听到音频或视频的声音，可以打开 CABLE Output 的属性，点击 &lt;em&gt;侦听&lt;/em&gt; 面板，选择 &lt;em&gt;侦听此设备&lt;/em&gt; ，然后 &lt;em&gt;通过此设备播放&lt;/em&gt; 选择你的实际播放设备即可。
+也可以继续下载VB-Audio Additional Virtual Cables，那么还可以另外再创建4个虚拟声卡；
+想玩大点的（如声音混合等），可以下载该网站的其它软件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 youtube 视频&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;通过在youtube链接中插入my，即可以在线下载该视频，缺点是不支持1080P或以上，不支持选择视频分辨率，也不支持只下载音频；
+假如 youtube 地址是 &lt;a class="reference external" href="https://www.youtube.com/watch?v=q2adWg-Ct6Y"&gt;https://www.youtube.com/watch?v=q2adWg-Ct6Y&lt;/a&gt; ，只须将地址更换为 &lt;a class="reference external" href="https://www.youtubemy.com/watch?v=q2adWg-Ct6Y"&gt;https://www.youtubemy.com/watch?v=q2adWg-Ct6Y&lt;/a&gt; ，就会出现下载界面。&lt;/li&gt;
+&lt;li&gt;通过桌面程序下载，目前我正在使用的是 4K Video Downloader ，主要是因为可以免费使用，并支持下载 youtube 的视频文件或只下载音频文件；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;打开网页 &lt;a class="reference external" href="https://www.textfromtospeech.com/zh/voice-to-text/"&gt;https://www.textfromtospeech.com/zh/voice-to-text/&lt;/a&gt; ，通过播放你下载的视频或音频文件，即可在线转录成文字了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用这个网站是因为发现国内访问速度还行，谷歌也有在线转录功能，但是由于延时太长，导致转录效果不佳。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-02-24T01:43:38+08:00</published><updated>2020-02-24T01:43:38+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-24:/linux-shell-skills.html</id><summary type="html">&lt;dl class="docutils"&gt;
+&lt;dt&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
+&lt;p&gt;/bin/false is …&lt;/p&gt;&lt;/dd&gt;&lt;/dl&gt;</summary><content type="html">&lt;dl class="docutils"&gt;
+&lt;dt&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
+&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
+&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
+&lt;p class="last"&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-02-24T01:35:42+08:00</published><updated>2020-02-24T01:35:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-24:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;安装 SSH&lt;/h2&gt;
+&lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-# HostB 上启动一个 PortB 端口，映射到 HostC:PortC 上，在 HostB 上运行：
-HostB$ ssh …&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;代理功能&lt;/h2&gt;
-&lt;p&gt;ssh 命令除了登陆外还有三种代理功能：&lt;/p&gt;
-&lt;p&gt;正向代理（-L）：相当于 iptable 的 port forwarding&lt;/p&gt;
-&lt;p&gt;反向代理（-R）：相当于 frp 或者 ngrok&lt;/p&gt;
-&lt;p&gt;socks5 代理（-D）：相当于 ss/ssr&lt;/p&gt;
-&lt;p&gt;如要长期高效的服务，应使用对应的专用软件。如没法安装软件，比如当你处在限制环境下想要访问下某个不可达到的目标，或者某个临时需求，那么 ssh 就是你的兜底方案。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h3&gt;正向代理：&lt;/h3&gt;
-&lt;p&gt;所谓“正向代理”就是在本地启动端口，把本地端口数据转发到远端。&lt;/p&gt;
-&lt;p&gt;用法1：远程端口映射到其他机器:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# HostB 上启动一个 PortB 端口，映射到 HostC:PortC 上，在 HostB 上运行：
-HostB$ ssh -L 0.0.0.0:PortB:HostC:PortC user&amp;#64;HostC
+$ apt list --installed | grep ssh
+## 如果没有安装
+$ sudo apt install openssh-client
 &lt;/pre&gt;
-&lt;p&gt;这时访问 HostB:PortB 相当于访问 HostC:PortC（和 iptable 的 port-forwarding 类似）。&lt;/p&gt;
-&lt;p&gt;用法2：本地端口通过跳板映射到其他机器:&lt;/p&gt;
+&lt;p&gt;如果已经安装，是否需要重新生成 SSH 服务器端钥匙？
+如是批安装，或者复制的虚拟机等……
+通过以下命令重新生成 SSH 服务端钥匙:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-# HostA 上启动一个 PortA 端口，通过 HostB 转发到 HostC:PortC上，在 HostA 上运行：
-HostA$ ssh -L 0.0.0.0:PortA:HostC:PortC  user&amp;#64;HostB
+$ cd /etc/ssh/
+$ sudo mkdir old_keys
+$ sudo mv ssh_host_* old_keys/
+$ sudo dpkg-reconfigure openssh-server
+$ sudo systemctl restart ssh.service
 &lt;/pre&gt;
-&lt;p&gt;这时访问 HostA:PortA 相当于访问 HostC:PortC。&lt;/p&gt;
-&lt;p&gt;两种用法的区别是，第一种用法本地到跳板机 HostB 的数据是明文的，
-而第二种用法一般本地就是 HostA，访问本地的 PortA，数据被 ssh 加密传输给 HostB 又转发给 HostC:PortC。&lt;/p&gt;
+&lt;p&gt;以上重新生成钥匙的操作不会中断当前的 SSH 会话，也就是说可以通过远程 SSH 会话对服务端钥匙重新进行配置。&lt;/p&gt;
+&lt;p&gt;重新生成 SSH …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;安装 SSH&lt;/h2&gt;
+&lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ apt list --installed | grep ssh
+## 如果没有安装
+$ sudo apt install openssh-client
+&lt;/pre&gt;
+&lt;p&gt;如果已经安装，是否需要重新生成 SSH 服务器端钥匙？
+如是批安装，或者复制的虚拟机等……
+通过以下命令重新生成 SSH 服务端钥匙:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd /etc/ssh/
+$ sudo mkdir old_keys
+$ sudo mv ssh_host_* old_keys/
+$ sudo dpkg-reconfigure openssh-server
+$ sudo systemctl restart ssh.service
+&lt;/pre&gt;
+&lt;p&gt;以上重新生成钥匙的操作不会中断当前的 SSH 会话，也就是说可以通过远程 SSH 会话对服务端钥匙重新进行配置。&lt;/p&gt;
+&lt;p&gt;重新生成 SSH 服务端钥匙后需要更新客户端的 known_hosts 文件:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+## 在原来访问过该 SSH 服务的客户端上执行
+## 执行 ssh username&amp;#64;remote-server-name 查看错误提示
+$ ssh-keygen -R &amp;quot;remote-server-name-here&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;&lt;a class="reference internal" href="#autossh-systemd-service"&gt;直接查看实际配置文件&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;SSH（隧道）本地与远程端口转发&lt;/h2&gt;
+&lt;p&gt;TLDR&lt;/p&gt;
+&lt;p&gt;本地端口转发（正向代理）：相当于 iptable 的 port forwarding:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -L 5000:localhost:3306 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;远程端口转发（反向代理）：相当于 frp 或者 ngrok:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R 5000:localhost:80 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;如要长期高效的服务，应使用对应的专用软件。如没法安装软件，比如当你处在限制环境下想要访问下某个不可达到的目标，或者某个临时需求，那么 ssh 就是你的兜底方案。&lt;/p&gt;
 &lt;div class="section" id="id3"&gt;
-&lt;h3&gt;反向代理：&lt;/h3&gt;
-&lt;p&gt;所谓“反向代理”就是让远端启动端口，把远端端口数据转发到本地:&lt;/p&gt;
+&lt;h3&gt;本地端口转发：&lt;/h3&gt;
+&lt;p&gt;在本地启动端口，把本地端口数据转发到远程服务器，使得远程端口本地可以访问（如用于代理）:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-# HostA 将自己可以访问的 HostB:PortB 暴露给外网服务器 HostC:PortC，在 HostA 上运行：
-HostA$ ssh -R HostC:PortC:HostB:PortB  user&amp;#64;HostC
+ssh -L [&amp;lt;LocalAddress&amp;gt;]:&amp;lt;LocalPort&amp;gt;:&amp;lt;RemoteHost&amp;gt;:&amp;lt;RemotePort&amp;gt; remoteUser&amp;#64;remoteServer
 &lt;/pre&gt;
-&lt;p&gt;那么链接 HostC:PortC 就相当于链接 HostB:PortB。使用时需修改 HostC 的 /etc/ssh/sshd_config，添加:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="91%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;参数&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;LocalAddress&lt;/td&gt;
+&lt;td&gt;可选参数，如果未指定，远程端口会绑定在本地的所有接口（0.0.0.0），因而也可以仅绑定到本地的 127.0.0.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;LocalPort&lt;/td&gt;
+&lt;td&gt;本地端口，该端口接收到的数据会转发至远程服务器进行处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;RemoteHost&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;远程服务器（remoteServer）上的守护进程所监听的接口，可以是 127.0.0.1，localhost，实际 IP 地址或者 0.0.0.0 （表示所有接口）。
+如果不确定 ，可以执行以下命令查看:&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+netstat -an | grep 3306 | grep LISTEN
+&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;RemotePort&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的实际端口，与 RemoteHost 一起用于接收本地端口（LocalPort）转发的数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteUser&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的 SSH 用户&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteServer&lt;/td&gt;
+&lt;td&gt;远程服务器地址（IP或主机名）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;示例：通过本地端口 5000 远程访问 MySQL 服务器:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-GatewayPorts yes
+ssh -L 5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+## 或者
+ssh -L 127.0.0.1:5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+mysql --host=127.0.0.1 --port=5000
 &lt;/pre&gt;
-&lt;p&gt;相当于内网穿透，比如 HostA 和 HostB 是同一个内网下的两台可以互相访问的机器，HostC是外网跳板机，HostC不能访问 HostA，但是 HostA 可以访问 HostC。&lt;/p&gt;
-&lt;p&gt;那么通过在内网 HostA 上运行 ssh -R 告诉 HostC，创建 PortC 端口监听，把该端口所有数据转发给我（HostA），我会再转发给同一个内网下的 HostB:PortB。&lt;/p&gt;
-&lt;p&gt;同内网下的 HostA/HostB 也可以是同一台机器，换句话说就是内网 HostA 把自己可以访问的端口暴露给了外网 HostC。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="socks5"&gt;
-&lt;h3&gt;本地 socks5 代理&lt;/h3&gt;
-&lt;p&gt;在 HostA 的本地 1080 端口启动一个 socks5 服务，通过本地 socks5 代理的数据会通过 ssh 链接先发送给 HostB，再从 HostB 转发送给远程主机:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-HostA$ ssh -D localhost:1080  HostB
-&lt;/pre&gt;
-&lt;p&gt;那么在 HostA 上面，浏览器配置 socks5 代理为 127.0.0.1:1080，看网页时就能把数据通过 HostB 代理出去，类似 ss/ssr 版本，只不过用 ssh 来实现。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id4"&gt;
-&lt;h3&gt;使用优化&lt;/h3&gt;
-&lt;p&gt;为了更好用一点，ssh 后面还可以加上：-CqTnN 参数，比如:&lt;/p&gt;
+&lt;h3&gt;远程端口转发：&lt;/h3&gt;
+&lt;p&gt;让远端服务器启动端口，把远端端口数据转发到本地，使得本地端口远程可以访问（如用于内网穿透）:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-$ ssh -CqTnN -L 0.0.0.0:PortA:HostC:PortC  user&amp;#64;HostB
+ssh -R [&amp;lt;RemoteAddress&amp;gt;]:&amp;lt;RemotePort&amp;gt;:&amp;lt;LocalHost&amp;gt;:&amp;lt;LocalPort&amp;gt; remoteUser&amp;#64;remoteServer
 &lt;/pre&gt;
-&lt;p&gt;其中 -C 为压缩数据，-q 安静模式，-T 禁止远程分配终端，-n 关闭标准输入，-N 不执行远程命令。此外视需要还可以增加 -f 参数，把 ssh 放到后台运行。&lt;/p&gt;
-&lt;p&gt;这些 ssh 代理没有断线重连功能，链接断了命令就退出了，可以使用 autossh 保持链接。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="91%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;参数&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;RemoteAddress&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;可选参数，如果未指定，远程端口会绑定在远程服务器的所有接口（0.0.0.0，但是只会在 Loopback 接口上启用？），因而也可以仅绑定到特定的接口。
+注意：如果指定了 RemoteAddress ，必须启用远程服务器上的 GatewayPorts 选项:&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+$ vim /etc/ssh/sshd_config
+GatewayPorts yes
+&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;RemotePort&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的实际端口，与 RemoteAddress 一起用于接收数据，接收到的数据会转发至本地进行处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;LocalHost&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;本地守护进程所监听的接口，可以是 127.0.0.1，localhost，实际 IP 地址或者 0.0.0.0 （表示所有接口）。
+如果不确定 ，可以执行以下命令查看:&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+netstat -an | grep 80 | grep LISTEN
+&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;LocalPort&lt;/td&gt;
+&lt;td&gt;本地的实际端口，与 LocalHost 一起用于接收远程服务器转发过来的数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteUser&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的 SSH 用户&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteServer&lt;/td&gt;
+&lt;td&gt;远程服务器地址（IP或主机名）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;示例：通过远程服务器（公网地址：109.239.48.64）的端口 5000 访问本地的网站:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R 5000:localhost:80 remoteUser&amp;#64;remoteServer
+## 或者
+ssh -R 109.239.48.64:5000:localhost:80 remoteUser&amp;#64;remoteServer
+## 通过浏览器访问以下地址即可访问本地的网站内容
+http://109.239.48.64:5000
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="root"&gt;
+&lt;h3&gt;使用1024以下端口需要 root 权限&lt;/h3&gt;
+&lt;p&gt;所有系统用户都可以分配1024以上的端口号，但是1024（不含）需要 root 权限，
+本地转发时，如果要分配1024以下的本地端口，你需要使用 root 用户或 sudo 执行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sudo ssh -L 50:localhost:3306 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;远程转发时，如果要分配1024以下的远程端口，你必须使用 root 用户进行 SSH 连接:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R 50:localhost:80 root&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h2&gt;使用优化（隧道选项）&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="12%" /&gt;
+&lt;col width="88%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;常用参数&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;-N&lt;/td&gt;
+&lt;td&gt;After you connect just hang there (you won’t get a shell prompt)
+SSH man: Do not execute a remote command.
+Note: Only works with SSHv2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-T&lt;/td&gt;
+&lt;td&gt;Disable pseudo-terminal allocation.
+This makes it also safe for binary file transfer which might contain escape characters such as ~C.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-f&lt;/td&gt;
+&lt;td&gt;Requests ssh to go to background just before command execution.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-p&lt;/td&gt;
+&lt;td&gt;Port to connect to on the remote host.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-i&lt;/td&gt;
+&lt;td&gt;Selects a file from which the identity (private key) for public key authentication is read.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;使用以上参数构建的命令如下:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N -L 5000:localhost:3306 remoteUser&amp;#64;remoteServer -p 1022 -i ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+&lt;/pre&gt;
+&lt;p&gt;如果不想每次输入这么长的命令，可以使用 ~/.ssh/config 。&lt;/p&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h3&gt;添加用户与主机&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli
+    HostName        remoteServer
+    User            remoteUser
+&lt;/pre&gt;
+&lt;p&gt;以上为用户与主机创建了一个别名 cli，可以将命令简化为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N -L 5000:localhost:3306 cli -p 1022 -i ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id7"&gt;
+&lt;h3&gt;添加端口和证书文件&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli
+    HostName        remoteServer
+    User            remoteUser
+    Port            1022
+    IdentityFile    ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+&lt;/pre&gt;
+&lt;p&gt;现在可以将命令简化为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N -L 5000:localhost:3306 cli
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id8"&gt;
+&lt;h3&gt;添加隧道配置&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli-mysql-tunnel
+    HostName        remoteServer
+    User            remoteUser
+    Port            1022
+    IdentityFile    ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+    LocalForward    5000 localhost:3306
+&lt;/pre&gt;
+&lt;p id="ssh-by-config"&gt;现在可以将命令简化为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N cli-mysql-tunnel
+&lt;/pre&gt;
+&lt;p&gt;对照 &lt;a class="reference internal" href="#autossh-by-config"&gt;autossh by config&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh"&gt;
+&lt;h2&gt;使用 AUTOSSH&lt;/h2&gt;
+&lt;p&gt;SSH 没有断线重连功能，可以使用 autossh 自动重建会话或隧道。&lt;/p&gt;
+&lt;p&gt;TLDR&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -o &amp;quot;ServerAliveInterval 30&amp;quot; -o &amp;quot;ServerAliveCountMax 3&amp;quot; -L 5000:localhost:3306 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;或者基于 ~/.ssh/config 配置在后台运行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -f -T -N cli-mysql-tunnel
+&lt;/pre&gt;
+&lt;div class="section" id="id9"&gt;
+&lt;h3&gt;安装 autossh&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+sudo apt install autossh
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id10"&gt;
+&lt;h3&gt;用法&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+autossh [-V] [-M monitor_port[:echo_port]] [-f] [SSH_OPTIONS]
+
+## 如以上通过本地5000端口转发 MySQL
+ssh -L 5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+## 使用 autossh 命令
+autossh -L 5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+&lt;/pre&gt;
+&lt;p&gt;注意：&lt;/p&gt;
 &lt;ol class="arabic"&gt;
-&lt;li&gt;&lt;p class="first"&gt;通过密钥验证用户身份，实现自动登录:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 在 HostA 上生产公钥和私钥并将公钥安装到 HostC
-HostA$ ssh-keygen
-HostA$ ssh-copy-id user&amp;#64;HostC
-&lt;/pre&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用 autossh 前，请使用 ssh 先进行操作并确保无误；&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;autossh的用法:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# -M 5678参数，负责通过5678端口监视连接状态，连接有问题时就会自动重连
-HostA$ autossh -M 5678 -R HostC:PortC:HostB:PortB  user&amp;#64;HostC
-&lt;/pre&gt;
+&lt;li&gt;&lt;p class="first"&gt;autossh 的 -f 选项不会传递至 ssh，因此必须使用公私钥匙进行认证，不支持基于密码或私钥密码认证。&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;自动运行 autossh:&lt;/p&gt;
+&lt;li&gt;&lt;p class="first"&gt;生成用户的 ssh 密钥，记得私钥不能启用私钥密码:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-# 以daemon方式执行，相当于root去执行autossh, ssh，这时刚才生成的用户 .ssh/authorized_keys 文件会不起效。
-# 有两种办法解决，一种是用autossh的参数指定.ssh路径；另外一种是以普通用户身份执行daemon，下面是第二种方式。
-HostA$ /bin/su -c '/usr/bin/autossh -M 5678 -R HostC:PortC:HostB:PortB  user&amp;#64;HostC' - user
-# 根据系统配置自行启动方式
+ssh-keygen                                  # 生成 ssh 使用的密钥
+ssh-copy-id remoteUser&amp;#64;remoteServer         # 将公钥安装到远程服务器
 &lt;/pre&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
+&lt;div class="section" id="autossh-m"&gt;
+&lt;h3&gt;autossh 的 -M 选项&lt;/h3&gt;
+&lt;p&gt;Setting the monitor port to 0 turns the monitoring function off,
+and autossh will only restart ssh upon ssh's exit.
+For example, if you are using a recent version of OpenSSH,
+you may wish to explore using the ServerAliveInterval and ServerAliveCountMax options to have the SSH client exit
+if it finds itself no longer connected to the server.
+In many ways this may be a better solution than the monitoring port.&lt;/p&gt;
+&lt;p&gt;以上内容来自 man autossh。&lt;/p&gt;
+&lt;p&gt;因此推荐方式是:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -o &amp;quot;ServerAliveInterval 30&amp;quot; -o &amp;quot;ServerAliveCountMax 3&amp;quot;
+&lt;/pre&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="15%" /&gt;
+&lt;col width="85%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;选项&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;ServerAliveInterval&lt;/td&gt;
+&lt;td&gt;Sets a timeout interval in seconds after which if no data has been received from the server,
+ssh(1) will send a message through the encrypted channel to request a re‐ sponse from the server.
+The default is 0, indicating that these messages will not be sent to the server.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ServerAliveCountMax&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;Sets the number of server alive messages which may be sent without ssh(1) receiving any messages back from the server.
+If this threshold is reached while server alive messages are being sent,
+ssh will disconnect from the server, terminating the session.&lt;/p&gt;
+&lt;p class="last"&gt;The default value is 3.
+If, for example, ServerAliveInterval is set to 15 and ServerAliveCountMax is left at the default,
+if the server becomes unresponsive, ssh will disconnect after approximately 45 seconds.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh-ssh-config"&gt;
+&lt;h3&gt;autossh 与 ~/.ssh/config&lt;/h3&gt;
+&lt;p&gt;autossh 也支持 ~/.ssh/config，因此可以继续使用配置文件进行有关的设置，
+继续以上面的配置文件为例，加入 ServerAliveInterval 和 ServerAliveCountMax 二个选项:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli-mysql-tunnel
+    HostName        remoteServer
+    User            remoteUser
+    Port            1022
+    IdentityFile    ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+    LocalForward    5000 localhost:3306
+    ServerAliveInterval     30
+    ServerAliveCountMax     3
+&lt;/pre&gt;
+&lt;p id="autossh-by-config"&gt;现在我们可以使用以下命令确保断线重连了:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -f -T -N cli-mysql-tunnel
+&lt;/pre&gt;
+&lt;p&gt;对照 &lt;a class="reference internal" href="#ssh-by-config"&gt;ssh by config&lt;/a&gt; ,
+注意 -f 不会传递给 ssh。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id11"&gt;
+&lt;h3&gt;autossh 环境变量&lt;/h3&gt;
+&lt;p&gt;autossh 也可以通过一些环境变量进行控制，其中比较重要的一个变量是 AUTOSSH_GATETIME:&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;AUTOSSH_GATETIME&lt;/dt&gt;
+&lt;dd&gt;Specifies how long ssh must be up before we consider it a successful connection.
+The default is 30 seconds.
+Note that if AUTOSSH_GATETIME is set to 0, then not only is the gatetime behaviour turned off,
+but autossh also ignores the first run failure of ssh.
+This may be useful when running autossh at boot.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;其它变量说明请自行参阅 man&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh-systemd-service"&gt;
+&lt;h3&gt;autossh systemd service&lt;/h3&gt;
+&lt;p&gt;可以通过 systemd 在启动时自动建立转发隧道，不过需要注意的是：
+autossh -f 在 systemd 环境下不受支持。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;客户端&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;客户端的 systemd 配置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install autossh
+
+# vi /etc/systemd/system/autossh-reverse-tunnel.service
+[Unit]
+Description=AutoSSH reverse tunnel service
+After=network.target
+
+[Service]
+Restart=always
+RuntimeMaxSec=86400
+Environment=&amp;quot;AUTOSSH_GATETIME=0&amp;quot;
+ExecStart=/usr/bin/autossh -M 0 -o &amp;quot;ServerAliveInterval 30&amp;quot; -o &amp;quot;ServerAliveCountMax 3&amp;quot; -NR 2221:localhost:22 sshtunnel&amp;#64;remoteserver -p 222
+
+[Install]
+WantedBy=multi-user.target
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用客户端:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# systemctl daemon-reload
+
+# systemctl start autossh-reverse-tunnel.service
+
+# systemctl enable autossh-reverse-tunnel.service
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;服务端&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;SSH 服务配置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/ssh/sshd222_config
+
+Port 222
+PermitRootLogin no
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+PrintMotd no
+Banner none
+PidFile /var/run/sshd222.pid
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;创建用户:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# useradd -d /home/sshtunnel -s /bin/false -m sshtunnel
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;SSH 密钥仅限于隧道:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkdir /home/sshtunnel/.ssh
+
+# vi /home/sshtunnel/.ssh/authorized_keys
+
+no-pty,no-X11-forwarding,permitopen=&amp;quot;localhost:2221&amp;quot;,command=&amp;quot;/bin/echo do-not-send-commands&amp;quot; ssh-rsa VeryLongsShkeyBlaBlaBlaBla root&amp;#64;hostname
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;systemd 配置文件:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/systemd/system/ssh222.service
+
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target auditd.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t -f /etc/ssh/sshd222_config
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS -f /etc/ssh/sshd222_config
+ExecReload=/usr/sbin/sshd -t -f /etc/ssh/sshd222_config
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;服务端启用:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# systemctl daemon-reload
+
+# systemctl start ssh222.service
+
+# systemctl enable ssh222.service
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-02-23T02:55:47+08:00</published><updated>2020-02-23T02:55:47+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-23:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;段落&lt;/h2&gt;
+&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
+缩进的段落会被视为引用段落。&lt;/p&gt;
+&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
+空格正常吗？好像正常。&lt;/p&gt;
+&lt;blockquote&gt;
+这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
+继续缩进部分的内容。&lt;/blockquote&gt;
+&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;行内标记&lt;/h2&gt;
+&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
+但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
+可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
+&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
+不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;列表&lt;/h2&gt;
+&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
+列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
+&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
+也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple" start="20"&gt;
+&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;嵌套项一，古怪！
+为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
+&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
+难道是pelican的bug??&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="9"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;新的列表吗？&lt;/li&gt;
+&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
+&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项二
+继续项二的内容&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;术语&lt;/dt&gt;
+&lt;dd&gt;定义列表将术语与定义关联在一起
+多个术语之间无须使用空行分隔&lt;/dd&gt;
+&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
+&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
+否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
+&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
+&lt;p class="last"&gt;这是段落二。
+当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
 &lt;div class="section" id="id5"&gt;
-&lt;h3&gt;功能对比&lt;/h3&gt;
-&lt;p&gt;正向代理（-L）的第一种用法可以用 iptable 的 port-forwarding 模拟，iptable 性能更好，但是需要 root 权限，ssh -L 性能不好，但是正向代理花样更多些。
-反向代理（-R）一般就作为没有安装 frp/ngrok/shootback 时候的一种代替，但是数据传输的性能和稳定性当然 frp 这些专用软件更好。
-socks5 代理（-D）其实是可以代替 ss/ssr 的，区别和上面类似。所以要长久使用，推荐安装对应软件，临时用一下 ssh 挺顺手。&lt;/p&gt;
+&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
+&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
+当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
+对 :: 的处理如下：&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 如果它作为自己的段落出现，则该段落完全不在文档中
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后什么也没有
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后边有个冒号
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h2&gt;章节标题&lt;/h2&gt;
+&lt;p&gt;如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
+上下划线可使用以下符号（ = - ` : ' &amp;quot; ~ ^ _ * + # &amp;lt; &amp;gt; ），上下划线长度不能少于文本的长度，
+使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;#, with overline, for parts，有上线，用于编&lt;/li&gt;
+&lt;li&gt;*, with overline, for chapters，有上线，用于章&lt;/li&gt;
+&lt;li&gt;=, for sections，用于节&lt;/li&gt;
+&lt;li&gt;-, for subsections，用于小节&lt;/li&gt;
+&lt;li&gt;^, for subsubsections，用于子小节&lt;/li&gt;
+&lt;li&gt;&amp;quot;, for paragraphs，用于款&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="id7"&gt;
+&lt;h3&gt;文档标题与子标题&lt;/h3&gt;
+&lt;p&gt;整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
+文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
+（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）&lt;/p&gt;
+&lt;p id="id8"&gt;章节标题可以作为链接目标，如链接到段落，可以使用 &amp;quot;&lt;a class="reference internal" href="#id2"&gt;段落&lt;/a&gt;&amp;quot;，如果标题文本中含有空格，则还要用反引号包围标题，如 &amp;quot;&lt;a class="reference internal" href="#section-header"&gt;Section Header&lt;/a&gt;&amp;quot;。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-header"&gt;
+&lt;h3&gt;Section Header&lt;/h3&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-22T02:58:42+08:00</published><updated>2020-02-22T02:58:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-22:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+&lt;div class="section" id="id9"&gt;
+&lt;h2&gt;超链接&lt;/h2&gt;
+&lt;p&gt;在 reST 中，超级链接由二部分组成，
+一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
+二是目标链接（Target Link），类似于HTML的链接地址;
+源链接与目标链接都是通过 _ 来定义的，
+源链接定义的格式如下： reference-name_，也就是 _ 是在引用名之后；
+与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
+引用名如果包含空格，则需要使用反引号括起来，如 `reference name`。
+以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。&lt;/p&gt;
+&lt;p&gt;具体形式可分为以下几种：&lt;/p&gt;
+&lt;p&gt;独立链接：直接输入网址即可，例如：&lt;a class="reference external" href="http://www.debian.org"&gt;http://www.debian.org&lt;/a&gt;，此时没有对应链接文本，直接显示链接地址&lt;/p&gt;
+&lt;p&gt;命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
+我喜欢的LINUX版本是 &lt;a class="reference external" href="http://www.debian.org"&gt;Debian&lt;/a&gt; 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）&lt;/p&gt;
+&lt;p&gt;匿名链接：链接目标与链接引用都使用 __ 进行标记。如 &lt;a class="reference external" href="http://www.debian.org"&gt;我最喜欢的LINUX发行版本是 Debian&lt;/a&gt; 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
+创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
+匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
+因为没有引用名，只能一次性配对使用，
+文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
+因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。&lt;/p&gt;
+&lt;p&gt;锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. _标题链接:
+&lt;/pre&gt;
+&lt;p&gt;标题链接：reST 在定义标题时，还会自动定义一个 &lt;a class="reference internal" href="#id8"&gt;标题链接&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+标题名称
+========
+
+跳转到 标题名称_
+&lt;/pre&gt;
+&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：&lt;/p&gt;
+&lt;p&gt;See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
+This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page &amp;lt;http://www.python.org&amp;gt;`_ for info.
+This `link &amp;lt;Python home page_&amp;gt;`_ is an alias to the link above.
+&lt;/pre&gt;
+&lt;p&gt;从代码上来说，以上二句相同于是:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page`_ for info.
+This link_ is an alias to the link above.
+
+.. _Python home page: http://www.python.org
+.. _link: `Python home page`_
+&lt;/pre&gt;
+&lt;p&gt;尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id11"&gt;
+&lt;h2&gt;表格&lt;/h2&gt;
+&lt;p&gt;有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；&lt;/p&gt;
+&lt;p&gt;Simple 表格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
+&lt;/pre&gt;
+&lt;p&gt;实际效果如下：&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="31%" /&gt;
+&lt;col width="31%" /&gt;
+&lt;col width="38%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head" colspan="2"&gt;Inputs&lt;/th&gt;
+&lt;th class="head"&gt;Output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;th class="head"&gt;A&lt;/th&gt;
+&lt;th class="head"&gt;B&lt;/th&gt;
+&lt;th class="head"&gt;A or B&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id12"&gt;
+&lt;h2&gt;显示标记&lt;/h2&gt;
+&lt;p&gt;显示标记块（ &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks"&gt;Explicit Markup Blocks&lt;/a&gt;）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
+显示标记引导符以两个 . 加空格表示（.. ）;
+显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. explicit markup block begin
+    second line
+    ...
+    end line
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="directives"&gt;
+&lt;h2&gt;指令（ Directives ）&lt;/h2&gt;
+&lt;p&gt;指令（ &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives"&gt;Directives&lt;/a&gt; ）是显式标记的通用块，是 reST 的扩展机制之一。
+指令格式:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. directive-type:: directive-block
+&lt;/pre&gt;
+&lt;p&gt;由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
+指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;指令参数&lt;/li&gt;
+&lt;li&gt;指令选项&lt;/li&gt;
+&lt;li&gt;指令内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id14"&gt;
+&lt;h2&gt;图片指令&lt;/h2&gt;
+&lt;p&gt;使用 &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image"&gt;图片指令&lt;/a&gt; 可以在文档中包含图片，例如:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. image:: picture.jpeg
+&lt;/pre&gt;
+&lt;p&gt;图片指令有一个必选参数，和多个可选选项:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. image:: picture.jpeg
+    :height: 100px
+    :width: 200 px
+    :scale: 50 %
+    :alt: alternate text
+    :align: right
+    :class: common options
+    :name: common options
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-22T02:58:42+08:00</published><updated>2020-02-22T02:58:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-22:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;连续录入多个相同的字符( &lt;a class="reference external" href="https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode"&gt;参见&lt;/a&gt; ):&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 50i- ESC
@@ -344,256 +1085,7 @@ $ git push origin gh-pages:master
 &lt;p&gt;去赴这场一年一次，或者是数年一次的团聚，&lt;/p&gt;
 &lt;p&gt;或许只有经历过这样的分离和这样的相聚，才能够真正理解一句话，&lt;/p&gt;
 &lt;p&gt;人生难得是欢聚。&lt;/p&gt;
-</content><category term="article"></category><category term="movie"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-02-13T22:52:46+08:00</published><updated>2020-02-13T22:52:46+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
-</summary><content type="html">&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;段落&lt;/h2&gt;
-&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
-缩进的段落会被视为引用段落。&lt;/p&gt;
-&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
-空格正常吗？好像正常。&lt;/p&gt;
-&lt;blockquote&gt;
-这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
-继续缩进部分的内容。&lt;/blockquote&gt;
-&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h2&gt;行内标记&lt;/h2&gt;
-&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
-但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
-可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
-&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
-不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
-&lt;h2&gt;列表&lt;/h2&gt;
-&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
-列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
-&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
-&lt;ol class="arabic"&gt;
-&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
-也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;嵌套项一&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol class="arabic simple" start="20"&gt;
-&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
-&lt;ol class="arabic simple" start="3"&gt;
-&lt;li&gt;嵌套项一，古怪！
-为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
-&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
-难道是pelican的bug??&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
-&lt;ol class="arabic simple" start="9"&gt;
-&lt;li&gt;嵌套项一&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;新的列表吗？&lt;/li&gt;
-&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
-&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表项二
-继续项二的内容&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
-&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;术语&lt;/dt&gt;
-&lt;dd&gt;定义列表将术语与定义关联在一起
-多个术语之间无须使用空行分隔&lt;/dd&gt;
-&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
-&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
-否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
-&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
-&lt;p class="last"&gt;这是段落二。
-当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
-&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
-&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
-当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
-对 :: 的处理如下：&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 如果它作为自己的段落出现，则该段落完全不在文档中
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 仔细看，上边的段落后什么也没有
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 仔细看，上边的段落后边有个冒号
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id6"&gt;
-&lt;h2&gt;章节标题&lt;/h2&gt;
-&lt;p&gt;如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
-上下划线可使用以下符号（ = - ` : ' &amp;quot; ~ ^ _ * + # &amp;lt; &amp;gt; ），上下划线长度不能少于文本的长度，
-使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;#, with overline, for parts，有上线，用于编&lt;/li&gt;
-&lt;li&gt;*, with overline, for chapters，有上线，用于章&lt;/li&gt;
-&lt;li&gt;=, for sections，用于节&lt;/li&gt;
-&lt;li&gt;-, for subsections，用于小节&lt;/li&gt;
-&lt;li&gt;^, for subsubsections，用于子小节&lt;/li&gt;
-&lt;li&gt;&amp;quot;, for paragraphs，用于款&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="section" id="id7"&gt;
-&lt;h3&gt;文档标题与子标题&lt;/h3&gt;
-&lt;p&gt;整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
-文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
-（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）&lt;/p&gt;
-&lt;p id="id8"&gt;章节标题可以作为链接目标，如链接到段落，可以使用 &amp;quot;&lt;a class="reference internal" href="#id2"&gt;段落&lt;/a&gt;&amp;quot;，如果标题文本中含有空格，则还要用反引号包围标题，如 &amp;quot;&lt;a class="reference internal" href="#section-header"&gt;Section Header&lt;/a&gt;&amp;quot;。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="section-header"&gt;
-&lt;h3&gt;Section Header&lt;/h3&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id9"&gt;
-&lt;h2&gt;超链接&lt;/h2&gt;
-&lt;p&gt;在 reST 中，超级链接由二部分组成，
-一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
-二是目标链接（Target Link），类似于HTML的链接地址;
-源链接与目标链接都是通过 _ 来定义的，
-源链接定义的格式如下： reference-name_，也就是 _ 是在引用名之后；
-与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
-引用名如果包含空格，则需要使用反引号括起来，如 `reference name`。
-以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。&lt;/p&gt;
-&lt;p&gt;具体形式可分为以下几种：&lt;/p&gt;
-&lt;p&gt;独立链接：直接输入网址即可，例如：&lt;a class="reference external" href="http://www.debian.org"&gt;http://www.debian.org&lt;/a&gt;，此时没有对应链接文本，直接显示链接地址&lt;/p&gt;
-&lt;p&gt;命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
-我喜欢的LINUX版本是 &lt;a class="reference external" href="http://www.debian.org"&gt;Debian&lt;/a&gt; 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）&lt;/p&gt;
-&lt;p&gt;匿名链接：链接目标与链接引用都使用 __ 进行标记。如 &lt;a class="reference external" href="http://www.debian.org"&gt;我最喜欢的LINUX发行版本是 Debian&lt;/a&gt; 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
-创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
-匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
-因为没有引用名，只能一次性配对使用，
-文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
-因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。&lt;/p&gt;
-&lt;p&gt;锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. _标题链接:
-&lt;/pre&gt;
-&lt;p&gt;标题链接：reST 在定义标题时，还会自动定义一个 &lt;a class="reference internal" href="#id8"&gt;标题链接&lt;/a&gt;&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-标题名称
-========
-
-跳转到 标题名称_
-&lt;/pre&gt;
-&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：&lt;/p&gt;
-&lt;p&gt;See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
-This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-See the `Python home page &amp;lt;http://www.python.org&amp;gt;`_ for info.
-This `link &amp;lt;Python home page_&amp;gt;`_ is an alias to the link above.
-&lt;/pre&gt;
-&lt;p&gt;从代码上来说，以上二句相同于是:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-See the `Python home page`_ for info.
-This link_ is an alias to the link above.
-
-.. _Python home page: http://www.python.org
-.. _link: `Python home page`_
-&lt;/pre&gt;
-&lt;p&gt;尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id11"&gt;
-&lt;h2&gt;显示标记&lt;/h2&gt;
-&lt;p&gt;显示标记块（ &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks"&gt;Explicit Markup Blocks&lt;/a&gt;）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
-显示标记引导符以两个 . 加空格表示（.. ）;
-显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. explicit markup block begin
-    second line
-    ...
-    end line
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="directives"&gt;
-&lt;h2&gt;指令（ Directives ）&lt;/h2&gt;
-&lt;p&gt;指令（ &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives"&gt;Directives&lt;/a&gt; ）是显式标记的通用块，是 reST 的扩展机制之一。
-指令格式:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. directive-type:: directive-block
-&lt;/pre&gt;
-&lt;p&gt;由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
-指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;指令参数&lt;/li&gt;
-&lt;li&gt;指令选项&lt;/li&gt;
-&lt;li&gt;指令内容&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id13"&gt;
-&lt;h2&gt;图片指令&lt;/h2&gt;
-&lt;p&gt;使用 &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image"&gt;图片指令&lt;/a&gt; 可以在文档中包含图片，例如:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. image:: picture.jpeg
-&lt;/pre&gt;
-&lt;p&gt;图片指令有一个必选参数，和多个可选选项:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. image:: picture.jpeg
-    :height: 100px
-    :width: 200 px
-    :scale: 50 %
-    :alt: alternate text
-    :align: right
-    :class: common options
-    :name: common options
-&lt;/pre&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-02-11T05:27:20+08:00</published><updated>2020-02-11T05:27:20+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-11:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
+</content><category term="article"></category><category term="movie"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-02-11T05:27:20+08:00</published><updated>2020-02-11T05:27:20+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-11:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;最近网上有句话特别流行&lt;/p&gt;
 &lt;blockquote&gt;
 如果尖锐的批评完全消失，温和的批评将会变得刺耳。

@@ -25,8 +25,8 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-13T22:52:46.527446+08:00">
-                Published: 2020-02-13
+        <abbr class="published" title="2020-02-23T02:55:47.985325+08:00">
+                Published: 2020-02-23
         </abbr>
 
         <address class="vcard author">
@@ -238,6 +238,58 @@ This link_ is an alias to the link above.
 <p>尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。</p>
 </div>
 <div class="section" id="id11">
+<h2>表格</h2>
+<p>有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；</p>
+<p>Simple 表格:</p>
+<pre class="literal-block">
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
+</pre>
+<p>实际效果如下：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="31%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head" colspan="2">Inputs</th>
+<th class="head">Output</th>
+</tr>
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A or B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id12">
 <h2>显示标记</h2>
 <p>显示标记块（ <a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks">Explicit Markup Blocks</a>）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
 显示标记引导符以两个 . 加空格表示（.. ）;
@@ -264,7 +316,7 @@ This link_ is an alias to the link above.
 <li>指令内容</li>
 </ul>
 </div>
-<div class="section" id="id13">
+<div class="section" id="id14">
 <h2>图片指令</h2>
 <p>使用 <a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image">图片指令</a> 可以在文档中包含图片，例如:</p>
 <pre class="literal-block">
