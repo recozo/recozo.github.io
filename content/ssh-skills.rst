@@ -6,100 +6,399 @@ SSH 使用说明
 :slug: ssh-skills
 :authors: Recozo
 
-代理功能
+安装 SSH
 ==================================================
 
-ssh 命令除了登陆外还有三种代理功能：
+检查 SSH 是否安装::
 
-正向代理（-L）：相当于 iptable 的 port forwarding
+    $ apt list --installed | grep ssh
+    ## 如果没有安装
+    $ sudo apt install openssh-client
 
-反向代理（-R）：相当于 frp 或者 ngrok
+如果已经安装，是否需要重新生成 SSH 服务器端钥匙？
+如是批安装，或者复制的虚拟机等……
+通过以下命令重新生成 SSH 服务端钥匙::
 
-socks5 代理（-D）：相当于 ss/ssr
+    $ cd /etc/ssh/
+    $ sudo mkdir old_keys
+    $ sudo mv ssh_host_* old_keys/
+    $ sudo dpkg-reconfigure openssh-server
+    $ sudo systemctl restart ssh.service
+
+以上重新生成钥匙的操作不会中断当前的 SSH 会话，也就是说可以通过远程 SSH 会话对服务端钥匙重新进行配置。
+
+重新生成 SSH 服务端钥匙后需要更新客户端的 known_hosts 文件::
+
+    ## 在原来访问过该 SSH 服务的客户端上执行
+    ## 执行 ssh username@remote-server-name 查看错误提示
+    $ ssh-keygen -R "remote-server-name-here"
+
+`直接查看实际配置文件 <autossh systemd service_>`_
+
+SSH（隧道）本地与远程端口转发
+==================================================
+TLDR
+
+本地端口转发（正向代理）：相当于 iptable 的 port forwarding::
+
+    ssh -L 5000:localhost:3306 remoteUser@remoteServer
+
+远程端口转发（反向代理）：相当于 frp 或者 ngrok::
+
+    ssh -R 5000:localhost:80 remoteUser@remoteServer
 
 如要长期高效的服务，应使用对应的专用软件。如没法安装软件，比如当你处在限制环境下想要访问下某个不可达到的目标，或者某个临时需求，那么 ssh 就是你的兜底方案。
 
-正向代理：
+本地端口转发：
 --------------------------------------------------
 
-所谓“正向代理”就是在本地启动端口，把本地端口数据转发到远端。
+在本地启动端口，把本地端口数据转发到远程服务器，使得远程端口本地可以访问（如用于代理）::
 
-用法1：远程端口映射到其他机器::
+    ssh -L [<LocalAddress>]:<LocalPort>:<RemoteHost>:<RemotePort> remoteUser@remoteServer
 
-    # HostB 上启动一个 PortB 端口，映射到 HostC:PortC 上，在 HostB 上运行：
-    HostB$ ssh -L 0.0.0.0:PortB:HostC:PortC user@HostC
+=============   ==========
+参数            解释
+=============   ==========
+LocalAddress	可选参数，如果未指定，远程端口会绑定在本地的所有接口（0.0.0.0），因而也可以仅绑定到本地的 127.0.0.1
+LocalPort	本地端口，该端口接收到的数据会转发至远程服务器进行处理
+RemoteHost	远程服务器（remoteServer）上的守护进程所监听的接口，可以是 127.0.0.1，localhost，实际 IP 地址或者 0.0.0.0 （表示所有接口）。
+		如果不确定 ，可以执行以下命令查看::
 
-这时访问 HostB:PortB 相当于访问 HostC:PortC（和 iptable 的 port-forwarding 类似）。
+		    netstat -an | grep 3306 | grep LISTEN 
 
-用法2：本地端口通过跳板映射到其他机器::
+RemotePort	远程服务器（remoteServer）上的实际端口，与 RemoteHost 一起用于接收本地端口（LocalPort）转发的数据
+remoteUser	远程服务器（remoteServer）上的 SSH 用户
+remoteServer	远程服务器地址（IP或主机名）
+=============   ==========
 
-    # HostA 上启动一个 PortA 端口，通过 HostB 转发到 HostC:PortC上，在 HostA 上运行：
-    HostA$ ssh -L 0.0.0.0:PortA:HostC:PortC  user@HostB
+示例：通过本地端口 5000 远程访问 MySQL 服务器::
 
-这时访问 HostA:PortA 相当于访问 HostC:PortC。
+    ssh -L 5000:localhost:3306 sqlUser@MySQLServer
+    ## 或者
+    ssh -L 127.0.0.1:5000:localhost:3306 sqlUser@MySQLServer
+    mysql --host=127.0.0.1 --port=5000
 
-两种用法的区别是，第一种用法本地到跳板机 HostB 的数据是明文的，
-而第二种用法一般本地就是 HostA，访问本地的 PortA，数据被 ssh 加密传输给 HostB 又转发给 HostC:PortC。
-
-反向代理：
+远程端口转发：
 --------------------------------------------------
 
-所谓“反向代理”就是让远端启动端口，把远端端口数据转发到本地::
+让远端服务器启动端口，把远端端口数据转发到本地，使得本地端口远程可以访问（如用于内网穿透）::
 
-    # HostA 将自己可以访问的 HostB:PortB 暴露给外网服务器 HostC:PortC，在 HostA 上运行：
-    HostA$ ssh -R HostC:PortC:HostB:PortB  user@HostC
+    ssh -R [<RemoteAddress>]:<RemotePort>:<LocalHost>:<LocalPort> remoteUser@remoteServer
 
-那么链接 HostC:PortC 就相当于链接 HostB:PortB。使用时需修改 HostC 的 /etc/ssh/sshd_config，添加::
+=============   ==========
+参数            解释
+=============   ==========
+RemoteAddress   可选参数，如果未指定，远程端口会绑定在远程服务器的所有接口（0.0.0.0，但是只会在 Loopback 接口上启用？），因而也可以仅绑定到特定的接口。
+		注意：如果指定了 RemoteAddress ，必须启用远程服务器上的 GatewayPorts 选项::
 
-    GatewayPorts yes
+		    $ vim /etc/ssh/sshd_config
+		    GatewayPorts yes
 
-相当于内网穿透，比如 HostA 和 HostB 是同一个内网下的两台可以互相访问的机器，HostC是外网跳板机，HostC不能访问 HostA，但是 HostA 可以访问 HostC。
+RemotePort      远程服务器（remoteServer）上的实际端口，与 RemoteAddress 一起用于接收数据，接收到的数据会转发至本地进行处理
+LocalHost       本地守护进程所监听的接口，可以是 127.0.0.1，localhost，实际 IP 地址或者 0.0.0.0 （表示所有接口）。
+                如果不确定 ，可以执行以下命令查看::
 
-那么通过在内网 HostA 上运行 ssh -R 告诉 HostC，创建 PortC 端口监听，把该端口所有数据转发给我（HostA），我会再转发给同一个内网下的 HostB:PortB。
+                    netstat -an | grep 80 | grep LISTEN  
 
-同内网下的 HostA/HostB 也可以是同一台机器，换句话说就是内网 HostA 把自己可以访问的端口暴露给了外网 HostC。
+LocalPort       本地的实际端口，与 LocalHost 一起用于接收远程服务器转发过来的数据
+remoteUser      远程服务器（remoteServer）上的 SSH 用户
+remoteServer    远程服务器地址（IP或主机名）
+=============   ==========
 
-本地 socks5 代理
+示例：通过远程服务器（公网地址：109.239.48.64）的端口 5000 访问本地的网站::
+
+    ssh -R 5000:localhost:80 remoteUser@remoteServer
+    ## 或者
+    ssh -R 109.239.48.64:5000:localhost:80 remoteUser@remoteServer
+    ## 通过浏览器访问以下地址即可访问本地的网站内容
+    http://109.239.48.64:5000
+
+使用1024以下端口需要 root 权限
+--------------------------------------------------
+所有系统用户都可以分配1024以上的端口号，但是1024（不含）需要 root 权限，
+本地转发时，如果要分配1024以下的本地端口，你需要使用 root 用户或 sudo 执行::
+
+    sudo ssh -L 50:localhost:3306 remoteUser@remoteServer
+
+远程转发时，如果要分配1024以下的远程端口，你必须使用 root 用户进行 SSH 连接::
+
+    ssh -R 50:localhost:80 root@remoteServer
+
+使用优化（隧道选项）
+==================================================
+
+=============   ==========
+常用参数           解释
+=============   ==========
+-N		After you connect just hang there (you won’t get a shell prompt)
+		SSH man: Do not execute a remote command.
+		Note: Only works with SSHv2
+-T		Disable pseudo-terminal allocation.
+		This makes it also safe for binary file transfer which might contain escape characters such as ~C.
+-f		Requests ssh to go to background just before command execution.
+-p		Port to connect to on the remote host.
+-i		Selects a file from which the identity (private key) for public key authentication is read. 
+=============   ==========
+
+使用以上参数构建的命令如下::
+
+    ssh -f -T -N -L 5000:localhost:3306 remoteUser@remoteServer -p 1022 -i ~/.ssh/id_rsa-remoteuser@remoteserver
+
+如果不想每次输入这么长的命令，可以使用 ~/.ssh/config 。
+
+添加用户与主机
 --------------------------------------------------
 
-在 HostA 的本地 1080 端口启动一个 socks5 服务，通过本地 socks5 代理的数据会通过 ssh 链接先发送给 HostB，再从 HostB 转发送给远程主机::
+::
 
-    HostA$ ssh -D localhost:1080  HostB
+    $ vim ~/.ssh/config
+    Host cli
+	HostName	remoteServer
+	User          	remoteUser
 
-那么在 HostA 上面，浏览器配置 socks5 代理为 127.0.0.1:1080，看网页时就能把数据通过 HostB 代理出去，类似 ss/ssr 版本，只不过用 ssh 来实现。
+以上为用户与主机创建了一个别名 cli，可以将命令简化为::
 
-使用优化
+    ssh -f -T -N -L 5000:localhost:3306 cli -p 1022 -i ~/.ssh/id_rsa-remoteuser@remoteserver
+
+添加端口和证书文件
 --------------------------------------------------
 
-为了更好用一点，ssh 后面还可以加上：-CqTnN 参数，比如::
+::
 
-    $ ssh -CqTnN -L 0.0.0.0:PortA:HostC:PortC  user@HostB
+    $ vim ~/.ssh/config
+    Host cli
+	HostName     	remoteServer
+	User          	remoteUser
+	Port		1022
+	IdentityFile	~/.ssh/id_rsa-remoteuser@remoteserver
 
-其中 -C 为压缩数据，-q 安静模式，-T 禁止远程分配终端，-n 关闭标准输入，-N 不执行远程命令。此外视需要还可以增加 -f 参数，把 ssh 放到后台运行。
+现在可以将命令简化为::
 
-这些 ssh 代理没有断线重连功能，链接断了命令就退出了，可以使用 autossh 保持链接。
+    ssh -f -T -N -L 5000:localhost:3306 cli
 
-1. 通过密钥验证用户身份，实现自动登录::
-
-    # 在 HostA 上生产公钥和私钥并将公钥安装到 HostC
-    HostA$ ssh-keygen
-    HostA$ ssh-copy-id user@HostC
-
-2. autossh的用法::
-
-    # -M 5678参数，负责通过5678端口监视连接状态，连接有问题时就会自动重连
-    HostA$ autossh -M 5678 -R HostC:PortC:HostB:PortB  user@HostC
-
-3. 自动运行 autossh::
-
-    # 以daemon方式执行，相当于root去执行autossh, ssh，这时刚才生成的用户 .ssh/authorized_keys 文件会不起效。
-    # 有两种办法解决，一种是用autossh的参数指定.ssh路径；另外一种是以普通用户身份执行daemon，下面是第二种方式。
-    HostA$ /bin/su -c '/usr/bin/autossh -M 5678 -R HostC:PortC:HostB:PortB  user@HostC' - user
-    # 根据系统配置自行启动方式
-
-功能对比
+添加隧道配置
 --------------------------------------------------
 
-正向代理（-L）的第一种用法可以用 iptable 的 port-forwarding 模拟，iptable 性能更好，但是需要 root 权限，ssh -L 性能不好，但是正向代理花样更多些。
-反向代理（-R）一般就作为没有安装 frp/ngrok/shootback 时候的一种代替，但是数据传输的性能和稳定性当然 frp 这些专用软件更好。
-socks5 代理（-D）其实是可以代替 ss/ssr 的，区别和上面类似。所以要长久使用，推荐安装对应软件，临时用一下 ssh 挺顺手。
+::
+
+    $ vim ~/.ssh/config
+    Host cli-mysql-tunnel
+	HostName     	remoteServer
+	User          	remoteUser
+	Port		1022
+	IdentityFile	~/.ssh/id_rsa-remoteuser@remoteserver
+	LocalForward	5000 localhost:3306
+
+.. _ssh by config:
+
+现在可以将命令简化为::
+
+    ssh -f -T -N cli-mysql-tunnel
+
+对照 `autossh by config`_
+
+使用 AUTOSSH
+==================================================
+
+SSH 没有断线重连功能，可以使用 autossh 自动重建会话或隧道。
+
+TLDR ::
+
+    autossh -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -L 5000:localhost:3306 remoteUser@remoteServer
+
+或者基于 ~/.ssh/config 配置在后台运行::
+
+    autossh -M 0 -f -T -N cli-mysql-tunnel
+
+安装 autossh
+--------------------------------------------------
+::
+
+    sudo apt install autossh
+
+用法
+--------------------------------------------------
+::
+
+    autossh [-V] [-M monitor_port[:echo_port]] [-f] [SSH_OPTIONS]
+
+    ## 如以上通过本地5000端口转发 MySQL
+    ssh -L 5000:localhost:3306 sqlUser@MySQLServer
+    ## 使用 autossh 命令
+    autossh -L 5000:localhost:3306 sqlUser@MySQLServer
+
+注意：
+
+1. 使用 autossh 前，请使用 ssh 先进行操作并确保无误；
+2. autossh 的 -f 选项不会传递至 ssh，因此必须使用公私钥匙进行认证，不支持基于密码或私钥密码认证。
+#. 生成用户的 ssh 密钥，记得私钥不能启用私钥密码::
+
+    ssh-keygen					# 生成 ssh 使用的密钥
+    ssh-copy-id remoteUser@remoteServer		# 将公钥安装到远程服务器
+
+autossh 的 -M 选项
+--------------------------------------------------
+
+Setting the monitor port to 0 turns the monitoring function off, 
+and autossh will only restart ssh upon ssh's exit. 
+For example, if you are using a recent version of OpenSSH, 
+you may wish to explore using the ServerAliveInterval and ServerAliveCountMax options to have the SSH client exit 
+if it finds itself no longer connected to the server. 
+In many ways this may be a better solution than the monitoring port.
+
+以上内容来自 man autossh。
+
+因此推荐方式是::
+
+    autossh -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3"
+
+=====================   ==========
+选项                       解释
+=====================	==========
+ServerAliveInterval	Sets a timeout interval in seconds after which if no data has been received from the server, 
+			ssh(1) will send a message through the encrypted channel to request a re‐ sponse from the server.  
+			The default is 0, indicating that these messages will not be sent to the server.
+ServerAliveCountMax	Sets the number of server alive messages which may be sent without ssh(1) receiving any messages back from the server.  
+			If this threshold is reached while server alive messages are being sent, 
+			ssh will disconnect from the server, terminating the session. 
+
+			The default value is 3.  
+			If, for example, ServerAliveInterval is set to 15 and ServerAliveCountMax is left at the default, 
+			if the server becomes unresponsive, ssh will disconnect after approximately 45 seconds.
+=====================   ==========
+
+autossh 与 ~/.ssh/config
+--------------------------------------------------
+
+autossh 也支持 ~/.ssh/config，因此可以继续使用配置文件进行有关的设置，
+继续以上面的配置文件为例，加入 ServerAliveInterval 和 ServerAliveCountMax 二个选项::
+
+    $ vim ~/.ssh/config
+    Host cli-mysql-tunnel
+	HostName     	remoteServer
+	User          	remoteUser
+	Port		1022
+	IdentityFile	~/.ssh/id_rsa-remoteuser@remoteserver
+	LocalForward	5000 localhost:3306
+	ServerAliveInterval	30
+	ServerAliveCountMax	3
+
+.. _autossh by config:
+
+现在我们可以使用以下命令确保断线重连了::
+
+    autossh -M 0 -f -T -N cli-mysql-tunnel
+
+对照 `ssh by config`_ ,
+注意 -f 不会传递给 ssh。
+
+autossh 环境变量
+--------------------------------------------------
+
+autossh 也可以通过一些环境变量进行控制，其中比较重要的一个变量是 AUTOSSH_GATETIME:
+
+AUTOSSH_GATETIME
+    Specifies how long ssh must be up before we consider it a successful connection. 
+    The default is 30 seconds. 
+    Note that if AUTOSSH_GATETIME is set to 0, then not only is the gatetime behaviour turned off, 
+    but autossh also ignores the first run failure of ssh. 
+    This may be useful when running autossh at boot.
+
+其它变量说明请自行参阅 man
+
+autossh systemd service
+--------------------------------------------------
+
+可以通过 systemd 在启动时自动建立转发隧道，不过需要注意的是：
+autossh -f 在 systemd 环境下不受支持。
+
+* 客户端
+
+    1. 客户端的 systemd 配置::
+    
+	# apt install autossh
+
+        # vi /etc/systemd/system/autossh-reverse-tunnel.service
+        [Unit]
+        Description=AutoSSH reverse tunnel service
+        After=network.target
+        
+        [Service]
+        Restart=always
+        RuntimeMaxSec=86400
+        Environment="AUTOSSH_GATETIME=0"
+        ExecStart=/usr/bin/autossh -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -NR 2221:localhost:22 sshtunnel@remoteserver -p 222
+        
+        [Install]
+        WantedBy=multi-user.target
+    
+    2. 启用客户端::
+    
+        # systemctl daemon-reload
+    
+        # systemctl start autossh-reverse-tunnel.service
+    
+        # systemctl enable autossh-reverse-tunnel.service
+
+* 服务端
+
+    1. SSH 服务配置::
+    
+        # vi /etc/ssh/sshd222_config
+    
+        Port 222
+        PermitRootLogin no
+        PasswordAuthentication no
+        PermitEmptyPasswords no
+        ChallengeResponseAuthentication no
+        PrintMotd no
+        Banner none
+        PidFile /var/run/sshd222.pid
+    
+    #. 创建用户::
+    
+        # useradd -d /home/sshtunnel -s /bin/false -m sshtunnel
+    
+    #. SSH 密钥仅限于隧道::
+    
+        # mkdir /home/sshtunnel/.ssh
+    
+        # vi /home/sshtunnel/.ssh/authorized_keys
+    
+        no-pty,no-X11-forwarding,permitopen="localhost:2221",command="/bin/echo do-not-send-commands" ssh-rsa VeryLongsShkeyBlaBlaBlaBla root@hostname
+        
+    #. systemd 配置文件::
+    
+        # vi /etc/systemd/system/ssh222.service
+        
+        [Unit]
+        Description=OpenBSD Secure Shell server
+        Documentation=man:sshd(8) man:sshd_config(5)
+        After=network.target auditd.service
+        ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+        
+        [Service]
+        EnvironmentFile=-/etc/default/ssh
+        ExecStartPre=/usr/sbin/sshd -t -f /etc/ssh/sshd222_config
+        ExecStart=/usr/sbin/sshd -D $SSHD_OPTS -f /etc/ssh/sshd222_config
+        ExecReload=/usr/sbin/sshd -t -f /etc/ssh/sshd222_config
+        ExecReload=/bin/kill -HUP $MAINPID
+        KillMode=process
+        Restart=on-failure
+        RestartPreventExitStatus=255
+        Type=notify
+        RuntimeDirectory=sshd
+        RuntimeDirectoryMode=0755
+        
+        [Install]
+        WantedBy=multi-user.target
+        Alias=sshd.service
+    
+    #. 服务端启用::
+    
+        # systemctl daemon-reload
+    
+        # systemctl start ssh222.service
+    
+        # systemctl enable ssh222.service
+    

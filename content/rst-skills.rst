@@ -220,6 +220,37 @@ This `link <Python home page_>`_ is an alias to the link above.
 
 尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。
 
+表格
+==================================================
+
+有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；
+
+Simple 表格::
+
+    =====  =====  ======
+       Inputs     Output
+    ------------  ------
+      A      B    A or B
+    =====  =====  ======
+    False  False  False
+    True   False  True
+    False  True   True
+    True   True   True
+    =====  =====  ======
+
+实际效果如下：
+
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
+
 显示标记
 =========================================
 显示标记块（ `Explicit Markup Blocks <https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks>`_）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
