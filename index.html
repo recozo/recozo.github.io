@@ -18,61 +18,124 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/linux-shell-skills.html">Linux Shell Skills</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/install-pelican-on-debian.html">Install pelican on Debian 10</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-02-26T02:31:38.119706+08:00">
-                Published: 2020-02-26
+        <abbr class="published" title="2020-03-24T13:43:17.156988+08:00">
+                Published: 2020-03-24
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/linux.html">linux</a> <a href="https://recozo.github.io/tag/shell.html">shell</a> </p>
-</footer><!-- /.post-info --><div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
-<h2>What's the difference between /sbin/nologin and /bin/false ?</h2>
-<p>When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.</p>
-<p>/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.</p>
-<p>Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.</p>
-<p>nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.</p>
+<p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/virtualenv.html">virtualenv</a> <a href="https://recozo.github.io/tag/github.html">github</a> </p>
+</footer><!-- /.post-info --><p>本文假定系统为全新安装的 DEBIAN 10</p>
+<div class="section" id="git">
+<h2>一、安装 GIT</h2>
+<p>执行以下命令安装git并设置git基本配置:</p>
+<pre class="literal-block">
+$ sudo apt install git
+$ git config --global user.email &quot;recozo&#64;outlook.com&quot;
+$ git config --global user.name &quot;Recozo&quot;
+</pre>
 </div>
 <div class="section" id="id1">
-<h2><a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html">Five find command Linux: find, locate, whereis, which, type</a></h2>
-<dl class="docutils">
-<dt>find</dt>
-<dd>Find is the most common and most powerful search command, you can find anything you want to find the file in it.</dd>
-<dt>locate</dt>
-<dd>The locate command is &quot;another way find -name&quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.</dd>
-<dt>whereis</dt>
-<dd>The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.</dd>
-<dt>which</dt>
-<dd>The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.</dd>
-<dt>type</dt>
-<dd><p class="first">The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.</p>
+<h2>二、设置 GIT 忽略</h2>
+<p>执行以下命令设置git忽略设置:</p>
 <pre class="literal-block">
-type -a echo
+$ vi ~/.gitingore
+    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
+$ git config --global core.excludesfile '~/.gitignore'
 </pre>
-<p><a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command">There are two classes of builtins</a></p>
-<ol class="last arabic simple">
-<li>Some commands have to be built into the shell program itself because they cannot work if they are external.</li>
-<li>The other class of commands are built into the shell purely for efficiency.</li>
-</ol>
-</dd>
-</dl>
+</div>
+<div class="section" id="pelican">
+<h2>三、安装 PELICAN</h2>
+<p>输入以下命令安装pelican并设置相关的运行环境:</p>
+<pre class="literal-block">
+$ python3 -m venv ~/Documents/pelican/.venv
+$ cd ~/Documents/pelican
+$ source .venv/bin/activate
+$ git init
+$ touch README.md
+$ vi .gitignore
+    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
+    加入以下内容：
+        #pelican
+            output/
+
+        #vscode
+        .vscode/
+$ pip install pelican ghp-import sphinx sphinx-autobuild rstcheck
+$ pip freeze | grep pelican &gt; requirements.txt
+$ pip freeze | grep ghp-import &gt;&gt; requirements.txt
+$ pip freeze | grep sphinx &gt;&gt; requirements.txt
+$ pip freeze | grep sphinx-autobuild &gt;&gt; requirements.txt
+$ pip freeze | grep rstcheck &gt;&gt; requirements.txt
+$ git add README.md .gitignore requirements.txt
+$ git commit -a -m 'Initial commit'
+$ pelican-quickstart
+</pre>
 </div>
 <div class="section" id="id2">
-<h2><a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it">What is the difference between executing a Bash script vs sourcing it?</a></h2>
+<h2>四、发布第一篇文章</h2>
+<p># 在 content 目录中保存文章:</p>
 <pre class="literal-block">
-./myscript
-
-. myscript
-source myscript
+vi content/welcome-to-my-blog.rst
 </pre>
-<p>./ 代表的是当前目录。
-. myscript 与 source myscript 是一样的，This &quot;spelling&quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.</p>
-<p>Executing a script will run the commands in a new shell process.</p>
-<p>Sourcing a script will run the commands in the current shell process.</p>
-<p>Use source if you want the script to change the environment in your currently running shell. use execute otherwise.</p>
+<p>示例:</p>
+<pre class="literal-block">
+Welcome to my blog !
+####################
+
+:tags: essay
+:category: article
+:slug: welcome-to-my-blog
+:authors: Recozo
+
+Hello, welcome to my first blog !
+</pre>
+<p>保存文件。</p>
+</div>
+<div class="section" id="id3">
+<h2>五、查看网站效果以及内容</h2>
+<p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
+<pre class="literal-block">
+$ pelican --autoreload --listen --ignore-cache
+</pre>
+<p>在浏览器中访问以下地址可检查网站效果:</p>
+<pre class="literal-block">
+http://localhost:8000
+</pre>
+<p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
+</div>
+<div class="section" id="github">
+<h2>六、使用 GITHUB 发布网站以及源文件</h2>
+<p># 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
+<pre class="literal-block">
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+</pre>
+<p># 将源文件保存为 pelican 分支:</p>
+<pre class="literal-block">
+$ git push -u origin master:pelican
+</pre>
+<p># 发布项目网站(<a class="reference external" href="https://recozo.github.io">https://recozo.github.io</a>)内容:</p>
+<pre class="literal-block">
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+</pre>
+</div>
+<div class="section" id="id4">
+<h2>七、使用 GIT 还原</h2>
+<pre class="literal-block">
+$ cd ~/Documents
+$ git clone https://github.com/recozo/recozo.github.io.git pelican
+$ cd pelican/
+$ git branch -m master
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+</pre>
 </div>
                 </article>
             </aside><!-- /#featured -->
@@ -83,14 +146,113 @@ source myscript
 
             <li><article class="hentry">
                 <header>
+                    <h1><a href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="bookmark"
+                           title="Permalink to 从山寨的名人名言说起">从山寨的名人名言说起</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
+</footer><!-- /.post-info -->                <p class="first last">培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了</p>
+
+                <a class="readmore" href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/linux-shell-skills.html" rel="bookmark"
+                           title="Permalink to Linux Shell Skills">Linux Shell Skills</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/linux.html">linux</a> <a href="https://recozo.github.io/tag/shell.html">shell</a> </p>
+</footer><!-- /.post-info -->                <div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
+<h2>What's the difference between /sbin/nologin and /bin/false ?</h2>
+<p>When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.</p>
+<p>/bin/false is …</p></div>
+                <a class="readmore" href="https://recozo.github.io/linux-shell-skills.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/restructuredtext-skills.html" rel="bookmark"
+                           title="Permalink to ReStructuredText 笔记">ReStructuredText 笔记</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/rst.html">rst</a> <a href="https://recozo.github.io/tag/restructuredtext.html">ReStructuredText</a> </p>
+</footer><!-- /.post-info -->                <p class="first last">ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档</p>
+
+                <a class="readmore" href="https://recozo.github.io/restructuredtext-skills.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="bookmark"
+                           title="Permalink to the sound of silence 赏析">the sound of silence 赏析</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/appreciation.html">appreciation</a> </p>
+</footer><!-- /.post-info -->                <p>以下内容摘录自网上</p>
+<p><a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html">https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html</a></p>
+<p><a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html">https://zhidao.baidu.com/question/1366724891623189139.html</a></p>
+<p>《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。</p>
+<p>这首歌想表达的是：</p>
+<p>《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。</p>
+<p>这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难 …</p>
+                <a class="readmore" href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="https://recozo.github.io/speech-recognition.html" rel="bookmark"
                            title="Permalink to 将音频（视频）转录为文字">将音频（视频）转录为文字</a></h1>
                 </header>
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-25T23:52:52.893513+08:00">
-                Published: 2020-02-25
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
         </abbr>
 
         <address class="vcard author">
@@ -120,8 +282,8 @@ source myscript
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-24T01:35:42.276699+08:00">
-                Published: 2020-02-24
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
         </abbr>
 
         <address class="vcard author">
@@ -155,37 +317,14 @@ $ sudo systemctl restart ssh.service
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="https://recozo.github.io/restructuredtext-skills.html" rel="bookmark"
-                           title="Permalink to ReStructuredText 笔记">ReStructuredText 笔记</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-23T02:55:47.985325+08:00">
-                Published: 2020-02-23
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/rst.html">rst</a> <a href="https://recozo.github.io/tag/restructuredtext.html">ReStructuredText</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档</p>
-
-                <a class="readmore" href="https://recozo.github.io/restructuredtext-skills.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
                     <h1><a href="https://recozo.github.io/vim-skills.html" rel="bookmark"
                            title="Permalink to Vim skills">Vim skills</a></h1>
                 </header>
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-22T02:58:42.724488+08:00">
-                Published: 2020-02-22
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
         </abbr>
 
         <address class="vcard author">
@@ -201,24 +340,24 @@ $ sudo systemctl restart ssh.service
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="https://recozo.github.io/install-pelican-on-debian.html" rel="bookmark"
-                           title="Permalink to Install pelican on Debian 10">Install pelican on Debian 10</a></h1>
+                    <h1><a href="https://recozo.github.io/welcome-to-my-blog.html" rel="bookmark"
+                           title="Permalink to Welcome to my blog !">Welcome to my blog !</a></h1>
                 </header>
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-13T23:30:03.855111+08:00">
-                Published: 2020-02-13
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
         </address>
-<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/virtualenv.html">virtualenv</a> <a href="https://recozo.github.io/tag/github.html">github</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">Getting setup a static web site with pelican, publishing on the github page</p>
+<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
+</footer><!-- /.post-info -->                <p>Hello, welcome to my first blog !</p>
 
-                <a class="readmore" href="https://recozo.github.io/install-pelican-on-debian.html">read more</a>
+                <a class="readmore" href="https://recozo.github.io/welcome-to-my-blog.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
@@ -230,8 +369,8 @@ $ sudo systemctl restart ssh.service
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-02-13T23:28:59.815813+08:00">
-                Published: 2020-02-13
+        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
+                Published: 2020-03-24
         </abbr>
 
         <address class="vcard author">
@@ -257,80 +396,6 @@ $ sudo systemctl restart ssh.service
 <p>人生难得是欢聚。</p>
 
                 <a class="readmore" href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="bookmark"
-                           title="Permalink to 从山寨的名人名言说起">从山寨的名人名言说起</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-11T05:27:20.687302+08:00">
-                Published: 2020-02-11
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了</p>
-
-                <a class="readmore" href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="bookmark"
-                           title="Permalink to the sound of silence 赏析">the sound of silence 赏析</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-05T01:21:48.862014+08:00">
-                Published: 2020-02-05
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/appreciation.html">appreciation</a> </p>
-</footer><!-- /.post-info -->                <p>以下内容摘录自网上</p>
-<p><a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html">https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html</a></p>
-<p><a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html">https://zhidao.baidu.com/question/1366724891623189139.html</a></p>
-<p>《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。</p>
-<p>这首歌想表达的是：</p>
-<p>《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。</p>
-<p>这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难 …</p>
-                <a class="readmore" href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://recozo.github.io/welcome-to-my-blog.html" rel="bookmark"
-                           title="Permalink to Welcome to my blog !">Welcome to my blog !</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-02-03T01:30:55.056071+08:00">
-                Published: 2020-02-03
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/article.html">article</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/essay.html">essay</a> </p>
-</footer><!-- /.post-info -->                <p>Hello, welcome to my first blog !</p>
-
-                <a class="readmore" href="https://recozo.github.io/welcome-to-my-blog.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

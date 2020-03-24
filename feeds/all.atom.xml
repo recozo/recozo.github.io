@@ -1,5 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-02-26T02:31:38+08:00</updated><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-02-26T02:31:38+08:00</published><updated>2020-02-26T02:31:38+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-26:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-03-24T13:43:17+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-03-24T13:43:17+08:00</published><updated>2020-03-24T13:43:17+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
+&lt;div class="section" id="git"&gt;
+&lt;h2&gt;一、安装 GIT&lt;/h2&gt;
+&lt;p&gt;执行以下命令安装git并设置git基本配置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install git
+$ git config --global user.email &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
+$ git config --global user.name &amp;quot;Recozo&amp;quot;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;二、设置 GIT 忽略&lt;/h2&gt;
+&lt;p&gt;执行以下命令设置git忽略设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vi ~/.gitingore
+    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
+$ git config --global core.excludesfile '~/.gitignore'
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pelican"&gt;
+&lt;h2&gt;三、安装 PELICAN&lt;/h2&gt;
+&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ python3 -m venv ~/Documents/pelican/.venv
+$ cd ~/Documents/pelican
+$ source .venv/bin/activate
+$ git init
+$ touch README.md
+$ vi .gitignore
+    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
+    加入以下内容：
+        #pelican
+            output/
+
+        #vscode
+        .vscode/
+$ pip install pelican ghp-import sphinx sphinx-autobuild rstcheck
+$ pip freeze | grep pelican &amp;gt; requirements.txt
+$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep sphinx &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep sphinx-autobuild &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep rstcheck &amp;gt;&amp;gt; requirements.txt
+$ git add README.md .gitignore requirements.txt
+$ git commit -a -m 'Initial commit'
+$ pelican-quickstart
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;四、发布第一篇文章&lt;/h2&gt;
+&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi content/welcome-to-my-blog.rst
+&lt;/pre&gt;
+&lt;p&gt;示例:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Welcome to my blog !
+####################
+
+:tags: essay
+:category: article
+:slug: welcome-to-my-blog
+:authors: Recozo
+
+Hello, welcome to my first blog !
+&lt;/pre&gt;
+&lt;p&gt;保存文件。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;五、查看网站效果以及内容&lt;/h2&gt;
+&lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican --autoreload --listen --ignore-cache
+&lt;/pre&gt;
+&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+http://localhost:8000
+&lt;/pre&gt;
+&lt;p&gt;可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="github"&gt;
+&lt;h2&gt;六、使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
+&lt;p&gt;# 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+&lt;/pre&gt;
+&lt;p&gt;# 将源文件保存为 pelican 分支:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git push -u origin master:pelican
+&lt;/pre&gt;
+&lt;p&gt;# 发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;七、使用 GIT 还原&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents
+$ git clone https://github.com/recozo/recozo.github.io.git pelican
+$ cd pelican/
+$ git branch -m master
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;最近网上有句话特别流行&lt;/p&gt;
+&lt;blockquote&gt;
+如果尖锐的批评完全消失，温和的批评将会变得刺耳。
+如果温和的批评也不被允许，沉默将被认为居心叵测。
+如果沉默也不再允许，赞扬不够卖力将是一种罪行。
+如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。
+——柏拉图&lt;/blockquote&gt;
+&lt;p&gt;乍看一下，觉得这段话有些哲理，想认真看下原出处。
+于是在百度和谷歌上都查了一下，却没能找到与此话关联的任何柏拉图（Plato)的信息，
+问了一下了解哲学方面的友人，也没有听说过柏拉图说过这话。&lt;/p&gt;
+&lt;p&gt;于是按照时间范围进行了搜索，发现在2018年5月以前，百度和谷歌上基本都没有这段话的搜索结果，
+然后从2018年6月以来出现在了哔哩哔哩主播的个人签名中
+（最早的签名是“如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。——柏拉图”），
+然后开始慢慢地扩散到其它诸如豆瓣和天涯等网站，
+大概在2019年7月后，博客和知乎上也出现得多了，内容也演化成了现在这个版本。&lt;/p&gt;
+&lt;p&gt;这就尴尬，而且事实上现今流行的这段话，也是经不起严格推敲的。
+不管是尖锐还是温和的批评，前提肯定必须是合法合情合理的；
+至于沉默，倒是经常听说“沉默是金”，而且在法律上应该是支持犯罪嫌疑人的沉默权利的；
+对于任何组织，已经明确了的工作，成员有不同意见都是可以保留，但是你不能随意抵触、不作为；&lt;/p&gt;
+&lt;p&gt;毕竟任何言论，都有其语境，也有其本心，
+如费孝通先生提出的“出主意、想办法，做实事、做好事”，之所以能够得到大家一致认可，
+不外乎其说这话的本心是真真切切地存有为国为民的真心和好心。
+对于编造这段话的人，姑且不论其是否存有好心，从其伪造柏拉图的名言说起，就已经不存真心了。&lt;/p&gt;
+&lt;p&gt;如果再把范畴扩大点来说，无论是博客、帖子还是新闻，
+只要是被传播的信息，从信息传播的本质来说，都有一个传播主体，
+而任何传播主体都有自己的立场、目的，
+当然出色的传播主体会把自己的立场隐藏的很好，让你以为客观公正的同时，还能接受他的立场或倾向。&lt;/p&gt;
+&lt;p&gt;而作为一个合格的读者，必须知道：
+我们收到的信息内容一方面会告诉我们正在发生什么事件，
+但它同时也会试图向我们灌输该事件是否重要、正面还是负面、有利还是有害等立场，
+重要的是一定要培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了。&lt;/p&gt;
+&lt;p&gt;扯远了，如果大家觉得这段话还是有那么一点哲理的话，
+记得要把柏拉图删掉，这话跟柏拉图没有毛线关系。&lt;/p&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
 &lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
 &lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
 &lt;p&gt;/bin/false is …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
@@ -47,7 +190,446 @@ source myscript
 &lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
 &lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-02-25T23:52:52+08:00</published><updated>2020-02-25T23:52:52+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-25:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;段落&lt;/h2&gt;
+&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
+缩进的段落会被视为引用段落。&lt;/p&gt;
+&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
+空格正常吗？好像正常。&lt;/p&gt;
+&lt;blockquote&gt;
+这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
+继续缩进部分的内容。&lt;/blockquote&gt;
+&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;行内标记&lt;/h2&gt;
+&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
+但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
+可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
+&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
+不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;列表&lt;/h2&gt;
+&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
+列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
+&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
+也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple" start="20"&gt;
+&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;嵌套项一，古怪！
+为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
+&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
+难道是pelican的bug??&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="9"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;新的列表吗？&lt;/li&gt;
+&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
+&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项二
+继续项二的内容&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;术语&lt;/dt&gt;
+&lt;dd&gt;定义列表将术语与定义关联在一起
+多个术语之间无须使用空行分隔&lt;/dd&gt;
+&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
+&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
+否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
+&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
+&lt;p class="last"&gt;这是段落二。
+当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
+&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
+当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
+对 :: 的处理如下：&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 如果它作为自己的段落出现，则该段落完全不在文档中
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后什么也没有
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后边有个冒号
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h2&gt;章节标题&lt;/h2&gt;
+&lt;p&gt;如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
+上下划线可使用以下符号（ = - ` : ' &amp;quot; ~ ^ _ * + # &amp;lt; &amp;gt; ），上下划线长度不能少于文本的长度，
+使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;#, with overline, for parts，有上线，用于编&lt;/li&gt;
+&lt;li&gt;*, with overline, for chapters，有上线，用于章&lt;/li&gt;
+&lt;li&gt;=, for sections，用于节&lt;/li&gt;
+&lt;li&gt;-, for subsections，用于小节&lt;/li&gt;
+&lt;li&gt;^, for subsubsections，用于子小节&lt;/li&gt;
+&lt;li&gt;&amp;quot;, for paragraphs，用于款&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="id7"&gt;
+&lt;h3&gt;文档标题与子标题&lt;/h3&gt;
+&lt;p&gt;整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
+文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
+（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）&lt;/p&gt;
+&lt;p id="id8"&gt;章节标题可以作为链接目标，如链接到段落，可以使用 &amp;quot;&lt;a class="reference internal" href="#id2"&gt;段落&lt;/a&gt;&amp;quot;，如果标题文本中含有空格，则还要用反引号包围标题，如 &amp;quot;&lt;a class="reference internal" href="#section-header"&gt;Section Header&lt;/a&gt;&amp;quot;。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-header"&gt;
+&lt;h3&gt;Section Header&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id9"&gt;
+&lt;h2&gt;超链接&lt;/h2&gt;
+&lt;p&gt;在 reST 中，超级链接由二部分组成，
+一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
+二是目标链接（Target Link），类似于HTML的链接地址;
+源链接与目标链接都是通过 _ 来定义的，
+源链接定义的格式如下： reference-name_，也就是 _ 是在引用名之后；
+与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
+引用名如果包含空格，则需要使用反引号括起来，如 `reference name`。
+以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。&lt;/p&gt;
+&lt;p&gt;具体形式可分为以下几种：&lt;/p&gt;
+&lt;p&gt;独立链接：直接输入网址即可，例如：&lt;a class="reference external" href="http://www.debian.org"&gt;http://www.debian.org&lt;/a&gt;，此时没有对应链接文本，直接显示链接地址&lt;/p&gt;
+&lt;p&gt;命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
+我喜欢的LINUX版本是 &lt;a class="reference external" href="http://www.debian.org"&gt;Debian&lt;/a&gt; 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）&lt;/p&gt;
+&lt;p&gt;匿名链接：链接目标与链接引用都使用 __ 进行标记。如 &lt;a class="reference external" href="http://www.debian.org"&gt;我最喜欢的LINUX发行版本是 Debian&lt;/a&gt; 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
+创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
+匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
+因为没有引用名，只能一次性配对使用，
+文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
+因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。&lt;/p&gt;
+&lt;p&gt;锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. _标题链接:
+&lt;/pre&gt;
+&lt;p&gt;标题链接：reST 在定义标题时，还会自动定义一个 &lt;a class="reference internal" href="#id8"&gt;标题链接&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+标题名称
+========
+
+跳转到 标题名称_
+&lt;/pre&gt;
+&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：&lt;/p&gt;
+&lt;p&gt;See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
+This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page &amp;lt;http://www.python.org&amp;gt;`_ for info.
+This `link &amp;lt;Python home page_&amp;gt;`_ is an alias to the link above.
+&lt;/pre&gt;
+&lt;p&gt;从代码上来说，以上二句相同于是:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page`_ for info.
+This link_ is an alias to the link above.
+
+.. _Python home page: http://www.python.org
+.. _link: `Python home page`_
+&lt;/pre&gt;
+&lt;p&gt;尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id11"&gt;
+&lt;h2&gt;表格&lt;/h2&gt;
+&lt;p&gt;有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；&lt;/p&gt;
+&lt;p&gt;Simple 表格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
+&lt;/pre&gt;
+&lt;p&gt;实际效果如下：&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="31%" /&gt;
+&lt;col width="31%" /&gt;
+&lt;col width="38%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head" colspan="2"&gt;Inputs&lt;/th&gt;
+&lt;th class="head"&gt;Output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;th class="head"&gt;A&lt;/th&gt;
+&lt;th class="head"&gt;B&lt;/th&gt;
+&lt;th class="head"&gt;A or B&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id12"&gt;
+&lt;h2&gt;显示标记&lt;/h2&gt;
+&lt;p&gt;显示标记块（ &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks"&gt;Explicit Markup Blocks&lt;/a&gt;）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
+显示标记引导符以两个 . 加空格表示（.. ）;
+显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. explicit markup block begin
+    second line
+    ...
+    end line
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="directives"&gt;
+&lt;h2&gt;指令（ Directives ）&lt;/h2&gt;
+&lt;p&gt;指令（ &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives"&gt;Directives&lt;/a&gt; ）是显式标记的通用块，是 reST 的扩展机制之一。
+指令格式:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. directive-type:: directive-block
+&lt;/pre&gt;
+&lt;p&gt;由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
+指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;指令参数&lt;/li&gt;
+&lt;li&gt;指令选项&lt;/li&gt;
+&lt;li&gt;指令内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id14"&gt;
+&lt;h2&gt;图片指令&lt;/h2&gt;
+&lt;p&gt;使用 &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image"&gt;图片指令&lt;/a&gt; 可以在文档中包含图片，例如:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. image:: picture.jpeg
+&lt;/pre&gt;
+&lt;p&gt;图片指令有一个必选参数，和多个可选选项:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. image:: picture.jpeg
+    :height: 100px
+    :width: 200 px
+    :scale: 50 %
+    :alt: alternate text
+    :align: right
+    :class: common options
+    :name: common options
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
+&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
+&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
+&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
+&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
+&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
+&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难，所以我只好舍去音韵的部分，尽力在文字转换的过程中保留原诗的形与义（内容与结构），待来日翻译的技巧精进时再重翻一次。现就这首歌的涵义，以逐段探讨的方式来挖掘它的深层意义。&lt;/p&gt;
+&lt;p&gt;这首歌共分为五段，段与段之间环环相扣，一气呵成。首段叙述主述者（The speaker)又来找黑暗这位老朋友谈天，把黑暗当作老朋友来倾吐心事，可见他向来孤独，而他在黑暗中独语或沉思已经不是第一次了。而此次要向黑暗老友说的是一个在脑海中挥之不去的幻影（vision)。把vision译成幻影是因为它时常在主述者的梦中出现，虽是那么虚幻却又那么真实。&lt;/p&gt;
+&lt;p&gt;次段道出了幻影的实境。在梦中主述者总是忐忑不安，独自一人走在鹅卵石铺设的街道上，由Neath the halo of a street lamp与 I turned my collar to the cold and damp这两句来看，那一定是个又湿又冷的夜。就在这样孤寂湿冷的夜，他被突如其来的霓红灯光芒刺醒了，而体验到真正的“寂静”。“light”原带有文明、希望、启蒙（enlightenment)等正面的意义，在此，保罗·西蒙逆转了这个形象。&lt;/p&gt;
+&lt;p&gt;第三段进入了幻影中的高潮。naked意为赤裸的，naked sight为肉眼，而naked light则是没有灯罩所发出来的光，因为直接所以很强烈。在如此强烈的灯光下，他看见了成千上万的人。这些人在谈话，但是谈话的内容空洞，言之无物，所以是talking without speaking；受话的一方则是左耳听右耳出，心不在焉，所以是 hearing without listening。能把talk、speak、 hear、listen 这么常用简单的字汇作巧妙的并列而达到艺术效果，真不愧是民谣界的高手。这些人除了言谈空洞、心不在焉，更有人写歌来唱时，却唱得言不由衷，把歌唱得毫无情感可言，They do’nt mean the words they’re singing.写歌是一回事，唱的又是另一回事。people的歌声（voices)，无法与自己写的歌（songs)产生共鸣（share)。虽然如此，但是却没有人敢正视这个问题，胆敢惊扰这样的沉默。&lt;/p&gt;
+&lt;p&gt;因此，主述者心急如焚，气愤的告诫他们“寂静”的可怕，因为寂静就像癌症会不断的蔓延扩散，直到把每个人都吞噬掉。他要每个人用心听听他的话，他才能拉他们一把，然而，却无人理会他。他的话就像无声的雨滴落在沉默的井底，激不起一丝涟漪。&lt;/p&gt;
+&lt;p&gt;就这样人人依然故我，对著自己塑造的霓虹神（Neon God)膜拜、祈祷。这里的霓虹神与第二段的霓虹灯光互为关联，标志（sign)的意义呼之欲出。直到此段第五行的subway walls 与第六行的tenement halls，真正的意思终于显现。地铁（subway walls)常是流浪汉（hobo)的归宿，而廉价出租公寓（tenement)顶多是比贫民窟（ghetto)好些。霓虹灯与之对照，形成强烈的对比，它代表资本主义的文明也代表其糜烂的物质享受。在第二段时，保罗西蒙就用了一个隐喻（metaphor)来逆转light所代表的正面意义，使之变为眩惑人心的渊薮，因为霓虹灯光刺得（stabbing)让人看不清楚方向，也因为人们贪恋物质享受而忽略了周遭该关心的事物，因此，霓虹神乃拜金主义之标志。就在主述者力图拨乱反正却徒劳无功时，霓虹标语闪出了警讯，标语写著：“先知的话写在地铁的墙上与公寓的厅堂”。先知（prophets)并不是宗教里所提的能预知未来的人物，而是那些流浪汉与贫民。他们常把心里的怨言与不满，写在地铁的墙上与公寓的厅堂，然而这些心声就在这物欲横流的社会中淹没了。&lt;/p&gt;
+&lt;p&gt;english 歌词:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+The Sound of Silence (寂静之声) - Simon &amp;amp; Garfunkel
+Written by：Paul Simon
+
+Hello darkness my old friend
+I've come to talk with you again
+Because a vision softly creeping
+Left its seeds while I was sleeping
+And the vision that was planted in my brain
+Still remains
+Within the sound of silence
+In restless dreams I walked alone
+Narrow streets of cobblestone
+'Neath the halo of a street lamp
+I turned my collar to the cold and damp
+When my eyes were stabbed by the flash of a neon light
+That split the night
+And touched the sound of silence
+And in the naked light I saw
+Ten thousand people maybe more
+People talking without speaking
+People hearing without listening
+People writing songs that voices never share
+No one dared
+Disturb the sound of silence
+Fools said I you do not know
+Silence like a cancer grows
+Hear my words that I might teach you
+Take my arms that I might reach you
+But my words like silent raindrops fell
+And echoed in the wells of silence
+And the people bowed and prayed
+To the neon god they made
+And the sign flashed out its warning
+In the words that it was forming
+And the sign said
+The words of the prophets are
+Written on the subway walls
+And tenement halls
+And whispered in the sounds of silence
+&lt;/pre&gt;
+&lt;p&gt;中文歌词1:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+黑暗，老朋友，我来了
+又想同你谈谈
+突然有一种幻觉悄悄来临
+趁着我入睡时播下了种子
+那些个在我脑海中不停滋生的幻觉啊
+还仍然滞留在寂寞之声中
+在永无休止的梦里
+我孤独地行走在
+狭窄的布满圆石的路上
+行走在路灯的光晕下
+感到有点寒冷潮湿
+于是我翻竖起衣领
+那盏刺痛我双眼的霓红灯
+划破了夜晚
+触到了寂寞的音符
+在那无遮蔽的灯光下
+我看见成千上万的人
+也许更多
+人们无声地诉说着
+人们无语地倾听着
+他们写出一首首歌曲
+却没有一个人去唱
+没有人敢
+惊扰寂寞沉睡时的轻梦
+我说：你们这群傻子啊
+难道不知道寂寞的癌细胞正在扩散吗
+好好记住我教你们的话
+握紧我伸给你们的手臂
+可惜我的话只如同雨滴无声地落下
+回荡在寂静的深井里
+看人们朝着象征神圣的氖灯低头祈祷
+而霓红灯广告牌却在讽刺地一闪一闪
+发出这样的警告：
+“先哲的预言就在地道下的墙上
+就写在贫民们的住房里”
+还依旧在一片祷告的寂静中喃喃地低语
+&lt;/pre&gt;
+&lt;p&gt;中文歌词2:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+你好 黑暗 我的老朋友
+我又来和你交谈
+因为有一种幻觉正向悄悄地向我袭来
+在我熟睡的时候留下了它的种子
+这种幻觉在我的脑海里生根发芽
+缠绕着我
+伴随着寂静的声音
+在不安的梦幻中我独自行走
+狭窄的鹅卵石街道
+在路灯的光环照耀下
+我竖起衣领 抵御严寒和潮湿
+一道耀眼的霓虹灯光刺入我的眼睛
+它划破夜空
+触摸着寂静的声音
+在炫目的灯光下
+我看见成千上万的人
+人们说而不言
+听而不闻
+人们创造歌曲却唱不出声来
+没有人敢
+打扰这寂静的声音
+我说：傻瓜，难道你不知道
+寂静如同顽疾滋长
+听我对你说的有益的话
+拉住我伸给你的手
+但是我的话犹如雨滴飘落
+在寂静的水井中回响
+人们向自己创造的霓虹之神
+神光中闪射出告诫的语句
+在字里行间指明
+它告诉人们
+预言者的话
+都已写在
+地铁的墙上
+和房屋的大厅里
+在寂静的声音里低语
+&lt;/pre&gt;
+</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
 &lt;ol class="arabic"&gt;
 &lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
@@ -84,7 +666,7 @@ source myscript
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-02-24T01:35:42+08:00</published><updated>2020-02-24T01:35:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-24:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
+</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
 &lt;h2&gt;安装 SSH&lt;/h2&gt;
 &lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
@@ -576,308 +1158,7 @@ Alias=sshd.service
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-02-23T02:55:47+08:00</published><updated>2020-02-23T02:55:47+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-23:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
-</summary><content type="html">&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;段落&lt;/h2&gt;
-&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
-缩进的段落会被视为引用段落。&lt;/p&gt;
-&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
-空格正常吗？好像正常。&lt;/p&gt;
-&lt;blockquote&gt;
-这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
-继续缩进部分的内容。&lt;/blockquote&gt;
-&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h2&gt;行内标记&lt;/h2&gt;
-&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
-但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
-可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
-&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
-不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
-&lt;h2&gt;列表&lt;/h2&gt;
-&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
-列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
-&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
-&lt;ol class="arabic"&gt;
-&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
-也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;嵌套项一&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol class="arabic simple" start="20"&gt;
-&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
-&lt;ol class="arabic simple" start="3"&gt;
-&lt;li&gt;嵌套项一，古怪！
-为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
-&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
-难道是pelican的bug??&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
-&lt;ol class="arabic simple" start="9"&gt;
-&lt;li&gt;嵌套项一&lt;/li&gt;
-&lt;li&gt;自动出数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;新的列表吗？&lt;/li&gt;
-&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
-&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表项二
-继续项二的内容&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
-&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;术语&lt;/dt&gt;
-&lt;dd&gt;定义列表将术语与定义关联在一起
-多个术语之间无须使用空行分隔&lt;/dd&gt;
-&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
-&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
-否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
-&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
-&lt;p class="last"&gt;这是段落二。
-当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
-&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
-&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
-当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
-对 :: 的处理如下：&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 如果它作为自己的段落出现，则该段落完全不在文档中
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 仔细看，上边的段落后什么也没有
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-# 仔细看，上边的段落后边有个冒号
-public class Test
-{
-}
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id6"&gt;
-&lt;h2&gt;章节标题&lt;/h2&gt;
-&lt;p&gt;如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
-上下划线可使用以下符号（ = - ` : ' &amp;quot; ~ ^ _ * + # &amp;lt; &amp;gt; ），上下划线长度不能少于文本的长度，
-使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;#, with overline, for parts，有上线，用于编&lt;/li&gt;
-&lt;li&gt;*, with overline, for chapters，有上线，用于章&lt;/li&gt;
-&lt;li&gt;=, for sections，用于节&lt;/li&gt;
-&lt;li&gt;-, for subsections，用于小节&lt;/li&gt;
-&lt;li&gt;^, for subsubsections，用于子小节&lt;/li&gt;
-&lt;li&gt;&amp;quot;, for paragraphs，用于款&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="section" id="id7"&gt;
-&lt;h3&gt;文档标题与子标题&lt;/h3&gt;
-&lt;p&gt;整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
-文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
-（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）&lt;/p&gt;
-&lt;p id="id8"&gt;章节标题可以作为链接目标，如链接到段落，可以使用 &amp;quot;&lt;a class="reference internal" href="#id2"&gt;段落&lt;/a&gt;&amp;quot;，如果标题文本中含有空格，则还要用反引号包围标题，如 &amp;quot;&lt;a class="reference internal" href="#section-header"&gt;Section Header&lt;/a&gt;&amp;quot;。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="section-header"&gt;
-&lt;h3&gt;Section Header&lt;/h3&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id9"&gt;
-&lt;h2&gt;超链接&lt;/h2&gt;
-&lt;p&gt;在 reST 中，超级链接由二部分组成，
-一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
-二是目标链接（Target Link），类似于HTML的链接地址;
-源链接与目标链接都是通过 _ 来定义的，
-源链接定义的格式如下： reference-name_，也就是 _ 是在引用名之后；
-与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
-引用名如果包含空格，则需要使用反引号括起来，如 `reference name`。
-以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。&lt;/p&gt;
-&lt;p&gt;具体形式可分为以下几种：&lt;/p&gt;
-&lt;p&gt;独立链接：直接输入网址即可，例如：&lt;a class="reference external" href="http://www.debian.org"&gt;http://www.debian.org&lt;/a&gt;，此时没有对应链接文本，直接显示链接地址&lt;/p&gt;
-&lt;p&gt;命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
-我喜欢的LINUX版本是 &lt;a class="reference external" href="http://www.debian.org"&gt;Debian&lt;/a&gt; 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）&lt;/p&gt;
-&lt;p&gt;匿名链接：链接目标与链接引用都使用 __ 进行标记。如 &lt;a class="reference external" href="http://www.debian.org"&gt;我最喜欢的LINUX发行版本是 Debian&lt;/a&gt; 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
-创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
-匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
-因为没有引用名，只能一次性配对使用，
-文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
-因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。&lt;/p&gt;
-&lt;p&gt;锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. _标题链接:
-&lt;/pre&gt;
-&lt;p&gt;标题链接：reST 在定义标题时，还会自动定义一个 &lt;a class="reference internal" href="#id8"&gt;标题链接&lt;/a&gt;&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-标题名称
-========
-
-跳转到 标题名称_
-&lt;/pre&gt;
-&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：&lt;/p&gt;
-&lt;p&gt;See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
-This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-See the `Python home page &amp;lt;http://www.python.org&amp;gt;`_ for info.
-This `link &amp;lt;Python home page_&amp;gt;`_ is an alias to the link above.
-&lt;/pre&gt;
-&lt;p&gt;从代码上来说，以上二句相同于是:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-See the `Python home page`_ for info.
-This link_ is an alias to the link above.
-
-.. _Python home page: http://www.python.org
-.. _link: `Python home page`_
-&lt;/pre&gt;
-&lt;p&gt;尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id11"&gt;
-&lt;h2&gt;表格&lt;/h2&gt;
-&lt;p&gt;有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；&lt;/p&gt;
-&lt;p&gt;Simple 表格:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-=====  =====  ======
-   Inputs     Output
-------------  ------
-  A      B    A or B
-=====  =====  ======
-False  False  False
-True   False  True
-False  True   True
-True   True   True
-=====  =====  ======
-&lt;/pre&gt;
-&lt;p&gt;实际效果如下：&lt;/p&gt;
-&lt;table border="1" class="docutils"&gt;
-&lt;colgroup&gt;
-&lt;col width="31%" /&gt;
-&lt;col width="31%" /&gt;
-&lt;col width="38%" /&gt;
-&lt;/colgroup&gt;
-&lt;thead valign="bottom"&gt;
-&lt;tr&gt;&lt;th class="head" colspan="2"&gt;Inputs&lt;/th&gt;
-&lt;th class="head"&gt;Output&lt;/th&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;th class="head"&gt;A&lt;/th&gt;
-&lt;th class="head"&gt;B&lt;/th&gt;
-&lt;th class="head"&gt;A or B&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
-&lt;td&gt;False&lt;/td&gt;
-&lt;td&gt;False&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
-&lt;td&gt;False&lt;/td&gt;
-&lt;td&gt;True&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
-&lt;td&gt;True&lt;/td&gt;
-&lt;td&gt;True&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
-&lt;td&gt;True&lt;/td&gt;
-&lt;td&gt;True&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id12"&gt;
-&lt;h2&gt;显示标记&lt;/h2&gt;
-&lt;p&gt;显示标记块（ &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks"&gt;Explicit Markup Blocks&lt;/a&gt;）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
-显示标记引导符以两个 . 加空格表示（.. ）;
-显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. explicit markup block begin
-    second line
-    ...
-    end line
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="directives"&gt;
-&lt;h2&gt;指令（ Directives ）&lt;/h2&gt;
-&lt;p&gt;指令（ &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives"&gt;Directives&lt;/a&gt; ）是显式标记的通用块，是 reST 的扩展机制之一。
-指令格式:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. directive-type:: directive-block
-&lt;/pre&gt;
-&lt;p&gt;由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
-指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;指令参数&lt;/li&gt;
-&lt;li&gt;指令选项&lt;/li&gt;
-&lt;li&gt;指令内容&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id14"&gt;
-&lt;h2&gt;图片指令&lt;/h2&gt;
-&lt;p&gt;使用 &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image"&gt;图片指令&lt;/a&gt; 可以在文档中包含图片，例如:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. image:: picture.jpeg
-&lt;/pre&gt;
-&lt;p&gt;图片指令有一个必选参数，和多个可选选项:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-.. image:: picture.jpeg
-    :height: 100px
-    :width: 200 px
-    :scale: 50 %
-    :alt: alternate text
-    :align: right
-    :class: common options
-    :name: common options
-&lt;/pre&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-02-22T02:58:42+08:00</published><updated>2020-02-22T02:58:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-22:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;连续录入多个相同的字符( &lt;a class="reference external" href="https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode"&gt;参见&lt;/a&gt; ):&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 50i- ESC
@@ -1014,99 +1295,8 @@ CTRL-W o 或 :only            关闭其它窗口
 以上命令其它均要考虑buffer，但是暂时还没有使用buffer的高级用途，待以后吧 TODO
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-13T23:30:03+08:00</published><updated>2020-02-13T23:30:03+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
-&lt;div class="section" id="git"&gt;
-&lt;h2&gt;一、安装 GIT&lt;/h2&gt;
-&lt;p&gt;执行以下命令安装git并设置git基本配置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ sudo apt install git
-$ git config --global user.email = &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
-$ git config --global user.name = &amp;quot;Recozo&amp;quot;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="virtualenv"&gt;
-&lt;h2&gt;二、安装 VIRTUALENV&lt;/h2&gt;
-&lt;p&gt;执行以下命令安装virtualenv并设置git忽略设置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ sudo apt install virtualenv
-$ vi ~/.gitingore
-    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
-$ git config --global core.excludesfile '~/.gitignore'
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="pelican"&gt;
-&lt;h2&gt;三、安装 PELICAN&lt;/h2&gt;
-&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ virtualenv -p /usr/bin/python3 ~/venvs/pelican
-$ cd ~/venvs/pelican
-$ source bin/activate
-$ git init
-$ touch README.md
-$ vi .gitignore
-    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
-    加入以下内容：
-        #pelican
-        output/
-$ pip install pelican ghp-import
-$ pip freeze | grep pelican &amp;gt; requirements.txt
-$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
-$ git add README.md .gitignore requirements.txt
-$ git commit -a -m 'Initial commit'
-$ pelican-quickstart
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;四、发布第一篇文章&lt;/h2&gt;
-&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-vi content/welcome-to-my-blog.rst
-&lt;/pre&gt;
-&lt;p&gt;示例:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-Welcome to my blog !
-####################
-
-:tags: essay
-:category: article
-:slug: welcome-to-my-blog
-:authors: Recozo
-
-Hello, welcome to my first blog !
-&lt;/pre&gt;
-&lt;p&gt;保存文件。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;五、查看网站效果以及内容&lt;/h2&gt;
-&lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ pelican --autoreload --listen --ignore-cache
-&lt;/pre&gt;
-&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-http://localhost:8000
-&lt;/pre&gt;
-&lt;p&gt;可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="github"&gt;
-&lt;h2&gt;六、使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
-&lt;p&gt;# 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ git remote add origin https://github.com/recozo/recozo.github.io.git
-&lt;/pre&gt;
-&lt;p&gt;# 将源文件保存为 pelican 分支:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ git push -u origin master:pelican
-&lt;/pre&gt;
-&lt;p&gt;# 发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ pelican content/ -o output -s publishconf.py
-$ ghp-import output -b gh-pages
-$ git push origin gh-pages:master
-&lt;/pre&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-02-13T23:28:59+08:00</published><updated>2020-02-13T23:28:59+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-13:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
+</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
 越哥精彩点评摘录：&lt;/p&gt;
 &lt;p&gt;无论你是什么身份，无论你身在那里，&lt;/p&gt;
 &lt;p&gt;无论你是奋斗了一年，还是迷茫了一年，&lt;/p&gt;
@@ -1122,177 +1312,4 @@ $ git push origin gh-pages:master
 &lt;p&gt;去赴这场一年一次，或者是数年一次的团聚，&lt;/p&gt;
 &lt;p&gt;或许只有经历过这样的分离和这样的相聚，才能够真正理解一句话，&lt;/p&gt;
 &lt;p&gt;人生难得是欢聚。&lt;/p&gt;
-</content><category term="article"></category><category term="movie"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-02-11T05:27:20+08:00</published><updated>2020-02-11T05:27:20+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-11:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;最近网上有句话特别流行&lt;/p&gt;
-&lt;blockquote&gt;
-如果尖锐的批评完全消失，温和的批评将会变得刺耳。
-如果温和的批评也不被允许，沉默将被认为居心叵测。
-如果沉默也不再允许，赞扬不够卖力将是一种罪行。
-如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。
-——柏拉图&lt;/blockquote&gt;
-&lt;p&gt;乍看一下，觉得这段话有些哲理，想认真看下原出处。
-于是在百度和谷歌上都查了一下，却没能找到与此话关联的任何柏拉图（Plato)的信息，
-问了一下了解哲学方面的友人，也没有听说过柏拉图说过这话。&lt;/p&gt;
-&lt;p&gt;于是按照时间范围进行了搜索，发现在2018年5月以前，百度和谷歌上基本都没有这段话的搜索结果，
-然后从2018年6月以来出现在了哔哩哔哩主播的个人签名中
-（最早的签名是“如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。——柏拉图”），
-然后开始慢慢地扩散到其它诸如豆瓣和天涯等网站，
-大概在2019年7月后，博客和知乎上也出现得多了，内容也演化成了现在这个版本。&lt;/p&gt;
-&lt;p&gt;这就尴尬，而且事实上现今流行的这段话，也是经不起严格推敲的。
-不管是尖锐还是温和的批评，前提肯定必须是合法合情合理的；
-至于沉默，倒是经常听说“沉默是金”，而且在法律上应该是支持犯罪嫌疑人的沉默权利的；
-对于任何组织，已经明确了的工作，成员有不同意见都是可以保留，但是你不能随意抵触、不作为；&lt;/p&gt;
-&lt;p&gt;毕竟任何言论，都有其语境，也有其本心，
-如费孝通先生提出的“出主意、想办法，做实事、做好事”，之所以能够得到大家一致认可，
-不外乎其说这话的本心是真真切切地存有为国为民的真心和好心。
-对于编造这段话的人，姑且不论其是否存有好心，从其伪造柏拉图的名言说起，就已经不存真心了。&lt;/p&gt;
-&lt;p&gt;如果再把范畴扩大点来说，无论是博客、帖子还是新闻，
-只要是被传播的信息，从信息传播的本质来说，都有一个传播主体，
-而任何传播主体都有自己的立场、目的，
-当然出色的传播主体会把自己的立场隐藏的很好，让你以为客观公正的同时，还能接受他的立场或倾向。&lt;/p&gt;
-&lt;p&gt;而作为一个合格的读者，必须知道：
-我们收到的信息内容一方面会告诉我们正在发生什么事件，
-但它同时也会试图向我们灌输该事件是否重要、正面还是负面、有利还是有害等立场，
-重要的是一定要培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了。&lt;/p&gt;
-&lt;p&gt;扯远了，如果大家觉得这段话还是有那么一点哲理的话，
-记得要把柏拉图删掉，这话跟柏拉图没有毛线关系。&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-02-05T01:21:48+08:00</published><updated>2020-02-05T01:21:48+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-05:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
-&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
-&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
-&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
-&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
-&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
-&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难，所以我只好舍去音韵的部分，尽力在文字转换的过程中保留原诗的形与义（内容与结构），待来日翻译的技巧精进时再重翻一次。现就这首歌的涵义，以逐段探讨的方式来挖掘它的深层意义。&lt;/p&gt;
-&lt;p&gt;这首歌共分为五段，段与段之间环环相扣，一气呵成。首段叙述主述者（The speaker)又来找黑暗这位老朋友谈天，把黑暗当作老朋友来倾吐心事，可见他向来孤独，而他在黑暗中独语或沉思已经不是第一次了。而此次要向黑暗老友说的是一个在脑海中挥之不去的幻影（vision)。把vision译成幻影是因为它时常在主述者的梦中出现，虽是那么虚幻却又那么真实。&lt;/p&gt;
-&lt;p&gt;次段道出了幻影的实境。在梦中主述者总是忐忑不安，独自一人走在鹅卵石铺设的街道上，由Neath the halo of a street lamp与 I turned my collar to the cold and damp这两句来看，那一定是个又湿又冷的夜。就在这样孤寂湿冷的夜，他被突如其来的霓红灯光芒刺醒了，而体验到真正的“寂静”。“light”原带有文明、希望、启蒙（enlightenment)等正面的意义，在此，保罗·西蒙逆转了这个形象。&lt;/p&gt;
-&lt;p&gt;第三段进入了幻影中的高潮。naked意为赤裸的，naked sight为肉眼，而naked light则是没有灯罩所发出来的光，因为直接所以很强烈。在如此强烈的灯光下，他看见了成千上万的人。这些人在谈话，但是谈话的内容空洞，言之无物，所以是talking without speaking；受话的一方则是左耳听右耳出，心不在焉，所以是 hearing without listening。能把talk、speak、 hear、listen 这么常用简单的字汇作巧妙的并列而达到艺术效果，真不愧是民谣界的高手。这些人除了言谈空洞、心不在焉，更有人写歌来唱时，却唱得言不由衷，把歌唱得毫无情感可言，They do’nt mean the words they’re singing.写歌是一回事，唱的又是另一回事。people的歌声（voices)，无法与自己写的歌（songs)产生共鸣（share)。虽然如此，但是却没有人敢正视这个问题，胆敢惊扰这样的沉默。&lt;/p&gt;
-&lt;p&gt;因此，主述者心急如焚，气愤的告诫他们“寂静”的可怕，因为寂静就像癌症会不断的蔓延扩散，直到把每个人都吞噬掉。他要每个人用心听听他的话，他才能拉他们一把，然而，却无人理会他。他的话就像无声的雨滴落在沉默的井底，激不起一丝涟漪。&lt;/p&gt;
-&lt;p&gt;就这样人人依然故我，对著自己塑造的霓虹神（Neon God)膜拜、祈祷。这里的霓虹神与第二段的霓虹灯光互为关联，标志（sign)的意义呼之欲出。直到此段第五行的subway walls 与第六行的tenement halls，真正的意思终于显现。地铁（subway walls)常是流浪汉（hobo)的归宿，而廉价出租公寓（tenement)顶多是比贫民窟（ghetto)好些。霓虹灯与之对照，形成强烈的对比，它代表资本主义的文明也代表其糜烂的物质享受。在第二段时，保罗西蒙就用了一个隐喻（metaphor)来逆转light所代表的正面意义，使之变为眩惑人心的渊薮，因为霓虹灯光刺得（stabbing)让人看不清楚方向，也因为人们贪恋物质享受而忽略了周遭该关心的事物，因此，霓虹神乃拜金主义之标志。就在主述者力图拨乱反正却徒劳无功时，霓虹标语闪出了警讯，标语写著：“先知的话写在地铁的墙上与公寓的厅堂”。先知（prophets)并不是宗教里所提的能预知未来的人物，而是那些流浪汉与贫民。他们常把心里的怨言与不满，写在地铁的墙上与公寓的厅堂，然而这些心声就在这物欲横流的社会中淹没了。&lt;/p&gt;
-&lt;p&gt;english 歌词:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-The Sound of Silence (寂静之声) - Simon &amp;amp; Garfunkel
-Written by：Paul Simon
-
-Hello darkness my old friend
-I've come to talk with you again
-Because a vision softly creeping
-Left its seeds while I was sleeping
-And the vision that was planted in my brain
-Still remains
-Within the sound of silence
-In restless dreams I walked alone
-Narrow streets of cobblestone
-'Neath the halo of a street lamp
-I turned my collar to the cold and damp
-When my eyes were stabbed by the flash of a neon light
-That split the night
-And touched the sound of silence
-And in the naked light I saw
-Ten thousand people maybe more
-People talking without speaking
-People hearing without listening
-People writing songs that voices never share
-No one dared
-Disturb the sound of silence
-Fools said I you do not know
-Silence like a cancer grows
-Hear my words that I might teach you
-Take my arms that I might reach you
-But my words like silent raindrops fell
-And echoed in the wells of silence
-And the people bowed and prayed
-To the neon god they made
-And the sign flashed out its warning
-In the words that it was forming
-And the sign said
-The words of the prophets are
-Written on the subway walls
-And tenement halls
-And whispered in the sounds of silence
-&lt;/pre&gt;
-&lt;p&gt;中文歌词1:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-黑暗，老朋友，我来了
-又想同你谈谈
-突然有一种幻觉悄悄来临
-趁着我入睡时播下了种子
-那些个在我脑海中不停滋生的幻觉啊
-还仍然滞留在寂寞之声中
-在永无休止的梦里
-我孤独地行走在
-狭窄的布满圆石的路上
-行走在路灯的光晕下
-感到有点寒冷潮湿
-于是我翻竖起衣领
-那盏刺痛我双眼的霓红灯
-划破了夜晚
-触到了寂寞的音符
-在那无遮蔽的灯光下
-我看见成千上万的人
-也许更多
-人们无声地诉说着
-人们无语地倾听着
-他们写出一首首歌曲
-却没有一个人去唱
-没有人敢
-惊扰寂寞沉睡时的轻梦
-我说：你们这群傻子啊
-难道不知道寂寞的癌细胞正在扩散吗
-好好记住我教你们的话
-握紧我伸给你们的手臂
-可惜我的话只如同雨滴无声地落下
-回荡在寂静的深井里
-看人们朝着象征神圣的氖灯低头祈祷
-而霓红灯广告牌却在讽刺地一闪一闪
-发出这样的警告：
-“先哲的预言就在地道下的墙上
-就写在贫民们的住房里”
-还依旧在一片祷告的寂静中喃喃地低语
-&lt;/pre&gt;
-&lt;p&gt;中文歌词2:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-你好 黑暗 我的老朋友
-我又来和你交谈
-因为有一种幻觉正向悄悄地向我袭来
-在我熟睡的时候留下了它的种子
-这种幻觉在我的脑海里生根发芽
-缠绕着我
-伴随着寂静的声音
-在不安的梦幻中我独自行走
-狭窄的鹅卵石街道
-在路灯的光环照耀下
-我竖起衣领 抵御严寒和潮湿
-一道耀眼的霓虹灯光刺入我的眼睛
-它划破夜空
-触摸着寂静的声音
-在炫目的灯光下
-我看见成千上万的人
-人们说而不言
-听而不闻
-人们创造歌曲却唱不出声来
-没有人敢
-打扰这寂静的声音
-我说：傻瓜，难道你不知道
-寂静如同顽疾滋长
-听我对你说的有益的话
-拉住我伸给你的手
-但是我的话犹如雨滴飘落
-在寂静的水井中回响
-人们向自己创造的霓虹之神
-神光中闪射出告诫的语句
-在字里行间指明
-它告诉人们
-预言者的话
-都已写在
-地铁的墙上
-和房屋的大厅里
-在寂静的声音里低语
-&lt;/pre&gt;
-</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-02-03T01:30:55+08:00</published><updated>2020-02-03T01:30:55+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry></feed>
+</content><category term="article"></category><category term="movie"></category></entry></feed>
