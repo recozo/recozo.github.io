@@ -14,15 +14,14 @@ Install pelican on Debian 10
 执行以下命令安装git并设置git基本配置::
 
     $ sudo apt install git
-    $ git config --global user.email = "recozo@outlook.com"
-    $ git config --global user.name = "Recozo"
+    $ git config --global user.email "recozo@outlook.com"
+    $ git config --global user.name "Recozo"
 
-二、安装 VIRTUALENV
+二、设置 GIT 忽略
 -------------------
 
-执行以下命令安装virtualenv并设置git忽略设置::
+执行以下命令设置git忽略设置::
 
-    $ sudo apt install virtualenv
     $ vi ~/.gitingore
         参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
     $ git config --global core.excludesfile '~/.gitignore'
@@ -32,19 +31,25 @@ Install pelican on Debian 10
 
 输入以下命令安装pelican并设置相关的运行环境::
 
-    $ virtualenv -p /usr/bin/python3 ~/venvs/pelican
-    $ cd ~/venvs/pelican
-    $ source bin/activate
+    $ python3 -m venv ~/Documents/pelican/.venv
+    $ cd ~/Documents/pelican
+    $ source .venv/bin/activate
     $ git init
     $ touch README.md
     $ vi .gitignore
         参照 https://github.com/github/gitignore/blob/master/Python.gitignore
         加入以下内容：
       	    #pelican
-	    output/
-    $ pip install pelican ghp-import
+	        output/
+
+            #vscode
+            .vscode/
+    $ pip install pelican ghp-import sphinx sphinx-autobuild rstcheck
     $ pip freeze | grep pelican > requirements.txt
     $ pip freeze | grep ghp-import >> requirements.txt
+    $ pip freeze | grep sphinx >> requirements.txt
+    $ pip freeze | grep sphinx-autobuild >> requirements.txt
+    $ pip freeze | grep rstcheck >> requirements.txt
     $ git add README.md .gitignore requirements.txt
     $ git commit -a -m 'Initial commit'
     $ pelican-quickstart
@@ -99,3 +104,17 @@ Install pelican on Debian 10
     $ pelican content/ -o output -s publishconf.py 
     $ ghp-import output -b gh-pages
     $ git push origin gh-pages:master
+
+七、使用 GIT 还原
+----------------------------------
+::
+
+    $ cd ~/Documents
+    $ git clone https://github.com/recozo/recozo.github.io.git pelican
+    $ cd pelican/
+    $ git branch -m master
+    $ python3 -m venv .venv
+    $ source .venv/bin/activate
+    $ pip install -r requirements.txt
+
+
