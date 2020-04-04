@@ -6,6 +6,12 @@ Linux Shell Skills
 :slug: linux-shell-skills
 :authors: Recozo
 
+如何查看 debian 包中的文件
+================================================================================================================================================================================================================================================
+::
+
+    dpkg -L packagename
+
 What's the difference between /sbin/nologin and /bin/false ?
 ================================================================================================================================================================================================================================================
 When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.

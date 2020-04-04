@@ -113,6 +113,7 @@ Install pelican on Debian 10
     $ git clone https://github.com/recozo/recozo.github.io.git pelican
     $ cd pelican/
     $ git branch -m master
+    $ git fetch origin master:gh-pages
     $ python3 -m venv .venv
     $ source .venv/bin/activate
     $ pip install -r requirements.txt
