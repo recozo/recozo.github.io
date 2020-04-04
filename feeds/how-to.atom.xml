@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-03-24T13:43:17+08:00</updated><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-03-24T13:43:17+08:00</published><updated>2020-03-24T13:43:17+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-04-04T16:01:46+08:00</updated><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-04-04T16:01:46+08:00</published><updated>2020-04-04T16:01:46+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-04-04:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
+&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
+&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
+&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;find&lt;/dt&gt;
+&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
+&lt;dt&gt;locate&lt;/dt&gt;
+&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
+&lt;dt&gt;whereis&lt;/dt&gt;
+&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
+&lt;dt&gt;which&lt;/dt&gt;
+&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
+&lt;dt&gt;type&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+type -a echo
+&lt;/pre&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
+&lt;ol class="last arabic simple"&gt;
+&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
+&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+./myscript
+
+. myscript
+source myscript
+&lt;/pre&gt;
+&lt;p&gt;./ 代表的是当前目录。
+. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
+&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
+&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
+&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-03-24T14:08:42+08:00</published><updated>2020-03-24T14:08:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;
 &lt;h2&gt;一、安装 GIT&lt;/h2&gt;
@@ -103,60 +162,13 @@ $ cd ~/Documents
 $ git clone https://github.com/recozo/recozo.github.io.git pelican
 $ cd pelican/
 $ git branch -m master
+$ git fetch origin master:gh-pages
 $ python3 -m venv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
-&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
-&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
-&lt;p&gt;/bin/false is …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
-&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
-&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
-&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
-&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
-&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;find&lt;/dt&gt;
-&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
-&lt;dt&gt;locate&lt;/dt&gt;
-&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
-&lt;dt&gt;whereis&lt;/dt&gt;
-&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
-&lt;dt&gt;which&lt;/dt&gt;
-&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
-&lt;dt&gt;type&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-type -a echo
-&lt;/pre&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
-&lt;ol class="last arabic simple"&gt;
-&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
-&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-./myscript
-
-. myscript
-source myscript
-&lt;/pre&gt;
-&lt;p&gt;./ 代表的是当前目录。
-. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
-&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
-&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
-&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;段落&lt;/h2&gt;
 &lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。

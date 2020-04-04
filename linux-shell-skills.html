@@ -25,8 +25,8 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-03-24T12:52:29.527900+08:00">
-                Published: 2020-03-24
+        <abbr class="published" title="2020-04-04T16:01:46.667749+08:00">
+                Published: 2020-04-04
         </abbr>
 
         <address class="vcard author">
@@ -34,7 +34,13 @@
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
 <p>tags: <a href="https://recozo.github.io/tag/linux.html">linux</a> <a href="https://recozo.github.io/tag/shell.html">shell</a> </p>
-</footer><!-- /.post-info -->      <div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
+</footer><!-- /.post-info -->      <div class="section" id="debian">
+<h2>如何查看 debian 包中的文件</h2>
+<pre class="literal-block">
+dpkg -L packagename
+</pre>
+</div>
+<div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
 <h2>What's the difference between /sbin/nologin and /bin/false ?</h2>
 <p>When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.</p>
 <p>/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.</p>
