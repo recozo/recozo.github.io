@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - debian</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/debian.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-08-26T16:01:00+08:00</updated><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装完成后，默认使用普通用户登录，登录后打开一个终端窗口，切换为 root 用户，为普通用户启用 sudo 功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ su - root
+# apt install sudo
+# adduser recozo sudo
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装中文输入法（支持五笔与拼音），安装完后点击右上角的输入法图标进行输入法配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install fcitx-table-wubi
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装远程桌面（&lt;a class="reference external" href="https://forums.kali.org/showthread.php?46345-Enabling-Remote-Desktop-and-SSH-access-to-Kali"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install xrdp
+# systemctl start xrdp
+# systemctl start xrdp-sesman
+# systemctl …&lt;/pre&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装完成后，默认使用普通用户登录，登录后打开一个终端窗口，切换为 root 用户，为普通用户启用 sudo 功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ su - root
+# apt install sudo
+# adduser recozo sudo
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装中文输入法（支持五笔与拼音），安装完后点击右上角的输入法图标进行输入法配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install fcitx-table-wubi
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装远程桌面（&lt;a class="reference external" href="https://forums.kali.org/showthread.php?46345-Enabling-Remote-Desktop-and-SSH-access-to-Kali"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install xrdp
+# systemctl start xrdp
+# systemctl start xrdp-sesman
+# systemctl enable xrdp
+# systemctl enable xrdp-sesman
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用远程声音（&lt;a class="reference external" href="https://github.com/neutrinolabs/pulseaudio-module-xrdp/wiki/README"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install build-essential dpkg-dev libpulse-dev pulseaudio
+# apt build-dep pulseaudio
+# apt source pulseaudio
+# cd pulseaudio-12.2/
+# ./configure
+
+# apt install git
+# git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git
+
+# cd pulseaudio-module-xrdp
+# ./bootstrap &amp;amp;&amp;amp; ./configure PULSE_DIR=/root/pulseaudio-12.2
+# make
+# make install
+# ls $(pkg-config --variable=modlibexecdir libpulse)
+# cd
+# rm -r pulseaudio*
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;设置正确的时区&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# timedatectl set-timezone Asia/Shanghai
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;重新启动系统以确保新的桌面环境正常启动，可在其它电脑上进行远程登录并进行操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry></feed>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-04-11T01:18:14+08:00</updated><entry><title>Install FreeRadius On Debian 10</title><link href="https://recozo.github.io/install-freeradius-on-debian.html" rel="alternate"></link><published>2020-04-11T01:18:14+08:00</published><updated>2020-04-11T01:18:14+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-04-11:/install-freeradius-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup freeradius with postgreSQL and support client's device limit&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-08-28T00:20:29+08:00</updated><entry><title>Install FreeRadius On Debian 10</title><link href="https://recozo.github.io/install-freeradius-on-debian.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/install-freeradius-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup freeradius with postgreSQL and support client's device limit&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10，正常安装DEBIAN，开启SSH，SUDO功能。
 通过安装 FreeRadius 和 PostgreSQL，支持常规的安装。
 本安装教程最主要的功能在于支持 H3C 的 802.1x，并且限制用户允许登录访问的设备数量。
@@ -391,66 +391,7 @@ tls-config tls-common {
 &lt;p&gt;将根CA文件（ca.der）公开，方便用户在终端设备上导入；&lt;/p&gt;
 &lt;p&gt;windows 下配置无线&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="FreeRadius"></category><category term="PostgreSQL"></category><category term="MAC Limit"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-04-04T16:01:46+08:00</published><updated>2020-04-04T16:01:46+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-04-04:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="debian"&gt;
-&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-dpkg -L packagename
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
-&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
-&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="debian"&gt;
-&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-dpkg -L packagename
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
-&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
-&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
-&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
-&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
-&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;find&lt;/dt&gt;
-&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
-&lt;dt&gt;locate&lt;/dt&gt;
-&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
-&lt;dt&gt;whereis&lt;/dt&gt;
-&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
-&lt;dt&gt;which&lt;/dt&gt;
-&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
-&lt;dt&gt;type&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-type -a echo
-&lt;/pre&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
-&lt;ol class="last arabic simple"&gt;
-&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
-&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-./myscript
-
-. myscript
-source myscript
-&lt;/pre&gt;
-&lt;p&gt;./ 代表的是当前目录。
-. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
-&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
-&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
-&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-03-24T14:08:42+08:00</published><updated>2020-03-24T14:08:42+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
+</content><category term="how-to"></category><category term="FreeRadius"></category><category term="PostgreSQL"></category><category term="MAC Limit"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
 &lt;div class="section" id="git"&gt;
 &lt;h2&gt;一、安装 GIT&lt;/h2&gt;
@@ -560,41 +501,66 @@ $ source .venv/bin/activate
 $ pip install -r requirements.txt
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;最近网上有句话特别流行&lt;/p&gt;
-&lt;blockquote&gt;
-如果尖锐的批评完全消失，温和的批评将会变得刺耳。
-如果温和的批评也不被允许，沉默将被认为居心叵测。
-如果沉默也不再允许，赞扬不够卖力将是一种罪行。
-如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。
-——柏拉图&lt;/blockquote&gt;
-&lt;p&gt;乍看一下，觉得这段话有些哲理，想认真看下原出处。
-于是在百度和谷歌上都查了一下，却没能找到与此话关联的任何柏拉图（Plato)的信息，
-问了一下了解哲学方面的友人，也没有听说过柏拉图说过这话。&lt;/p&gt;
-&lt;p&gt;于是按照时间范围进行了搜索，发现在2018年5月以前，百度和谷歌上基本都没有这段话的搜索结果，
-然后从2018年6月以来出现在了哔哩哔哩主播的个人签名中
-（最早的签名是“如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。——柏拉图”），
-然后开始慢慢地扩散到其它诸如豆瓣和天涯等网站，
-大概在2019年7月后，博客和知乎上也出现得多了，内容也演化成了现在这个版本。&lt;/p&gt;
-&lt;p&gt;这就尴尬，而且事实上现今流行的这段话，也是经不起严格推敲的。
-不管是尖锐还是温和的批评，前提肯定必须是合法合情合理的；
-至于沉默，倒是经常听说“沉默是金”，而且在法律上应该是支持犯罪嫌疑人的沉默权利的；
-对于任何组织，已经明确了的工作，成员有不同意见都是可以保留，但是你不能随意抵触、不作为；&lt;/p&gt;
-&lt;p&gt;毕竟任何言论，都有其语境，也有其本心，
-如费孝通先生提出的“出主意、想办法，做实事、做好事”，之所以能够得到大家一致认可，
-不外乎其说这话的本心是真真切切地存有为国为民的真心和好心。
-对于编造这段话的人，姑且不论其是否存有好心，从其伪造柏拉图的名言说起，就已经不存真心了。&lt;/p&gt;
-&lt;p&gt;如果再把范畴扩大点来说，无论是博客、帖子还是新闻，
-只要是被传播的信息，从信息传播的本质来说，都有一个传播主体，
-而任何传播主体都有自己的立场、目的，
-当然出色的传播主体会把自己的立场隐藏的很好，让你以为客观公正的同时，还能接受他的立场或倾向。&lt;/p&gt;
-&lt;p&gt;而作为一个合格的读者，必须知道：
-我们收到的信息内容一方面会告诉我们正在发生什么事件，
-但它同时也会试图向我们灌输该事件是否重要、正面还是负面、有利还是有害等立场，
-重要的是一定要培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了。&lt;/p&gt;
-&lt;p&gt;扯远了，如果大家觉得这段话还是有那么一点哲理的话，
-记得要把柏拉图删掉，这话跟柏拉图没有毛线关系。&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
+&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
+&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
+&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;find&lt;/dt&gt;
+&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
+&lt;dt&gt;locate&lt;/dt&gt;
+&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
+&lt;dt&gt;whereis&lt;/dt&gt;
+&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
+&lt;dt&gt;which&lt;/dt&gt;
+&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
+&lt;dt&gt;type&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+type -a echo
+&lt;/pre&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
+&lt;ol class="last arabic simple"&gt;
+&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
+&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+./myscript
+
+. myscript
+source myscript
+&lt;/pre&gt;
+&lt;p&gt;./ 代表的是当前目录。
+. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
+&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
+&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
+&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;段落&lt;/h2&gt;
 &lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
@@ -895,7 +861,7 @@ True   True   True
     :name: common options
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
+</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
@@ -1033,7 +999,7 @@ And whispered in the sounds of silence
 和房屋的大厅里
 在寂静的声音里低语
 &lt;/pre&gt;
-</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
 &lt;ol class="arabic"&gt;
 &lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
@@ -1070,7 +1036,7 @@ And whispered in the sounds of silence
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
+</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
 &lt;h2&gt;安装 SSH&lt;/h2&gt;
 &lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
@@ -1562,7 +1528,7 @@ Alias=sshd.service
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;连续录入多个相同的字符( &lt;a class="reference external" href="https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode"&gt;参见&lt;/a&gt; ):&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 50i- ESC
@@ -1699,8 +1665,8 @@ CTRL-W o 或 :only            关闭其它窗口
 以上命令其它均要考虑buffer，但是暂时还没有使用buffer的高级用途，待以后吧 TODO
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-03-24T12:52:29+08:00</published><updated>2020-03-24T12:52:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-03-24:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
+</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
 越哥精彩点评摘录：&lt;/p&gt;
 &lt;p&gt;无论你是什么身份，无论你身在那里，&lt;/p&gt;
 &lt;p&gt;无论你是奋斗了一年，还是迷茫了一年，&lt;/p&gt;
@@ -1716,4 +1682,115 @@ CTRL-W o 或 :only            关闭其它窗口
 &lt;p&gt;去赴这场一年一次，或者是数年一次的团聚，&lt;/p&gt;
 &lt;p&gt;或许只有经历过这样的分离和这样的相聚，才能够真正理解一句话，&lt;/p&gt;
 &lt;p&gt;人生难得是欢聚。&lt;/p&gt;
-</content><category term="article"></category><category term="movie"></category></entry></feed>
+</content><category term="article"></category><category term="movie"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;最近网上有句话特别流行&lt;/p&gt;
+&lt;blockquote&gt;
+如果尖锐的批评完全消失，温和的批评将会变得刺耳。
+如果温和的批评也不被允许，沉默将被认为居心叵测。
+如果沉默也不再允许，赞扬不够卖力将是一种罪行。
+如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。
+——柏拉图&lt;/blockquote&gt;
+&lt;p&gt;乍看一下，觉得这段话有些哲理，想认真看下原出处。
+于是在百度和谷歌上都查了一下，却没能找到与此话关联的任何柏拉图（Plato)的信息，
+问了一下了解哲学方面的友人，也没有听说过柏拉图说过这话。&lt;/p&gt;
+&lt;p&gt;于是按照时间范围进行了搜索，发现在2018年5月以前，百度和谷歌上基本都没有这段话的搜索结果，
+然后从2018年6月以来出现在了哔哩哔哩主播的个人签名中
+（最早的签名是“如果只允许一种声音存在，那么，唯一存在的那个声音就是谎言。——柏拉图”），
+然后开始慢慢地扩散到其它诸如豆瓣和天涯等网站，
+大概在2019年7月后，博客和知乎上也出现得多了，内容也演化成了现在这个版本。&lt;/p&gt;
+&lt;p&gt;这就尴尬，而且事实上现今流行的这段话，也是经不起严格推敲的。
+不管是尖锐还是温和的批评，前提肯定必须是合法合情合理的；
+至于沉默，倒是经常听说“沉默是金”，而且在法律上应该是支持犯罪嫌疑人的沉默权利的；
+对于任何组织，已经明确了的工作，成员有不同意见都是可以保留，但是你不能随意抵触、不作为；&lt;/p&gt;
+&lt;p&gt;毕竟任何言论，都有其语境，也有其本心，
+如费孝通先生提出的“出主意、想办法，做实事、做好事”，之所以能够得到大家一致认可，
+不外乎其说这话的本心是真真切切地存有为国为民的真心和好心。
+对于编造这段话的人，姑且不论其是否存有好心，从其伪造柏拉图的名言说起，就已经不存真心了。&lt;/p&gt;
+&lt;p&gt;如果再把范畴扩大点来说，无论是博客、帖子还是新闻，
+只要是被传播的信息，从信息传播的本质来说，都有一个传播主体，
+而任何传播主体都有自己的立场、目的，
+当然出色的传播主体会把自己的立场隐藏的很好，让你以为客观公正的同时，还能接受他的立场或倾向。&lt;/p&gt;
+&lt;p&gt;而作为一个合格的读者，必须知道：
+我们收到的信息内容一方面会告诉我们正在发生什么事件，
+但它同时也会试图向我们灌输该事件是否重要、正面还是负面、有利还是有害等立场，
+重要的是一定要培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了。&lt;/p&gt;
+&lt;p&gt;扯远了，如果大家觉得这段话还是有那么一点哲理的话，
+记得要把柏拉图删掉，这话跟柏拉图没有毛线关系。&lt;/p&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装完成后，默认使用普通用户登录，登录后打开一个终端窗口，切换为 root 用户，为普通用户启用 sudo 功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ su - root
+# apt install sudo
+# adduser recozo sudo
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装中文输入法（支持五笔与拼音），安装完后点击右上角的输入法图标进行输入法配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install fcitx-table-wubi
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装远程桌面（&lt;a class="reference external" href="https://forums.kali.org/showthread.php?46345-Enabling-Remote-Desktop-and-SSH-access-to-Kali"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install xrdp
+# systemctl start xrdp
+# systemctl start xrdp-sesman
+# systemctl …&lt;/pre&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装完成后，默认使用普通用户登录，登录后打开一个终端窗口，切换为 root 用户，为普通用户启用 sudo 功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ su - root
+# apt install sudo
+# adduser recozo sudo
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装中文输入法（支持五笔与拼音），安装完后点击右上角的输入法图标进行输入法配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install fcitx-table-wubi
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装远程桌面（&lt;a class="reference external" href="https://forums.kali.org/showthread.php?46345-Enabling-Remote-Desktop-and-SSH-access-to-Kali"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install xrdp
+# systemctl start xrdp
+# systemctl start xrdp-sesman
+# systemctl enable xrdp
+# systemctl enable xrdp-sesman
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用远程声音（&lt;a class="reference external" href="https://github.com/neutrinolabs/pulseaudio-module-xrdp/wiki/README"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install build-essential dpkg-dev libpulse-dev pulseaudio
+# apt build-dep pulseaudio
+# apt source pulseaudio
+# cd pulseaudio-12.2/
+# ./configure
+
+# apt install git
+# git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git
+
+# cd pulseaudio-module-xrdp
+# ./bootstrap &amp;amp;&amp;amp; ./configure PULSE_DIR=/root/pulseaudio-12.2
+# make
+# make install
+# ls $(pkg-config --variable=modlibexecdir libpulse)
+# cd
+# rm -r pulseaudio*
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;设置正确的时区&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# timedatectl set-timezone Asia/Shanghai
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;重新启动系统以确保新的桌面环境正常启动，可在其它电脑上进行远程登录并进行操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry></feed>
