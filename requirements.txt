@@ -1,6 +1,6 @@
-pelican==4.2.0
-wheel==0.34.2
-ghp-import==0.5.5
-sphinx==2.4.4
-sphinx-autobuild==0.7.1
-rstcheck==3.3.1
+pelican
+wheel
+ghp-import
+sphinx
+sphinx-autobuild
+rstcheck
