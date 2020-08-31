@@ -1,4 +1,5 @@
 pelican
+python-magic
 wheel
 ghp-import
 sphinx
