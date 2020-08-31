@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - tricks</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/tricks.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-09-01T00:16:00+08:00</updated><entry><title>自动挂机学习</title><link href="https://recozo.github.io/zi-dong-gua-ji-xue-xi.html" rel="alternate"></link><published>2020-09-01T00:16:00+08:00</published><updated>2020-09-01T00:16:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/zi-dong-gua-ji-xue-xi.html</id><summary type="html">&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 &lt;a class="reference external" href="https://www.google.com/chrome/"&gt;Chrome&lt;/a&gt; 以及 &lt;a class="reference external" href="https://chromedriver.chromium.org/downloads"&gt;ChromeDriver&lt;/a&gt; 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装学习强国学习辅助程序源码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd Documents/
+$ git clone https://github.com/TechXueXi/TechXueXi.git
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装辅助功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install python3-venv
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ python3 -m venv .venv
+
+$ source .venv/bin/activate
+$ pip install …&lt;/pre&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 &lt;a class="reference external" href="https://www.google.com/chrome/"&gt;Chrome&lt;/a&gt; 以及 &lt;a class="reference external" href="https://chromedriver.chromium.org/downloads"&gt;ChromeDriver&lt;/a&gt; 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装学习强国学习辅助程序源码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd Documents/
+$ git clone https://github.com/TechXueXi/TechXueXi.git
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装辅助功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install python3-venv
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ python3 -m venv .venv
+
+$ source .venv/bin/activate
+$ pip install requests
+$ pip install selenium
+$ cp ~/Downloads/chromedriver ~/Documents/TechXueXi/SourcePackages/
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;运行辅助学习程序&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ source .venv/bin/activate
+
+$ python pandalearning.py
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content><category term="tricks"></category><category term="chrome"></category><category term="chromedriver"></category><category term="selenium"></category></entry></feed>

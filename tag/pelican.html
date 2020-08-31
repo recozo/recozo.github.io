@@ -15,18 +15,19 @@
                     <li><a href="https://recozo.github.io/category/article.html">article</a></li>
                     <li><a href="https://recozo.github.io/category/debian.html">debian</a></li>
                     <li><a href="https://recozo.github.io/category/how-to.html">how-to</a></li>
+                    <li><a href="https://recozo.github.io/category/tricks.html">tricks</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/install-pelican-on-debian.html">Install pelican on Debian 10</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/shi-yong-pelican-wei-hu-jing-tai-wang-zhan.html">使用 Pelican 维护静态网站</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-08-28T00:20:29.780392+08:00">
-                Published: 2020-08-28
+        <abbr class="published" title="2020-02-03T13:49:00+08:00">
+                Published: 2020-02-03
         </abbr>
 		<br />
-        <abbr class="modified" title="2020-08-28T00:20:29.780392+08:00">
+        <abbr class="modified" title="2020-08-28T00:49:00+08:00">
                 Updated: 2020-08-28
         </abbr>
 
@@ -34,35 +35,40 @@
                 By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/virtualenv.html">virtualenv</a> <a href="https://recozo.github.io/tag/github.html">github</a> </p>
-</footer><!-- /.post-info --><p>本文假定系统为全新安装的 DEBIAN 10</p>
-<div class="section" id="git">
-<h2>一、安装 GIT</h2>
-<p>执行以下命令安装git并设置git基本配置:</p>
+<p>tags: <a href="https://recozo.github.io/tag/pelican.html">pelican</a> <a href="https://recozo.github.io/tag/git.html">git</a> <a href="https://recozo.github.io/tag/github.html">github</a> <a href="https://recozo.github.io/tag/vscode.html">vscode</a> </p>
+</footer><!-- /.post-info --><p>Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。
+其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican</p>
+<ul class="simple">
+<li>支持 reStructuredText 编写内容</li>
+<li>使用 Python 开发</li>
+<li>打算转向 Python 进行程序开发，好吧，这理由有点勉强……</li>
+</ul>
+<div class="section" id="id1">
+<h2>一、安装系统，可参照安装远程开发桌面环境</h2>
+<p>记得执行以下命令设置git用户信息:</p>
 <pre class="literal-block">
 $ sudo apt install git
 $ git config --global user.email &quot;recozo&#64;outlook.com&quot;
 $ git config --global user.name &quot;Recozo&quot;
 </pre>
 </div>
-<div class="section" id="id1">
-<h2>二、设置 GIT 忽略</h2>
-<p>执行以下命令设置git忽略设置:</p>
-<pre class="literal-block">
-$ vi ~/.gitingore
-    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
-$ git config --global core.excludesfile '~/.gitignore'
-</pre>
-</div>
-<div class="section" id="pelican">
-<h2>三、安装 PELICAN</h2>
+<div class="section" id="id2">
+<h2>二、安装 PELICAN</h2>
 <p>输入以下命令安装pelican并设置相关的运行环境:</p>
 <pre class="literal-block">
-$ python3 -m venv ~/Documents/pelican/.venv
-$ cd ~/Documents/pelican
+$ cd ~/Documents
+$ mkdir mysite &amp;&amp; cd mysite
+$ python3 -m venv .venv
 $ source .venv/bin/activate
-$ git init
-$ touch README.md
+$ pip install pelican python-magic wheel ghp-import sphinx sphinx-autobuild rstcheck
+$ pip freeze | grep pelican &gt; requirements.txt
+$ pip freeze | grep python-magic &gt; requirements.txt
+$ pip freeze | grep ghp-import &gt;&gt; requirements.txt
+$ pip freeze | grep sphinx &gt;&gt; requirements.txt
+$ pip freeze | grep sphinx-autobuild &gt;&gt; requirements.txt
+$ pip freeze | grep rstcheck &gt;&gt; requirements.txt
+$ pelican-quickstart
+$ touch README.rst
 $ vi .gitignore
     参照 https://github.com/github/gitignore/blob/master/Python.gitignore
     加入以下内容：
@@ -71,19 +77,14 @@ $ vi .gitignore
 
         #vscode
         .vscode/
-$ pip install pelican ghp-import sphinx sphinx-autobuild rstcheck
-$ pip freeze | grep pelican &gt; requirements.txt
-$ pip freeze | grep ghp-import &gt;&gt; requirements.txt
-$ pip freeze | grep sphinx &gt;&gt; requirements.txt
-$ pip freeze | grep sphinx-autobuild &gt;&gt; requirements.txt
-$ pip freeze | grep rstcheck &gt;&gt; requirements.txt
-$ git add README.md .gitignore requirements.txt
+
+$ git init
+$ git add -A
 $ git commit -a -m 'Initial commit'
-$ pelican-quickstart
 </pre>
 </div>
-<div class="section" id="id2">
-<h2>四、发布第一篇文章</h2>
+<div class="section" id="id3">
+<h2>三、发布第一篇文章</h2>
 <p># 在 content 目录中保存文章:</p>
 <pre class="literal-block">
 vi content/welcome-to-my-blog.rst
@@ -93,17 +94,17 @@ vi content/welcome-to-my-blog.rst
 Welcome to my blog !
 ####################
 
+:date: 2020-08-28 01:30
+:modified: 2020-08-29 10:15
 :tags: essay
 :category: article
-:slug: welcome-to-my-blog
-:authors: Recozo
 
 Hello, welcome to my first blog !
 </pre>
 <p>保存文件。</p>
 </div>
-<div class="section" id="id3">
-<h2>五、查看网站效果以及内容</h2>
+<div class="section" id="id4">
+<h2>四、查看网站效果以及内容</h2>
 <p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
 <pre class="literal-block">
 $ pelican --autoreload --listen --ignore-cache
@@ -115,7 +116,7 @@ http://localhost:8000
 <p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
 </div>
 <div class="section" id="github">
-<h2>六、使用 GITHUB 发布网站以及源文件</h2>
+<h2>五、使用 GITHUB 发布网站以及源文件</h2>
 <p># 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
 <pre class="literal-block">
 $ git remote add origin https://github.com/recozo/recozo.github.io.git
@@ -131,8 +132,8 @@ $ ghp-import output -b gh-pages
 $ git push origin gh-pages:master
 </pre>
 </div>
-<div class="section" id="id4">
-<h2>七、使用 GIT 还原</h2>
+<div class="section" id="git">
+<h2>六、使用 GIT 还原</h2>
 <pre class="literal-block">
 $ cd ~/Documents
 $ git clone https://github.com/recozo/recozo.github.io.git pelican
@@ -142,6 +143,41 @@ $ git fetch origin master:gh-pages
 $ python3 -m venv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
+</pre>
+</div>
+<div class="section" id="id5">
+<h2>七、关于浏览器缓冲的问题</h2>
+<p>将 Pelican 从 4.2 升级到了 4.5 ，当访问 <a class="reference external" href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> 时，
+总是不能打开 index.html，每次都弹出下载界面，无论是 Firefox 还是 Chrome，都这毛病，以为是升级的原因，
+重新弄了台虚拟机，重新安装还是出这个问题，浪费了二天的时间找原因（不过也不是完全浪费，学到了如何 DEBUG），
+最后发现是浏览器缓存导致的问题，删除缓存后能正常访问，但是由于缓存功能没有关闭，后续仍然会出问题。</p>
+<p>不建议停用浏览器的缓存功能， Firefox 支持启用开发者模式时禁用 HTTP 缓存 （F12 进入开发者模式，
+F1 进入设置即可在 Advanced settings 看到这个选项 Disable HTTP Cache(when toolbox is open)），
+爽不？！</p>
+<p>注意，要安装 python-magic ，在 pelican 的 server.py 的 guess_type 是通过 python-magic 进行处理的，
+如果未安装，即仍然会弹出下载界面。</p>
+</div>
+<div class="section" id="vscode-pelican">
+<h2>八、在 VSCODE 中调试 Pelican</h2>
+<p>在 .vscode 目录下新建一个 launch.json 文件，录入以下内容，即可在 VSCODE 中对 Pelican 进行断点调试了:</p>
+<pre class="literal-block">
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+
+        {
+            &quot;name&quot;: &quot;Python: Module&quot;,
+            &quot;type&quot;: &quot;python&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;module&quot;: &quot;pelican&quot;,
+            &quot;args&quot;:[&quot;--listen&quot;],
+            &quot;justMyCode&quot;: false,
+        }
+    ]
+}
 </pre>
 </div>
                 </article>

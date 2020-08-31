@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-08-28T00:20:29+08:00</updated><entry><title>Install FreeRadius On Debian 10</title><link href="https://recozo.github.io/install-freeradius-on-debian.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/install-freeradius-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup freeradius with postgreSQL and support client's device limit&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/all.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-09-01T00:36:56+08:00</updated><entry><title>Install FreeRadius On Debian 10</title><link href="https://recozo.github.io/install-freeradius-on-debian.html" rel="alternate"></link><published>2020-09-01T00:36:56+08:00</published><updated>2020-09-01T00:36:56+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/install-freeradius-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup freeradius with postgreSQL and support client's device limit&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10，正常安装DEBIAN，开启SSH，SUDO功能。
 通过安装 FreeRadius 和 PostgreSQL，支持常规的安装。
 本安装教程最主要的功能在于支持 H3C 的 802.1x，并且限制用户允许登录访问的设备数量。
@@ -391,176 +391,7 @@ tls-config tls-common {
 &lt;p&gt;将根CA文件（ca.der）公开，方便用户在终端设备上导入；&lt;/p&gt;
 &lt;p&gt;windows 下配置无线&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="FreeRadius"></category><category term="PostgreSQL"></category><category term="MAC Limit"></category></entry><entry><title>Install pelican on Debian 10</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/install-pelican-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup a static web site with pelican, publishing on the github page&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10&lt;/p&gt;
-&lt;div class="section" id="git"&gt;
-&lt;h2&gt;一、安装 GIT&lt;/h2&gt;
-&lt;p&gt;执行以下命令安装git并设置git基本配置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ sudo apt install git
-$ git config --global user.email &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
-$ git config --global user.name &amp;quot;Recozo&amp;quot;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;二、设置 GIT 忽略&lt;/h2&gt;
-&lt;p&gt;执行以下命令设置git忽略设置:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ vi ~/.gitingore
-    参照 https://github.com/github/gitignore/blob/master/Global/VirtualEnv.gitignore
-$ git config --global core.excludesfile '~/.gitignore'
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="pelican"&gt;
-&lt;h2&gt;三、安装 PELICAN&lt;/h2&gt;
-&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ python3 -m venv ~/Documents/pelican/.venv
-$ cd ~/Documents/pelican
-$ source .venv/bin/activate
-$ git init
-$ touch README.md
-$ vi .gitignore
-    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
-    加入以下内容：
-        #pelican
-            output/
-
-        #vscode
-        .vscode/
-$ pip install pelican ghp-import sphinx sphinx-autobuild rstcheck
-$ pip freeze | grep pelican &amp;gt; requirements.txt
-$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
-$ pip freeze | grep sphinx &amp;gt;&amp;gt; requirements.txt
-$ pip freeze | grep sphinx-autobuild &amp;gt;&amp;gt; requirements.txt
-$ pip freeze | grep rstcheck &amp;gt;&amp;gt; requirements.txt
-$ git add README.md .gitignore requirements.txt
-$ git commit -a -m 'Initial commit'
-$ pelican-quickstart
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;四、发布第一篇文章&lt;/h2&gt;
-&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-vi content/welcome-to-my-blog.rst
-&lt;/pre&gt;
-&lt;p&gt;示例:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-Welcome to my blog !
-####################
-
-:tags: essay
-:category: article
-:slug: welcome-to-my-blog
-:authors: Recozo
-
-Hello, welcome to my first blog !
-&lt;/pre&gt;
-&lt;p&gt;保存文件。&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h2&gt;五、查看网站效果以及内容&lt;/h2&gt;
-&lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ pelican --autoreload --listen --ignore-cache
-&lt;/pre&gt;
-&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-http://localhost:8000
-&lt;/pre&gt;
-&lt;p&gt;可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="github"&gt;
-&lt;h2&gt;六、使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
-&lt;p&gt;# 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ git remote add origin https://github.com/recozo/recozo.github.io.git
-&lt;/pre&gt;
-&lt;p&gt;# 将源文件保存为 pelican 分支:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ git push -u origin master:pelican
-&lt;/pre&gt;
-&lt;p&gt;# 发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-$ pelican content/ -o output -s publishconf.py
-$ ghp-import output -b gh-pages
-$ git push origin gh-pages:master
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
-&lt;h2&gt;七、使用 GIT 还原&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-$ cd ~/Documents
-$ git clone https://github.com/recozo/recozo.github.io.git pelican
-$ cd pelican/
-$ git branch -m master
-$ git fetch origin master:gh-pages
-$ python3 -m venv .venv
-$ source .venv/bin/activate
-$ pip install -r requirements.txt
-&lt;/pre&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="virtualenv"></category><category term="github"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="debian"&gt;
-&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-dpkg -L packagename
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
-&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
-&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="debian"&gt;
-&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-dpkg -L packagename
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
-&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
-&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
-&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
-&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
-&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;find&lt;/dt&gt;
-&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
-&lt;dt&gt;locate&lt;/dt&gt;
-&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
-&lt;dt&gt;whereis&lt;/dt&gt;
-&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
-&lt;dt&gt;which&lt;/dt&gt;
-&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
-&lt;dt&gt;type&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-type -a echo
-&lt;/pre&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
-&lt;ol class="last arabic simple"&gt;
-&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
-&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
-&lt;pre class="literal-block"&gt;
-./myscript
-
-. myscript
-source myscript
-&lt;/pre&gt;
-&lt;p&gt;./ 代表的是当前目录。
-. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
-&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
-&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
-&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
-&lt;/div&gt;
-</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+</content><category term="how-to"></category><category term="FreeRadius"></category><category term="PostgreSQL"></category><category term="MAC Limit"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2020-09-01T00:36:30+08:00</published><updated>2020-09-01T00:36:30+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;段落&lt;/h2&gt;
 &lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
@@ -861,145 +692,66 @@ True   True   True
     :name: common options
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
-&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
-&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
-&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
-&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
-&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
-&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难，所以我只好舍去音韵的部分，尽力在文字转换的过程中保留原诗的形与义（内容与结构），待来日翻译的技巧精进时再重翻一次。现就这首歌的涵义，以逐段探讨的方式来挖掘它的深层意义。&lt;/p&gt;
-&lt;p&gt;这首歌共分为五段，段与段之间环环相扣，一气呵成。首段叙述主述者（The speaker)又来找黑暗这位老朋友谈天，把黑暗当作老朋友来倾吐心事，可见他向来孤独，而他在黑暗中独语或沉思已经不是第一次了。而此次要向黑暗老友说的是一个在脑海中挥之不去的幻影（vision)。把vision译成幻影是因为它时常在主述者的梦中出现，虽是那么虚幻却又那么真实。&lt;/p&gt;
-&lt;p&gt;次段道出了幻影的实境。在梦中主述者总是忐忑不安，独自一人走在鹅卵石铺设的街道上，由Neath the halo of a street lamp与 I turned my collar to the cold and damp这两句来看，那一定是个又湿又冷的夜。就在这样孤寂湿冷的夜，他被突如其来的霓红灯光芒刺醒了，而体验到真正的“寂静”。“light”原带有文明、希望、启蒙（enlightenment)等正面的意义，在此，保罗·西蒙逆转了这个形象。&lt;/p&gt;
-&lt;p&gt;第三段进入了幻影中的高潮。naked意为赤裸的，naked sight为肉眼，而naked light则是没有灯罩所发出来的光，因为直接所以很强烈。在如此强烈的灯光下，他看见了成千上万的人。这些人在谈话，但是谈话的内容空洞，言之无物，所以是talking without speaking；受话的一方则是左耳听右耳出，心不在焉，所以是 hearing without listening。能把talk、speak、 hear、listen 这么常用简单的字汇作巧妙的并列而达到艺术效果，真不愧是民谣界的高手。这些人除了言谈空洞、心不在焉，更有人写歌来唱时，却唱得言不由衷，把歌唱得毫无情感可言，They do’nt mean the words they’re singing.写歌是一回事，唱的又是另一回事。people的歌声（voices)，无法与自己写的歌（songs)产生共鸣（share)。虽然如此，但是却没有人敢正视这个问题，胆敢惊扰这样的沉默。&lt;/p&gt;
-&lt;p&gt;因此，主述者心急如焚，气愤的告诫他们“寂静”的可怕，因为寂静就像癌症会不断的蔓延扩散，直到把每个人都吞噬掉。他要每个人用心听听他的话，他才能拉他们一把，然而，却无人理会他。他的话就像无声的雨滴落在沉默的井底，激不起一丝涟漪。&lt;/p&gt;
-&lt;p&gt;就这样人人依然故我，对著自己塑造的霓虹神（Neon God)膜拜、祈祷。这里的霓虹神与第二段的霓虹灯光互为关联，标志（sign)的意义呼之欲出。直到此段第五行的subway walls 与第六行的tenement halls，真正的意思终于显现。地铁（subway walls)常是流浪汉（hobo)的归宿，而廉价出租公寓（tenement)顶多是比贫民窟（ghetto)好些。霓虹灯与之对照，形成强烈的对比，它代表资本主义的文明也代表其糜烂的物质享受。在第二段时，保罗西蒙就用了一个隐喻（metaphor)来逆转light所代表的正面意义，使之变为眩惑人心的渊薮，因为霓虹灯光刺得（stabbing)让人看不清楚方向，也因为人们贪恋物质享受而忽略了周遭该关心的事物，因此，霓虹神乃拜金主义之标志。就在主述者力图拨乱反正却徒劳无功时，霓虹标语闪出了警讯，标语写著：“先知的话写在地铁的墙上与公寓的厅堂”。先知（prophets)并不是宗教里所提的能预知未来的人物，而是那些流浪汉与贫民。他们常把心里的怨言与不满，写在地铁的墙上与公寓的厅堂，然而这些心声就在这物欲横流的社会中淹没了。&lt;/p&gt;
-&lt;p&gt;english 歌词:&lt;/p&gt;
+</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2020-09-01T00:36:30+08:00</published><updated>2020-09-01T00:36:30+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
 &lt;pre class="literal-block"&gt;
-The Sound of Silence (寂静之声) - Simon &amp;amp; Garfunkel
-Written by：Paul Simon
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
+&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
+&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
+&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;find&lt;/dt&gt;
+&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
+&lt;dt&gt;locate&lt;/dt&gt;
+&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
+&lt;dt&gt;whereis&lt;/dt&gt;
+&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
+&lt;dt&gt;which&lt;/dt&gt;
+&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
+&lt;dt&gt;type&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+type -a echo
+&lt;/pre&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
+&lt;ol class="last arabic simple"&gt;
+&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
+&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+./myscript
 
-Hello darkness my old friend
-I've come to talk with you again
-Because a vision softly creeping
-Left its seeds while I was sleeping
-And the vision that was planted in my brain
-Still remains
-Within the sound of silence
-In restless dreams I walked alone
-Narrow streets of cobblestone
-'Neath the halo of a street lamp
-I turned my collar to the cold and damp
-When my eyes were stabbed by the flash of a neon light
-That split the night
-And touched the sound of silence
-And in the naked light I saw
-Ten thousand people maybe more
-People talking without speaking
-People hearing without listening
-People writing songs that voices never share
-No one dared
-Disturb the sound of silence
-Fools said I you do not know
-Silence like a cancer grows
-Hear my words that I might teach you
-Take my arms that I might reach you
-But my words like silent raindrops fell
-And echoed in the wells of silence
-And the people bowed and prayed
-To the neon god they made
-And the sign flashed out its warning
-In the words that it was forming
-And the sign said
-The words of the prophets are
-Written on the subway walls
-And tenement halls
-And whispered in the sounds of silence
+. myscript
+source myscript
 &lt;/pre&gt;
-&lt;p&gt;中文歌词1:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-黑暗，老朋友，我来了
-又想同你谈谈
-突然有一种幻觉悄悄来临
-趁着我入睡时播下了种子
-那些个在我脑海中不停滋生的幻觉啊
-还仍然滞留在寂寞之声中
-在永无休止的梦里
-我孤独地行走在
-狭窄的布满圆石的路上
-行走在路灯的光晕下
-感到有点寒冷潮湿
-于是我翻竖起衣领
-那盏刺痛我双眼的霓红灯
-划破了夜晚
-触到了寂寞的音符
-在那无遮蔽的灯光下
-我看见成千上万的人
-也许更多
-人们无声地诉说着
-人们无语地倾听着
-他们写出一首首歌曲
-却没有一个人去唱
-没有人敢
-惊扰寂寞沉睡时的轻梦
-我说：你们这群傻子啊
-难道不知道寂寞的癌细胞正在扩散吗
-好好记住我教你们的话
-握紧我伸给你们的手臂
-可惜我的话只如同雨滴无声地落下
-回荡在寂静的深井里
-看人们朝着象征神圣的氖灯低头祈祷
-而霓红灯广告牌却在讽刺地一闪一闪
-发出这样的警告：
-“先哲的预言就在地道下的墙上
-就写在贫民们的住房里”
-还依旧在一片祷告的寂静中喃喃地低语
-&lt;/pre&gt;
-&lt;p&gt;中文歌词2:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-你好 黑暗 我的老朋友
-我又来和你交谈
-因为有一种幻觉正向悄悄地向我袭来
-在我熟睡的时候留下了它的种子
-这种幻觉在我的脑海里生根发芽
-缠绕着我
-伴随着寂静的声音
-在不安的梦幻中我独自行走
-狭窄的鹅卵石街道
-在路灯的光环照耀下
-我竖起衣领 抵御严寒和潮湿
-一道耀眼的霓虹灯光刺入我的眼睛
-它划破夜空
-触摸着寂静的声音
-在炫目的灯光下
-我看见成千上万的人
-人们说而不言
-听而不闻
-人们创造歌曲却唱不出声来
-没有人敢
-打扰这寂静的声音
-我说：傻瓜，难道你不知道
-寂静如同顽疾滋长
-听我对你说的有益的话
-拉住我伸给你的手
-但是我的话犹如雨滴飘落
-在寂静的水井中回响
-人们向自己创造的霓虹之神
-神光中闪射出告诫的语句
-在字里行间指明
-它告诉人们
-预言者的话
-都已写在
-地铁的墙上
-和房屋的大厅里
-在寂静的声音里低语
-&lt;/pre&gt;
-</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+&lt;p&gt;./ 代表的是当前目录。
+. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
+&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
+&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
+&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2020-09-01T00:36:30+08:00</published><updated>2020-09-01T00:36:30+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
 &lt;ol class="arabic"&gt;
 &lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
@@ -1036,7 +788,7 @@ And whispered in the sounds of silence
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
+</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2020-09-01T00:36:29+08:00</published><updated>2020-09-01T00:36:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
 &lt;h2&gt;安装 SSH&lt;/h2&gt;
 &lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
@@ -1528,7 +1280,7 @@ Alias=sshd.service
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>Vim skills</title><link href="https://recozo.github.io/vim-skills.html" rel="alternate"></link><published>2020-09-01T00:36:29+08:00</published><updated>2020-09-01T00:36:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/vim-skills.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;连续录入多个相同的字符( &lt;a class="reference external" href="https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode"&gt;参见&lt;/a&gt; ):&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 50i- ESC
@@ -1665,8 +1417,7 @@ CTRL-W o 或 :only            关闭其它窗口
 以上命令其它均要考虑buffer，但是暂时还没有使用buffer的高级用途，待以后吧 TODO
 &lt;/pre&gt;
 &lt;/div&gt;
-</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
+</content><category term="how-to"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>越哥说电影之一年到头</title><link href="https://recozo.github.io/yuege-say-movies-yT7m6x0EdOs.html" rel="alternate"></link><published>2020-09-01T00:33:50+08:00</published><updated>2020-09-01T00:33:50+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/yuege-say-movies-yT7m6x0EdOs.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=yT7m6x0EdOs"&gt;Youtube 观看&lt;/a&gt;
 越哥精彩点评摘录：&lt;/p&gt;
 &lt;p&gt;无论你是什么身份，无论你身在那里，&lt;/p&gt;
 &lt;p&gt;无论你是奋斗了一年，还是迷茫了一年，&lt;/p&gt;
@@ -1682,7 +1433,146 @@ CTRL-W o 或 :only            关闭其它窗口
 &lt;p&gt;去赴这场一年一次，或者是数年一次的团聚，&lt;/p&gt;
 &lt;p&gt;或许只有经历过这样的分离和这样的相聚，才能够真正理解一句话，&lt;/p&gt;
 &lt;p&gt;人生难得是欢聚。&lt;/p&gt;
-</content><category term="article"></category><category term="movie"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-08-28T00:20:29+08:00</published><updated>2020-08-28T00:20:29+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-28:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
+</content><category term="article"></category><category term="movie"></category></entry><entry><title>Welcome to my blog !</title><link href="https://recozo.github.io/welcome-to-my-blog.html" rel="alternate"></link><published>2020-09-01T00:33:23+08:00</published><updated>2020-09-01T00:33:23+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/welcome-to-my-blog.html</id><content type="html">&lt;p&gt;Hello, welcome to my first blog !&lt;/p&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>the sound of silence 赏析</title><link href="https://recozo.github.io/song-the-sound-of-silence-by-simon-garfunkel.html" rel="alternate"></link><published>2020-09-01T00:33:14+08:00</published><updated>2020-09-01T00:33:14+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/song-the-sound-of-silence-by-simon-garfunkel.html</id><summary type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
+&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
+&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
+&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;以下内容摘录自网上&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html"&gt;https://y.qq.com/n/yqq/song/003bX6hY1Yss38.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://zhidao.baidu.com/question/1366724891623189139.html"&gt;https://zhidao.baidu.com/question/1366724891623189139.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;《寂静之声》，The Sound of Silence在1967年作为美国电影《毕业生》的主题歌，是20世纪60年代民歌二人组Paul Simon and Garfunkel的成名作。&lt;/p&gt;
+&lt;p&gt;这首歌想表达的是：&lt;/p&gt;
+&lt;p&gt;《寂静之声》旋律飘缓低迷，歌词充满了一种幻觉般的意境。细细听来，仿佛在诉说着年轻无助的一种宣泄。眼前似乎看到一个懵懂无知的女孩，独自一人行走在铺着鹅卵石的狭窄、清冷的小巷里，喧嚣的人群在她身后渐渐远去，前面是没有尽头的黑夜……歌曲如果说是属于民谣的话似乎太深邃，如果说随着强劲的乐曲而震荡的节奏是摇滚的话，却太细腻，音乐上它造就了类的中和体，这应该是它成功的重要原因。&lt;/p&gt;
+&lt;p&gt;这首歌本身就是一首绝妙的诗，结构严谨，翻译时要形、音、义兼顾面面俱到，实在很难，所以我只好舍去音韵的部分，尽力在文字转换的过程中保留原诗的形与义（内容与结构），待来日翻译的技巧精进时再重翻一次。现就这首歌的涵义，以逐段探讨的方式来挖掘它的深层意义。&lt;/p&gt;
+&lt;p&gt;这首歌共分为五段，段与段之间环环相扣，一气呵成。首段叙述主述者（The speaker)又来找黑暗这位老朋友谈天，把黑暗当作老朋友来倾吐心事，可见他向来孤独，而他在黑暗中独语或沉思已经不是第一次了。而此次要向黑暗老友说的是一个在脑海中挥之不去的幻影（vision)。把vision译成幻影是因为它时常在主述者的梦中出现，虽是那么虚幻却又那么真实。&lt;/p&gt;
+&lt;p&gt;次段道出了幻影的实境。在梦中主述者总是忐忑不安，独自一人走在鹅卵石铺设的街道上，由Neath the halo of a street lamp与 I turned my collar to the cold and damp这两句来看，那一定是个又湿又冷的夜。就在这样孤寂湿冷的夜，他被突如其来的霓红灯光芒刺醒了，而体验到真正的“寂静”。“light”原带有文明、希望、启蒙（enlightenment)等正面的意义，在此，保罗·西蒙逆转了这个形象。&lt;/p&gt;
+&lt;p&gt;第三段进入了幻影中的高潮。naked意为赤裸的，naked sight为肉眼，而naked light则是没有灯罩所发出来的光，因为直接所以很强烈。在如此强烈的灯光下，他看见了成千上万的人。这些人在谈话，但是谈话的内容空洞，言之无物，所以是talking without speaking；受话的一方则是左耳听右耳出，心不在焉，所以是 hearing without listening。能把talk、speak、 hear、listen 这么常用简单的字汇作巧妙的并列而达到艺术效果，真不愧是民谣界的高手。这些人除了言谈空洞、心不在焉，更有人写歌来唱时，却唱得言不由衷，把歌唱得毫无情感可言，They do’nt mean the words they’re singing.写歌是一回事，唱的又是另一回事。people的歌声（voices)，无法与自己写的歌（songs)产生共鸣（share)。虽然如此，但是却没有人敢正视这个问题，胆敢惊扰这样的沉默。&lt;/p&gt;
+&lt;p&gt;因此，主述者心急如焚，气愤的告诫他们“寂静”的可怕，因为寂静就像癌症会不断的蔓延扩散，直到把每个人都吞噬掉。他要每个人用心听听他的话，他才能拉他们一把，然而，却无人理会他。他的话就像无声的雨滴落在沉默的井底，激不起一丝涟漪。&lt;/p&gt;
+&lt;p&gt;就这样人人依然故我，对著自己塑造的霓虹神（Neon God)膜拜、祈祷。这里的霓虹神与第二段的霓虹灯光互为关联，标志（sign)的意义呼之欲出。直到此段第五行的subway walls 与第六行的tenement halls，真正的意思终于显现。地铁（subway walls)常是流浪汉（hobo)的归宿，而廉价出租公寓（tenement)顶多是比贫民窟（ghetto)好些。霓虹灯与之对照，形成强烈的对比，它代表资本主义的文明也代表其糜烂的物质享受。在第二段时，保罗西蒙就用了一个隐喻（metaphor)来逆转light所代表的正面意义，使之变为眩惑人心的渊薮，因为霓虹灯光刺得（stabbing)让人看不清楚方向，也因为人们贪恋物质享受而忽略了周遭该关心的事物，因此，霓虹神乃拜金主义之标志。就在主述者力图拨乱反正却徒劳无功时，霓虹标语闪出了警讯，标语写著：“先知的话写在地铁的墙上与公寓的厅堂”。先知（prophets)并不是宗教里所提的能预知未来的人物，而是那些流浪汉与贫民。他们常把心里的怨言与不满，写在地铁的墙上与公寓的厅堂，然而这些心声就在这物欲横流的社会中淹没了。&lt;/p&gt;
+&lt;p&gt;english 歌词:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+The Sound of Silence (寂静之声) - Simon &amp;amp; Garfunkel
+Written by：Paul Simon
+
+Hello darkness my old friend
+I've come to talk with you again
+Because a vision softly creeping
+Left its seeds while I was sleeping
+And the vision that was planted in my brain
+Still remains
+Within the sound of silence
+In restless dreams I walked alone
+Narrow streets of cobblestone
+'Neath the halo of a street lamp
+I turned my collar to the cold and damp
+When my eyes were stabbed by the flash of a neon light
+That split the night
+And touched the sound of silence
+And in the naked light I saw
+Ten thousand people maybe more
+People talking without speaking
+People hearing without listening
+People writing songs that voices never share
+No one dared
+Disturb the sound of silence
+Fools said I you do not know
+Silence like a cancer grows
+Hear my words that I might teach you
+Take my arms that I might reach you
+But my words like silent raindrops fell
+And echoed in the wells of silence
+And the people bowed and prayed
+To the neon god they made
+And the sign flashed out its warning
+In the words that it was forming
+And the sign said
+The words of the prophets are
+Written on the subway walls
+And tenement halls
+And whispered in the sounds of silence
+&lt;/pre&gt;
+&lt;p&gt;中文歌词1:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+黑暗，老朋友，我来了
+又想同你谈谈
+突然有一种幻觉悄悄来临
+趁着我入睡时播下了种子
+那些个在我脑海中不停滋生的幻觉啊
+还仍然滞留在寂寞之声中
+在永无休止的梦里
+我孤独地行走在
+狭窄的布满圆石的路上
+行走在路灯的光晕下
+感到有点寒冷潮湿
+于是我翻竖起衣领
+那盏刺痛我双眼的霓红灯
+划破了夜晚
+触到了寂寞的音符
+在那无遮蔽的灯光下
+我看见成千上万的人
+也许更多
+人们无声地诉说着
+人们无语地倾听着
+他们写出一首首歌曲
+却没有一个人去唱
+没有人敢
+惊扰寂寞沉睡时的轻梦
+我说：你们这群傻子啊
+难道不知道寂寞的癌细胞正在扩散吗
+好好记住我教你们的话
+握紧我伸给你们的手臂
+可惜我的话只如同雨滴无声地落下
+回荡在寂静的深井里
+看人们朝着象征神圣的氖灯低头祈祷
+而霓红灯广告牌却在讽刺地一闪一闪
+发出这样的警告：
+“先哲的预言就在地道下的墙上
+就写在贫民们的住房里”
+还依旧在一片祷告的寂静中喃喃地低语
+&lt;/pre&gt;
+&lt;p&gt;中文歌词2:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+你好 黑暗 我的老朋友
+我又来和你交谈
+因为有一种幻觉正向悄悄地向我袭来
+在我熟睡的时候留下了它的种子
+这种幻觉在我的脑海里生根发芽
+缠绕着我
+伴随着寂静的声音
+在不安的梦幻中我独自行走
+狭窄的鹅卵石街道
+在路灯的光环照耀下
+我竖起衣领 抵御严寒和潮湿
+一道耀眼的霓虹灯光刺入我的眼睛
+它划破夜空
+触摸着寂静的声音
+在炫目的灯光下
+我看见成千上万的人
+人们说而不言
+听而不闻
+人们创造歌曲却唱不出声来
+没有人敢
+打扰这寂静的声音
+我说：傻瓜，难道你不知道
+寂静如同顽疾滋长
+听我对你说的有益的话
+拉住我伸给你的手
+但是我的话犹如雨滴飘落
+在寂静的水井中回响
+人们向自己创造的霓虹之神
+神光中闪射出告诫的语句
+在字里行间指明
+它告诉人们
+预言者的话
+都已写在
+地铁的墙上
+和房屋的大厅里
+在寂静的声音里低语
+&lt;/pre&gt;
+</content><category term="article"></category><category term="appreciation"></category></entry><entry><title>从山寨的名人名言说起</title><link href="https://recozo.github.io/a-reflection-on-a-philosophical-sayings.html" rel="alternate"></link><published>2020-09-01T00:32:59+08:00</published><updated>2020-09-01T00:32:59+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/a-reflection-on-a-philosophical-sayings.html</id><summary type="html">&lt;p class="first last"&gt;培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;最近网上有句话特别流行&lt;/p&gt;
 &lt;blockquote&gt;
 如果尖锐的批评完全消失，温和的批评将会变得刺耳。
@@ -1716,7 +1606,63 @@ CTRL-W o 或 :only            关闭其它窗口
 重要的是一定要培养自己把“事件”和“观点”区分开的能力，不要完全被别人的观点牵着走了。&lt;/p&gt;
 &lt;p&gt;扯远了，如果大家觉得这段话还是有那么一点哲理的话，
 记得要把柏拉图删掉，这话跟柏拉图没有毛线关系。&lt;/p&gt;
-</content><category term="article"></category><category term="essay"></category></entry><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="id2"&gt;
+</content><category term="article"></category><category term="essay"></category></entry><entry><title>自动挂机学习</title><link href="https://recozo.github.io/zi-dong-gua-ji-xue-xi.html" rel="alternate"></link><published>2020-09-01T00:16:00+08:00</published><updated>2020-09-01T00:16:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/zi-dong-gua-ji-xue-xi.html</id><summary type="html">&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 &lt;a class="reference external" href="https://www.google.com/chrome/"&gt;Chrome&lt;/a&gt; 以及 &lt;a class="reference external" href="https://chromedriver.chromium.org/downloads"&gt;ChromeDriver&lt;/a&gt; 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装学习强国学习辅助程序源码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd Documents/
+$ git clone https://github.com/TechXueXi/TechXueXi.git
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装辅助功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install python3-venv
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ python3 -m venv .venv
+
+$ source .venv/bin/activate
+$ pip install …&lt;/pre&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 &lt;a class="reference external" href="https://www.google.com/chrome/"&gt;Chrome&lt;/a&gt; 以及 &lt;a class="reference external" href="https://chromedriver.chromium.org/downloads"&gt;ChromeDriver&lt;/a&gt; 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装学习强国学习辅助程序源码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd Documents/
+$ git clone https://github.com/TechXueXi/TechXueXi.git
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装辅助功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install python3-venv
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ python3 -m venv .venv
+
+$ source .venv/bin/activate
+$ pip install requests
+$ pip install selenium
+$ cp ~/Downloads/chromedriver ~/Documents/TechXueXi/SourcePackages/
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;运行辅助学习程序&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ source .venv/bin/activate
+
+$ python pandalearning.py
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content><category term="tricks"></category><category term="chrome"></category><category term="chromedriver"></category><category term="selenium"></category></entry><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
 &lt;ol class="arabic"&gt;
 &lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;
@@ -1793,4 +1739,169 @@ $ su - root
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-</content><category term="debian"></category></entry></feed>
+</content><category term="debian"></category></entry><entry><title>使用 Pelican 维护静态网站</title><link href="https://recozo.github.io/shi-yong-pelican-wei-hu-jing-tai-wang-zhan.html" rel="alternate"></link><published>2020-02-03T13:49:00+08:00</published><updated>2020-08-28T00:49:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/shi-yong-pelican-wei-hu-jing-tai-wang-zhan.html</id><summary type="html">&lt;p&gt;Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。
+其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;支持 reStructuredText 编写内容&lt;/li&gt;
+&lt;li&gt;使用 Python 开发&lt;/li&gt;
+&lt;li&gt;打算转向 Python 进行程序开发，好吧，这理由有点勉强……&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;一、安装系统，可参照安装远程开发桌面环境&lt;/h2&gt;
+&lt;p&gt;记得执行以下命令设置git用户信息:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install git
+$ git config --global user.email &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
+$ git config --global user.name &amp;quot;Recozo&amp;quot;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;二、安装 PELICAN&lt;/h2&gt;
+&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents
+$ mkdir mysite &amp;amp;&amp;amp; cd mysite …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。
+其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;支持 reStructuredText 编写内容&lt;/li&gt;
+&lt;li&gt;使用 Python 开发&lt;/li&gt;
+&lt;li&gt;打算转向 Python 进行程序开发，好吧，这理由有点勉强……&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;一、安装系统，可参照安装远程开发桌面环境&lt;/h2&gt;
+&lt;p&gt;记得执行以下命令设置git用户信息:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install git
+$ git config --global user.email &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
+$ git config --global user.name &amp;quot;Recozo&amp;quot;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;二、安装 PELICAN&lt;/h2&gt;
+&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents
+$ mkdir mysite &amp;amp;&amp;amp; cd mysite
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install pelican python-magic wheel ghp-import sphinx sphinx-autobuild rstcheck
+$ pip freeze | grep pelican &amp;gt; requirements.txt
+$ pip freeze | grep python-magic &amp;gt; requirements.txt
+$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep sphinx &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep sphinx-autobuild &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep rstcheck &amp;gt;&amp;gt; requirements.txt
+$ pelican-quickstart
+$ touch README.rst
+$ vi .gitignore
+    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
+    加入以下内容：
+        #pelican
+            output/
+
+        #vscode
+        .vscode/
+
+$ git init
+$ git add -A
+$ git commit -a -m 'Initial commit'
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;三、发布第一篇文章&lt;/h2&gt;
+&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi content/welcome-to-my-blog.rst
+&lt;/pre&gt;
+&lt;p&gt;示例:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Welcome to my blog !
+####################
+
+:date: 2020-08-28 01:30
+:modified: 2020-08-29 10:15
+:tags: essay
+:category: article
+
+Hello, welcome to my first blog !
+&lt;/pre&gt;
+&lt;p&gt;保存文件。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;四、查看网站效果以及内容&lt;/h2&gt;
+&lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican --autoreload --listen --ignore-cache
+&lt;/pre&gt;
+&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+http://localhost:8000
+&lt;/pre&gt;
+&lt;p&gt;可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="github"&gt;
+&lt;h2&gt;五、使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
+&lt;p&gt;# 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+&lt;/pre&gt;
+&lt;p&gt;# 将源文件保存为 pelican 分支:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git push -u origin master:pelican
+&lt;/pre&gt;
+&lt;p&gt;# 发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="git"&gt;
+&lt;h2&gt;六、使用 GIT 还原&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents
+$ git clone https://github.com/recozo/recozo.github.io.git pelican
+$ cd pelican/
+$ git branch -m master
+$ git fetch origin master:gh-pages
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h2&gt;七、关于浏览器缓冲的问题&lt;/h2&gt;
+&lt;p&gt;将 Pelican 从 4.2 升级到了 4.5 ，当访问 &lt;a class="reference external" href="http://127.0.0.1:8000"&gt;http://127.0.0.1:8000&lt;/a&gt; 时，
+总是不能打开 index.html，每次都弹出下载界面，无论是 Firefox 还是 Chrome，都这毛病，以为是升级的原因，
+重新弄了台虚拟机，重新安装还是出这个问题，浪费了二天的时间找原因（不过也不是完全浪费，学到了如何 DEBUG），
+最后发现是浏览器缓存导致的问题，删除缓存后能正常访问，但是由于缓存功能没有关闭，后续仍然会出问题。&lt;/p&gt;
+&lt;p&gt;不建议停用浏览器的缓存功能， Firefox 支持启用开发者模式时禁用 HTTP 缓存 （F12 进入开发者模式，
+F1 进入设置即可在 Advanced settings 看到这个选项 Disable HTTP Cache(when toolbox is open)），
+爽不？！&lt;/p&gt;
+&lt;p&gt;注意，要安装 python-magic ，在 pelican 的 server.py 的 guess_type 是通过 python-magic 进行处理的，
+如果未安装，即仍然会弹出下载界面。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vscode-pelican"&gt;
+&lt;h2&gt;八、在 VSCODE 中调试 Pelican&lt;/h2&gt;
+&lt;p&gt;在 .vscode 目录下新建一个 launch.json 文件，录入以下内容，即可在 VSCODE 中对 Pelican 进行断点调试了:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    &amp;quot;version&amp;quot;: &amp;quot;0.2.0&amp;quot;,
+    &amp;quot;configurations&amp;quot;: [
+
+        {
+            &amp;quot;name&amp;quot;: &amp;quot;Python: Module&amp;quot;,
+            &amp;quot;type&amp;quot;: &amp;quot;python&amp;quot;,
+            &amp;quot;request&amp;quot;: &amp;quot;launch&amp;quot;,
+            &amp;quot;module&amp;quot;: &amp;quot;pelican&amp;quot;,
+            &amp;quot;args&amp;quot;:[&amp;quot;--listen&amp;quot;],
+            &amp;quot;justMyCode&amp;quot;: false,
+        }
+    ]
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="github"></category><category term="vscode"></category></entry></feed>

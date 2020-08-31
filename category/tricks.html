@@ -3,7 +3,7 @@
 <head>
         <meta charset="utf-8" />
         <meta name="generator" content="Pelican" />
-        <title>Recozo's Blog - Categories</title>
+        <title>Recozo's Blog - tricks</title>
         <link rel="stylesheet" href="https://recozo.github.io/theme/css/main.css" />
         <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom Feed" />
 </head>
@@ -15,16 +15,64 @@
                     <li><a href="https://recozo.github.io/category/article.html">article</a></li>
                     <li><a href="https://recozo.github.io/category/debian.html">debian</a></li>
                     <li><a href="https://recozo.github.io/category/how-to.html">how-to</a></li>
-                    <li><a href="https://recozo.github.io/category/tricks.html">tricks</a></li>
+                    <li class="active"><a href="https://recozo.github.io/category/tricks.html">tricks</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
-    <h1>Categories on Recozo's Blog</h1>
-    <ul>
-        <li><a href="https://recozo.github.io/category/article.html">article</a> (4)</li>
-        <li><a href="https://recozo.github.io/category/debian.html">debian</a> (1)</li>
-        <li><a href="https://recozo.github.io/category/how-to.html">how-to</a> (7)</li>
-        <li><a href="https://recozo.github.io/category/tricks.html">tricks</a> (1)</li>
-    </ul>
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/zi-dong-gua-ji-xue-xi.html">自动挂机学习</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-09-01T00:16:00+08:00">
+                Published: 2020-09-01
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-09-01T00:16:00+08:00">
+                Updated: 2020-09-01
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/tricks.html">tricks</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/chrome.html">chrome</a> <a href="https://recozo.github.io/tag/chromedriver.html">chromedriver</a> <a href="https://recozo.github.io/tag/selenium.html">selenium</a> </p>
+</footer><!-- /.post-info --><ol class="arabic">
+<li><p class="first">下载 <a class="reference external" href="https://www.google.com/chrome/">Chrome</a> 以及 <a class="reference external" href="https://chromedriver.chromium.org/downloads">ChromeDriver</a> 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持</p>
+<pre class="literal-block">
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+</pre>
+</li>
+<li><p class="first">安装学习强国学习辅助程序源码</p>
+<pre class="literal-block">
+$ cd Documents/
+$ git clone https://github.com/TechXueXi/TechXueXi.git
+</pre>
+</li>
+<li><p class="first">安装辅助功能</p>
+<pre class="literal-block">
+$ sudo apt install python3-venv
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ python3 -m venv .venv
+
+$ source .venv/bin/activate
+$ pip install requests
+$ pip install selenium
+$ cp ~/Downloads/chromedriver ~/Documents/TechXueXi/SourcePackages/
+</pre>
+</li>
+<li><p class="first">运行辅助学习程序</p>
+<pre class="literal-block">
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ source .venv/bin/activate
+
+$ python pandalearning.py
+</pre>
+</li>
+</ol>
+                </article>
+            </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
