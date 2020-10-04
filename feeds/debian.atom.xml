@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - debian</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/debian.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-08-26T16:01:00+08:00</updated><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="id2"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - debian</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/debian.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-10-02T00:34:00+08:00</updated><entry><title>如何修改主机名和重置SSH</title><link href="https://recozo.github.io/ru-he-xiu-gai-zhu-ji-ming-he-zhong-zhi-ssh.html" rel="alternate"></link><published>2020-10-02T00:34:00+08:00</published><updated>2020-10-02T00:34:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-02:/ru-he-xiu-gai-zhu-ji-ming-he-zhong-zhi-ssh.html</id><content type="html">&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;虚拟机下常用功能&lt;/h2&gt;
+&lt;p&gt;一、修改主机名称:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# hostnamectl set-hostname HostA
+# vi /etc/hosts
+# vi /etc/network/interfaces
+# vi /etc/resolv.conf
+&lt;/pre&gt;
+&lt;p&gt;二、重新生成SSH主机KEY:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# rm -v /etc/ssh/ssh_host_*
+# dpkg-reconfigure openssh-server
+&lt;/pre&gt;
+&lt;p&gt;三、更新系统:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt update
+# apt upgrade
+&lt;/pre&gt;
+&lt;p&gt;四、阿里云主机IP的设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cd /etc/systemd/network
+# ls
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry><entry><title>谁在暗中连网，中招了？</title><link href="https://recozo.github.io/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html" rel="alternate"></link><published>2020-10-02T00:34:00+08:00</published><updated>2020-10-02T00:34:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-02:/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html</id><content type="html">&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;时间同步的有关问题&lt;/h2&gt;
+&lt;p&gt;今天在新装服务器的时候，设置并启用防火墙后查看日志，发现间隔一段时间就有被拦截的访问外网记录……
+不应该的啊，原来一直都没有出现过这种情况啊？？！！谁在暗中连网，中招了？？？&lt;/p&gt;
+&lt;p&gt;上网搜索了被拦截的IP访问地址，发现都是指向网络时间服务器，一下子就释然了，
+不过一下子又好奇了，一直没有怎么关注 debian 下的时间同步功能，于是找了下有关资料，&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我现在使用的是 debian 10.6的版本，使用的是 systemd-timesyncd，等下次有需要再仔细了解一下。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
 &lt;ol class="arabic"&gt;
 &lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;

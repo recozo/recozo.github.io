@@ -44,7 +44,7 @@
 <li>打算转向 Python 进行程序开发，好吧，这理由有点勉强……</li>
 </ul>
 <div class="section" id="id1">
-<h2>一、安装系统，可参照安装远程开发桌面环境</h2>
+<h2>安装系统，可参照安装远程开发桌面环境</h2>
 <p>记得执行以下命令设置git用户信息:</p>
 <pre class="literal-block">
 $ sudo apt install git
@@ -53,7 +53,7 @@ $ git config --global user.name &quot;Recozo&quot;
 </pre>
 </div>
 <div class="section" id="id2">
-<h2>二、安装 PELICAN</h2>
+<h2>安装 PELICAN</h2>
 <p>输入以下命令安装pelican并设置相关的运行环境:</p>
 <pre class="literal-block">
 $ cd ~/Documents
@@ -70,21 +70,22 @@ $ pip freeze | grep rstcheck &gt;&gt; requirements.txt
 $ pelican-quickstart
 $ touch README.rst
 $ vi .gitignore
-    参照 https://github.com/github/gitignore/blob/master/Python.gitignore
-    加入以下内容：
-        #pelican
-            output/
-
-        #vscode
-        .vscode/
-
+</pre>
+<p>参照 <a class="reference external" href="https://github.com/github/gitignore/blob/master/Python.gitignore">https://github.com/github/gitignore/blob/master/Python.gitignore</a>
+以及以下内容录入 .gitignore 内容</p>
+<pre class="literal-block">
+#pelican
+output/
+</pre>
+<p>继续执行以下命令</p>
+<pre class="literal-block">
 $ git init
 $ git add -A
 $ git commit -a -m 'Initial commit'
 </pre>
 </div>
 <div class="section" id="id3">
-<h2>三、发布第一篇文章</h2>
+<h2>发布第一篇文章</h2>
 <p># 在 content 目录中保存文章:</p>
 <pre class="literal-block">
 vi content/welcome-to-my-blog.rst
@@ -104,7 +105,7 @@ Hello, welcome to my first blog !
 <p>保存文件。</p>
 </div>
 <div class="section" id="id4">
-<h2>四、查看网站效果以及内容</h2>
+<h2>查看网站效果以及内容</h2>
 <p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
 <pre class="literal-block">
 $ pelican --autoreload --listen --ignore-cache
@@ -116,7 +117,7 @@ http://localhost:8000
 <p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
 </div>
 <div class="section" id="github">
-<h2>五、使用 GITHUB 发布网站以及源文件</h2>
+<h2>使用 GITHUB 发布网站以及源文件</h2>
 <p># 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
 <pre class="literal-block">
 $ git remote add origin https://github.com/recozo/recozo.github.io.git
@@ -132,8 +133,8 @@ $ ghp-import output -b gh-pages
 $ git push origin gh-pages:master
 </pre>
 </div>
-<div class="section" id="git">
-<h2>六、使用 GIT 还原</h2>
+<div class="section" id="git-recozo-github-io">
+<h2>使用 GIT 在本地还原 recozo.github.io 项目</h2>
 <pre class="literal-block">
 $ cd ~/Documents
 $ git clone https://github.com/recozo/recozo.github.io.git pelican
@@ -145,8 +146,29 @@ $ source .venv/bin/activate
 $ pip install -r requirements.txt
 </pre>
 </div>
+<div class="section" id="git">
+<h2>利用 GIT 恢复或撤销操作</h2>
+<p>如果需要恢复或撤销已经提交了的操作</p>
+<ul class="simple">
+<li>git reset --soft HEAD~
+把该分支移动回原来的位置，而不会改变索引和工作目录</li>
+<li>git reset [--mixed] HEAD~
+撤销一上次的提交，还会取消暂存区所有的东西</li>
+<li>git reset --hard HEAD~
+撤销了最后的提交、git add 和 git commit 命令 以及 工作目录中的所有工作</li>
+</ul>
+<p>如果需要同时撤销已经发布到GITHUB的操作</p>
+<pre class="literal-block">
+# 查看提交的日志（版本）
+git log
+# 本地仓库回退到某一版本
+git reset --hard xxxx
+# 强制 PUSH，此时远程分支已经恢复成指定的 commit 了
+git push origin master --force
+</pre>
+</div>
 <div class="section" id="id5">
-<h2>七、关于浏览器缓冲的问题</h2>
+<h2>关于浏览器缓冲的问题</h2>
 <p>将 Pelican 从 4.2 升级到了 4.5 ，当访问 <a class="reference external" href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> 时，
 总是不能打开 index.html，每次都弹出下载界面，无论是 Firefox 还是 Chrome，都这毛病，以为是升级的原因，
 重新弄了台虚拟机，重新安装还是出这个问题，浪费了二天的时间找原因（不过也不是完全浪费，学到了如何 DEBUG），
@@ -158,7 +180,7 @@ F1 进入设置即可在 Advanced settings 看到这个选项 Disable HTTP Cache
 如果未安装，即仍然会弹出下载界面。</p>
 </div>
 <div class="section" id="vscode-pelican">
-<h2>八、在 VSCODE 中调试 Pelican</h2>
+<h2>在 VSCODE 中调试 Pelican</h2>
 <p>在 .vscode 目录下新建一个 launch.json 文件，录入以下内容，即可在 VSCODE 中对 Pelican 进行断点调试了:</p>
 <pre class="literal-block">
 {

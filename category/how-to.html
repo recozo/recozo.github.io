@@ -21,411 +21,71 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://recozo.github.io/install-freeradius-on-debian.html">Install FreeRadius On Debian 10</a></h1>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/linux-shell-skills.html">Linux Shell Skills</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2020-09-01T00:36:56.252000+08:00">
-                Published: 2020-09-01
+        <abbr class="published" title="2020-10-04T12:41:35.242971+08:00">
+                Published: 2020-10-04
         </abbr>
 		<br />
-        <abbr class="modified" title="2020-09-01T00:36:56.252000+08:00">
-                Updated: 2020-09-01
+        <abbr class="modified" title="2020-10-04T12:41:35.242971+08:00">
+                Updated: 2020-10-04
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/freeradius.html">FreeRadius</a> <a href="https://recozo.github.io/tag/postgresql.html">PostgreSQL</a> <a href="https://recozo.github.io/tag/mac-limit.html">MAC Limit</a> </p>
-</footer><!-- /.post-info --><p>本文假定系统为全新安装的 DEBIAN 10，正常安装DEBIAN，开启SSH，SUDO功能。
-通过安装 FreeRadius 和 PostgreSQL，支持常规的安装。
-本安装教程最主要的功能在于支持 H3C 的 802.1x，并且限制用户允许登录访问的设备数量。
-TODO: 对客户端启用证书的功能待下次测试并完善</p>
+<p>tags: <a href="https://recozo.github.io/tag/linux.html">linux</a> <a href="https://recozo.github.io/tag/shell.html">shell</a> </p>
+</footer><!-- /.post-info --><div class="section" id="debian">
+<h2>如何查看 debian 包中的文件</h2>
+<pre class="literal-block">
+dpkg -L packagename
+</pre>
+</div>
+<div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
+<h2>What's the difference between /sbin/nologin and /bin/false ?</h2>
+<p>When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.</p>
+<p>/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.</p>
+<p>Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.</p>
+<p>nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.</p>
+</div>
 <div class="section" id="id1">
-<h2>一、安装</h2>
+<h2><a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html">Five find command Linux: find, locate, whereis, which, type</a></h2>
+<dl class="docutils">
+<dt>find</dt>
+<dd>Find is the most common and most powerful search command, you can find anything you want to find the file in it.</dd>
+<dt>locate</dt>
+<dd>The locate command is &quot;another way find -name&quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.</dd>
+<dt>whereis</dt>
+<dd>The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.</dd>
+<dt>which</dt>
+<dd>The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.</dd>
+<dt>type</dt>
+<dd><p class="first">The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.</p>
 <pre class="literal-block">
-# apt install freeradius freeradius-postgresql postgresql postgresql-client
+type -a echo
 </pre>
+<p><a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command">There are two classes of builtins</a></p>
+<ol class="last arabic simple">
+<li>Some commands have to be built into the shell program itself because they cannot work if they are external.</li>
+<li>The other class of commands are built into the shell purely for efficiency.</li>
+</ol>
+</dd>
+</dl>
 </div>
-<div class="section" id="postgresql">
-<h2>二、配置 PostgreSQL</h2>
-<p>参考链接：
-<a class="reference external" href="https://wiki.freeradius.org/guide/SQL-HOWTO-for-freeradius-3.x-on-Debian-Ubuntu">https://wiki.freeradius.org/guide/SQL-HOWTO-for-freeradius-3.x-on-Debian-Ubuntu</a></p>
+<div class="section" id="id2">
+<h2><a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it">What is the difference between executing a Bash script vs sourcing it?</a></h2>
 <pre class="literal-block">
-# passwd postgres
-# su - postgres
-$ psql -c &quot;ALTER USER postgres WITH PASSWORD 'securepassword';&quot;
-$ createdb radius
-$ exit
+./myscript
 
-# cd /etc/freeradius/3.0/mods-config/sql/main/postgresql
-# psql -h localhost -U postgres radius &lt; schema.sql
-# psql -h localhost -U postgres radius &lt; setup.sql      -- 建议修改数据库访问账户的口令
+. myscript
+source myscript
 </pre>
-<p>可选择使用 pgadmin，如果不在同一台电脑上安装，还需要打开监听地址并授权安装了 pgadmin 计算机的访问</p>
-<pre class="literal-block">
-# apt install pgadmin3
-
-# vi /etc/postgresql/11/main/postgresql.conf
---------------------EDIT--------------------
-    listen_addresses = '*'
---------------------------------------------
-
-# vi /etc/postgresql/11/main/pg_hba.conf
---------------------ADD---------------------
-    # 授权安装了 pgadmin 的计算机访问数据库
-    host    all             all             xxx.xxx.xxx.xxx/32           md5
---------------------------------------------
-
-# systemctl restart postgresql
-</pre>
-</div>
-<div class="section" id="freeradius-3-sql">
-<h2>三、配置 FreeRadius 3 启用 sql</h2>
-<p>参考链接： <a class="reference external" href="https://networkradius.com/doc/3.0.10/raddb/mods-available/eap/peap.html">https://networkradius.com/doc/3.0.10/raddb/mods-available/eap/peap.html</a></p>
-<pre class="literal-block">
-# vi /etc/freeradius/3.0/sites-available/default
---------------------EDIT--------------------
-    uncomment sql in authorize, accounting, session, post-auth section
---------------------------------------------
-
-# vi /etc/freeradius/3.0/sites-available/inner-tunnel
---------------------EDIT--------------------
-    uncomment sql in authorize, session, post-auth section
---------------------------------------------
-
-# vi /etc/freeradius/3.0/mods-available/sql
---------------------EDIT--------------------
-sql {
-    driver = &quot;rlm_sql_postgresql&quot;
-    dialect = &quot;postgresql&quot;
-
-    # Connection info:
-    server = &quot;localhost&quot;
-    port = 5432
-    login = &quot;radius&quot;
-    password = &quot;setup.sql中设置的口令&quot;
-
-    # Database table configuration for everything except Oracle
-
-    radius_db = &quot;radius&quot;
-
-    # Set to ‘yes’ to read radius clients from the database (‘nas’ table)
-    # Clients will ONLY be read on server startup.
-    read_clients = yes
-
-    # Table to keep radius client info
-    client_table = &quot;nas&quot;
---------------------------------------------
-
-# cd /etc/freeradius/3.0/mods-enabled
-# ln -s ../mods-available/sql sql
-# chown -h freerad:freerad /etc/freeradius/3.0/mods-enabled/sql
-# cd /etc/freeradius/3.0/mods-config/sql/main/postgresql
-
-# vi rczmacsetup.sql
---------------------ADD---------------------
-/*
-* Table structure for table 'rczmaclimit'
-*/
-CREATE TABLE rczmaclimit (
-        UserName                text PRIMARY KEY,
-        MacLimit                integer NOT NULL DEFAULT 1,  -- 0 Unlimited
-        Remark                  text NOT NULL DEFAULT ''
-);
-GRANT SELECT on rczmaclimit TO radius;
-
-/*
-* Table structure for table 'rczmaccheck'
-*/
-CREATE TABLE rczmaccheck (
-        id                      serial PRIMARY KEY,
-        UserName                text NOT NULL,
-        CallingStationId        text NOT NULL,
-        AuthDate                timestamp with time zone NOT NULL default now()
-);
-create index rczmaccheck_UserName on rczmaccheck (UserName,CallingStationId);
-GRANT SELECT, INSERT, UPDATE on rczmaccheck TO radius;
-GRANT USAGE, SELECT ON SEQUENCE rczmaccheck_id_seq TO radius;
-
-
-/*
-* Stored Procedure for authorize_check_query
-*/
-CREATE OR REPLACE FUNCTION rczmac_authorize_check(rczuserName TEXT, rczcallingStationId TEXT)
-RETURNS TABLE (id integer, UserName text, Attribute text, Value text, Op varchar(2))
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    isOk        boolean DEFAULT false;
-    tmpMacLimit    integer;
-    tmpMacTotal    integer;
-BEGIN
-    IF EXISTS(
-        SELECT *
-        FROM rczmaccheck
-        WHERE rczmaccheck.UserName = rczmac_authorize_check.rczuserName
-        AND rczmaccheck.CallingStationId = rczmac_authorize_check.rczcallingStationId
-        )
-    THEN
-        RAISE LOG '用户: % MAC: % ，MAC已登记', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
-        isOk = true;
-    ELSE
-        SELECT MacLimit INTO tmpMacLimit
-        FROM rczmaclimit
-        WHERE rczmaclimit.UserName = rczmac_authorize_check.rczuserName;
-
-        IF NOT FOUND THEN
-            RAISE LOG '用户: % MAC: % ，MAC上限无记录', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
-            tmpMacLimit = 1;
-        END IF;
-
-        IF tmpMacLimit = 0 THEN
-            RAISE LOG '用户: % MAC: % ，MAC上限为0', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
-            isOk = true;
-        ELSE
-            SELECT COUNT(*) INTO tmpMacTotal
-            FROM rczmaccheck
-            WHERE rczmaccheck.UserName = rczmac_authorize_check.rczuserName;
-
-            IF tmpMacLimit &gt; tmpMacTotal THEN
-                RAISE LOG '用户: % MAC: % ，MAC未登记且未达到上限', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
-                isOk = true;
-            ELSE
-                RAISE LOG '用户: % MAC: % ，MAC达到上限禁止登录', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
-                isOk = false;
-            END IF;
-        END IF;
-    END IF;
-
-    RAISE LOG '用户: % 的MAC限制检查结果为： %', rczmac_authorize_check.rczuserName, isOk;
-
-    RETURN QUERY
-    -- 如果 isOk 不通过，不返回用户检查项
-    SELECT radcheck.id, radcheck.UserName, radcheck.Attribute, radcheck.Value, radcheck.Op
-    FROM radcheck
-    WHERE radcheck.UserName = rczmac_authorize_check.rczuserName AND isOk
-    ORDER BY id;
-END;
-$$;
-
-/*
-* Stored Procedure for post-auth-query
-*/
-CREATE OR REPLACE PROCEDURE rczmac_post_auth(rczuserName TEXT, rczPass TEXT, rczReply TEXT, rczcallingStationId TEXT)
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    tmpAuthDate     timestamp DEFAULT now();
-BEGIN
-    INSERT INTO radpostauth(username, pass, reply, CallingStationId, authdate)
-    VALUES (rczuserName, rczPass, rczReply, rczcallingStationId, tmpAuthDate);
-
-    IF rczReply = 'Access-Accept' THEN
-        IF EXISTS(
-            SELECT *
-            FROM rczmaccheck
-            WHERE rczmaccheck.UserName = rczmac_post_auth.rczuserName
-            AND rczmaccheck.CallingStationId = rczmac_post_auth.rczcallingStationId
-            )
-        THEN
-            RAISE LOG '用户: % MAC: % ，MAC已存在', rczmac_post_auth.rczuserName, rczmac_post_auth.rczcallingStationId;
-        ELSE
-            RAISE LOG '用户: % MAC: % ，MAC已新增', rczmac_post_auth.rczuserName, rczmac_post_auth.rczcallingStationId;
-
-            INSERT INTO rczmaccheck(UserName, CallingStationId, AuthDate)
-            VALUES (rczuserName, rczcallingStationId, tmpAuthDate);
-        END IF;
-    END IF;
-END;
-$$;
---------------------------------------------
-
-# psql -h localhost -U postgres radius &lt; rczmacsetup.sql
-
-# vi /etc/freeradius/3.0/mods-config/sql/main/postgresql/queries.conf
---------------------EDIT--------------------
-authorize_check_query = &quot;\
-    SELECT * FROM rczmac_authorize_check( \
-        '%{User-Name}', \
-        '%{Calling-Station-Id}')&quot;
-post-auth {
-    query = &quot;CALL rczmac_post_auth( \
-                '%{User-Name}', \
-                '%{%{User-Password}:-Chap-Password}', \
-                '%{reply:Packet-Type}', \
-                '%{Calling-Station-Id}')&quot;
---------------------------------------------
-
-# vi /etc/freeradius/3.0/sites-available/inner-tunnel
---------------------ADD---------------------
-#
-#  Look in an SQL database.  The schema of the database
-#  is meant to mirror the &quot;users&quot; file.
-#
-#  See &quot;Authorization Queries&quot; in sql.conf
-update request {
-        &amp;Calling-Station-Id := outer.request:Calling-Station-Id
-}
-sql
---------------------------------------------
-
-# systemctl enable freeradius
-# systemctl restart freeradius
-</pre>
-</div>
-<div class="section" id="sql">
-<h2>四、验证SQL是否安装正确（可选）</h2>
-<p>开二个终端，分别运行 FreeRadius 和 测试</p>
-<p>终端一</p>
-<pre class="literal-block">
-# systemctl stop freeradius
-# freeradius -X
-</pre>
-<p>终端二</p>
-<pre class="literal-block">
-# psql -h localhost -U postgres radius
-radius=# insert into nas (nasname, shortname, secret, description) values ('xxx.xxx.xxx.xxx', 'Short Name', 'secure secret', 'description');        -- 加入要允许访问的NAS设备信息
-radius=# insert into radcheck (username,attribute,op,value) values('username', 'Cleartext-Password', ':=', 'password');     -- 加入要允许访问的用户信息
-radius=# \q
-# radtest username password localhost 0 testing123
-</pre>
-</div>
-<div class="section" id="eapol-test-eap">
-<h2>五、生成 eapol_test 工具并验证 eap （可选）</h2>
-<p>开二个终端，分别运行 FreeRadius 和 测试</p>
-<p>终端一</p>
-<pre class="literal-block">
-# systemctl stop freeradius
-# freeradius -X
-</pre>
-<p>终端二首先生成 eapol_test</p>
-<pre class="literal-block">
-$ sudo apt install pkg-config
-$ sudo apt install build-essential
-$ sudo apt install libssl-dev
-$ sudo apt install libnl-genl-3-dev
-$ sudo apt install libdbus-1-dev
-$ wget https://w1.fi/releases/wpa_supplicant-2.9.tar.gz
-$ tar -zxf wpa_supplicant-2.9.tar.gz
-$ cd wpa_supplicant-2.9/wpa_supplicant/
-$ cp defconfig .config
-$ vi .config
--------------------EDIT---------------------
-    CONFIG_EAPOL_TEST=y
---------------------------------------------
-$ make eapol_test
-$ mkdir ~/bin
-$ cp eapol_test ~/bin
-</pre>
-<p>继续在终端二测试 eap 功能</p>
-<pre class="literal-block">
-$ cd ~/bin
-$ vi eap-ttls-pap.conf
--------------------ADD----------------------
-network={
-    key_mgmt=WPA-EAP
-    eap=TTLS
-    identity=&quot;username&quot;
-    anonymous_identity=&quot;anonymous&quot;
-    password=&quot;password&quot;
-    phase2=&quot;auth=PAP&quot;
-}
---------------------------------------------
-$ ./eapol_test -c eap-ttls-pap.conf -s testing123
-</pre>
-</div>
-<div class="section" id="eap">
-<h2>六、生成 eap 证书（可选，但是强烈建议）</h2>
-<p>参考链接： <a class="reference external" href="https://networkradius.com/doc/FreeRADIUS-Implementation-Ch6.pdf">https://networkradius.com/doc/FreeRADIUS-Implementation-Ch6.pdf</a></p>
-<p>参考链接： <a class="reference external" href="http://deployingradius.com/documents/configuration/certificates.html">http://deployingradius.com/documents/configuration/certificates.html</a></p>
-<p>一般来说，802.1X 下建议使用自己的CA，生成自签名证书并将根证书安装在用户终端上。
-如果用户终端不安装根证书或使用第三方证书的话，存在以下安全隐患：
-1、不安装根证书时，存在伪造服务器的可能（创建一个同名SSID的无线，使用伪造的radius服务器），导致用户名与密码泄露；
-2、如果启用 EAP-TLS 并使用第三方根证书的话，此时只要是该机构签发的用户证书均有效，导致用户证书不受控。
-一般情况下这不是我们想要的结果；因此，如果要使用其它CA的证书，请仔细考虑清楚。</p>
-<p>注意：debian 下的 freeradius 会自动对 EAP 使用 ssl-cert 所生成的 ssl-cert-snakeoil 证书。
-该证书是基于debian的自签名证书，主要用于方便需要创建SSL证书的软件包安装，
-如果 snakeoil 证书过期，可以使用以下命令重新生成 sudo make-ssl-cert generate-default-snakeoil --force-overwrite ，
-也就是不用进行证书生成操作，也可以保证 freeradius 支持 EAP。
-不过在生产环境下不应该使用该证书，而应根据实际生成或使用对应的证书。
-测试中发现在 debian 环境下的 freeradius -X 不会自动生成证书（这点似乎与freeradius 官方的说明不一致）。</p>
-<p>删除原来生成的证书（生产环境下慎用）</p>
-<pre class="literal-block">
-# cd /etc/freeradius/3.0/certs
-# rm -f *.pem *.der *.csr *.crt *.key *.p12 serial* index.txt*
-</pre>
-<p>生成根证书</p>
-<pre class="literal-block">
-# vi /etc/freeradius/3.0/certs/ca.cnf
---------------------EDIT--------------------
-[ CA_default ]
-default_days            = 3600
-
-[ req ]
-input_password = whateverCA
-output_password = whateverCA
-
-[certificate_authority]
-countryName             = CN
-stateOrProvinceName     = Jiangxi
-localityName            = Pingxiang
-organizationName        = Organization Name
-emailAddress            = radius&#64;example.com
-commonName              = &quot;XXXXXX Certificate Authority&quot;
---------------------------------------------
-
-# make ca.pem
-# make ca.der
-</pre>
-<p>生成服务器证书（countryName, stateOrProvinceName, localityName 要与根证书一致？？）</p>
-<pre class="literal-block">
-# vi /etc/freeradius/3.0/certs/server.cnf
---------------------EDIT--------------------
-[ CA_default ]
-default_days            = 3600
-
-[ req ]
-input_password = whateverSVR
-output_password = whateverSVR
-
-[server]
-countryName             = CN
-stateOrProvinceName     = Jiangxi
-localityName            = Pingxiang
-organizationName        = Organization Name
-emailAddress            = radius&#64;example.com
-commonName              = &quot;XXXXXX Server Certificate&quot;
---------------------------------------------
-
-# make server.pem
-</pre>
-<p>修改 eap 配置以使用新创建的证书</p>
-<pre class="literal-block">
-# vi /etc/freeradius/3.0/mods-available/eap
---------------------EDIT--------------------
-tls-config tls-common {
-    private_key_password = whateverSVR
-    private_key_file = ${cadir}/server.key
-    certificate_file = ${cadir}/server.pem
-    ca_file = ${cadir}/ca.pem
-}
---------------------------------------------
-
-# chown freerad:freerad server.key
-# chown freerad:freerad server.pem
-# chown freerad:freerad ca.pem
-
-# systemctl restart freeradius
-</pre>
-</div>
-<div class="section" id="h3c-radius-802-1x">
-<h2>七、在 H3C 设备上配置 Radius 并启用（无线）802.1x</h2>
-</div>
-<div class="section" id="x">
-<h2>八、配置终端的 802.1x 访问</h2>
-<p>参考链接： <a class="reference external" href="https://schoolsysadmin.blogspot.com/2016/03/freeradius-production-ssl-certificates.html">https://schoolsysadmin.blogspot.com/2016/03/freeradius-production-ssl-certificates.html</a></p>
-<p>将根CA文件（ca.der）公开，方便用户在终端设备上导入；</p>
-<p>windows 下配置无线</p>
+<p>./ 代表的是当前目录。
+. myscript 与 source myscript 是一样的，This &quot;spelling&quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.</p>
+<p>Executing a script will run the commands in a new shell process.</p>
+<p>Sourcing a script will run the commands in the current shell process.</p>
+<p>Use source if you want the script to change the environment in your currently running shell. use execute otherwise.</p>
 </div>
                 </article>
             </aside><!-- /#featured -->
@@ -442,12 +102,12 @@ tls-config tls-common {
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-09-01T00:36:30.188000+08:00">
-                Published: 2020-09-01
+        <abbr class="published" title="2020-10-04T12:41:35.242971+08:00">
+                Published: 2020-10-04
         </abbr>
 		<br />
-        <abbr class="modified" title="2020-09-01T00:36:30.188000+08:00">
-                Updated: 2020-09-01
+        <abbr class="modified" title="2020-10-04T12:41:35.242971+08:00">
+                Updated: 2020-10-04
         </abbr>
 
         <address class="vcard author">
@@ -463,52 +123,18 @@ tls-config tls-common {
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="https://recozo.github.io/linux-shell-skills.html" rel="bookmark"
-                           title="Permalink to Linux Shell Skills">Linux Shell Skills</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-09-01T00:36:30.147000+08:00">
-                Published: 2020-09-01
-        </abbr>
-		<br />
-        <abbr class="modified" title="2020-09-01T00:36:30.147000+08:00">
-                Updated: 2020-09-01
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
-        </address>
-<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/linux.html">linux</a> <a href="https://recozo.github.io/tag/shell.html">shell</a> </p>
-</footer><!-- /.post-info -->                <div class="section" id="debian">
-<h2>如何查看 debian 包中的文件</h2>
-<pre class="literal-block">
-dpkg -L packagename
-</pre>
-</div>
-<div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
-<h2>What's the difference between /sbin/nologin and /bin/false ?</h2>
-<p>When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file …</p></div>
-                <a class="readmore" href="https://recozo.github.io/linux-shell-skills.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
                     <h1><a href="https://recozo.github.io/speech-recognition.html" rel="bookmark"
                            title="Permalink to 将音频（视频）转录为文字">将音频（视频）转录为文字</a></h1>
                 </header>
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-09-01T00:36:30.088000+08:00">
-                Published: 2020-09-01
+        <abbr class="published" title="2020-10-04T12:41:35.242971+08:00">
+                Published: 2020-10-04
         </abbr>
 		<br />
-        <abbr class="modified" title="2020-09-01T00:36:30.088000+08:00">
-                Updated: 2020-09-01
+        <abbr class="modified" title="2020-10-04T12:41:35.242971+08:00">
+                Updated: 2020-10-04
         </abbr>
 
         <address class="vcard author">
@@ -538,12 +164,12 @@ dpkg -L packagename
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-09-01T00:36:29.945000+08:00">
-                Published: 2020-09-01
+        <abbr class="published" title="2020-10-04T12:41:35.242971+08:00">
+                Published: 2020-10-04
         </abbr>
 		<br />
-        <abbr class="modified" title="2020-09-01T00:36:29.945000+08:00">
-                Updated: 2020-09-01
+        <abbr class="modified" title="2020-10-04T12:41:35.242971+08:00">
+                Updated: 2020-10-04
         </abbr>
 
         <address class="vcard author">
@@ -577,28 +203,153 @@ $ sudo systemctl restart ssh.service
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="https://recozo.github.io/vim-skills.html" rel="bookmark"
-                           title="Permalink to Vim skills">Vim skills</a></h1>
+                    <h1><a href="https://recozo.github.io/install-freeradius-on-debian.html" rel="bookmark"
+                           title="Permalink to Install FreeRadius On Debian 10">Install FreeRadius On Debian 10</a></h1>
                 </header>
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2020-09-01T00:36:29.882000+08:00">
-                Published: 2020-09-01
+        <abbr class="published" title="2020-10-04T12:41:35.238971+08:00">
+                Published: 2020-10-04
         </abbr>
 		<br />
-        <abbr class="modified" title="2020-09-01T00:36:29.882000+08:00">
-                Updated: 2020-09-01
+        <abbr class="modified" title="2020-10-04T12:41:35.238971+08:00">
+                Updated: 2020-10-04
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
         </address>
 <p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
-<p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
-</footer><!-- /.post-info -->                <p class="first last">vi 与 vim 的学习笔记</p>
+<p>tags: <a href="https://recozo.github.io/tag/freeradius.html">FreeRadius</a> <a href="https://recozo.github.io/tag/postgresql.html">PostgreSQL</a> <a href="https://recozo.github.io/tag/mac-limit.html">MAC Limit</a> </p>
+</footer><!-- /.post-info -->                <p class="first last">Getting setup freeradius with postgreSQL and support client's device limit</p>
 
-                <a class="readmore" href="https://recozo.github.io/vim-skills.html">read more</a>
+                <a class="readmore" href="https://recozo.github.io/install-freeradius-on-debian.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/postgresql-xue-xi.html" rel="bookmark"
+                           title="Permalink to POSTGRESQL 学习">POSTGRESQL 学习</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-03T20:16:00+08:00">
+                Published: 2020-10-03
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-03T20:16:00+08:00">
+                Updated: 2020-10-03
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/postgresql.html">postgresql</a> <a href="https://recozo.github.io/tag/database.html">database</a> </p>
+</footer><!-- /.post-info -->                <div class="section" id="roles">
+<h2>Roles</h2>
+<p>PostgreSQL represents accounts as roles.
+Roles that can log in are called login roles.
+Roles that contain other roles are called group roles.
+Roles that are group and can log in are called group login roles.
+However, for easier maintainability and security, DBAs generally don't grant login rights to …</p></div>
+                <a class="readmore" href="https://recozo.github.io/postgresql-xue-xi.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html" rel="bookmark"
+                           title="Permalink to 基于 wagtail 创建网站应用">基于 wagtail 创建网站应用</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-03T14:12:00+08:00">
+                Published: 2020-10-03
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-03T14:12:00+08:00">
+                Updated: 2020-10-03
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/wagtail.html">wagtail</a> <a href="https://recozo.github.io/tag/django.html">django</a> <a href="https://recozo.github.io/tag/postgresql.html">postgresql</a> <a href="https://recozo.github.io/tag/git.html">git</a> </p>
+</footer><!-- /.post-info -->                <p>参考链接</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10</a></li>
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces">https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces</a></li>
+</ul>
+<div class="section" id="id1">
+<h2>系统运行环境配置</h2>
+<p>设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，为该用户开启 sudo 功能。</p>
+<ol class="arabic">
+<li><p class="first">以 root 用户安装 sudo</p>
+<pre class="literal-block">
+# apt install sudo
+# adduser recozo sudo
+</pre>
+</li>
+<li><p class="first">以 recozo 用户登录</p>
+</li>
+<li><p class="first">安装 postgresql数据库</p>
+<pre class="literal-block">
+$ sudo apt install postgresql postgresql-client curl nginx
+</pre>
+<p>切换至 …</p></li></ol></div>
+                <a class="readmore" href="https://recozo.github.io/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/shi-yong-openvpn-an-quan-fang-wen-ye-wu-wang-luo.html" rel="bookmark"
+                           title="Permalink to 使用 OpenVPN 安全访问业务网络">使用 OpenVPN 安全访问业务网络</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-09-01T10:12:00+08:00">
+                Published: 2020-09-01
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-02T10:43:00+08:00">
+                Updated: 2020-10-02
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/openvpn.html">openvpn</a> <a href="https://recozo.github.io/tag/usb-key.html">usb key</a> <a href="https://recozo.github.io/tag/ca.html">ca</a> </p>
+</footer><!-- /.post-info -->                <p>本配置方法用于正常使用OPENVPN的同时，启用CA与证书令牌，
+如有需要还可附加启用RADIUS用户与口令认证。</p>
+<p>本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，该用户开启 sudo 功能，并且配置好了内外网卡地址。</p>
+<p>参见：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10</a></li>
+<li><a class="reference external" href="https://www.osradar.com/openvpn-authentication-with-freeradius/">https://www.osradar.com/openvpn-authentication-with-freeradius/</a></li>
+<li><a class="reference external" href="https://openvpn.net/community-resources/how-to/#using-alternative-authentication-methods">https://openvpn.net/community-resources/how-to/#using-alternative-authentication-methods</a></li>
+</ul>
+<div class="section" id="id1">
+<h2>一、安装OpenVPN</h2>
+<p>使用以下命令安装 OpenVPN</p>
+<pre class="literal-block">
+$ sudo apt install openvpn
+</pre>
+</div>
+<div class="section" id="id2">
+<h2>二、创建服务器证书和加密文件等</h2>
+<p>安装完OPENVPN后，默认自动安装了 easyrsa …</p></div>
+                <a class="readmore" href="https://recozo.github.io/shi-yong-openvpn-an-quan-fang-wen-ye-wu-wang-luo.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
@@ -631,7 +382,7 @@ $ sudo systemctl restart ssh.service
 <li>打算转向 Python 进行程序开发，好吧，这理由有点勉强……</li>
 </ul>
 <div class="section" id="id1">
-<h2>一、安装系统，可参照安装远程开发桌面环境</h2>
+<h2>安装系统，可参照安装远程开发桌面环境</h2>
 <p>记得执行以下命令设置git用户信息:</p>
 <pre class="literal-block">
 $ sudo apt install git
@@ -640,11 +391,12 @@ $ git config --global user.name &quot;Recozo&quot;
 </pre>
 </div>
 <div class="section" id="id2">
-<h2>二、安装 PELICAN</h2>
+<h2>安装 PELICAN</h2>
 <p>输入以下命令安装pelican并设置相关的运行环境:</p>
 <pre class="literal-block">
 $ cd ~/Documents
-$ mkdir mysite &amp;&amp; cd mysite …</pre></div>
+$ mkdir mysite &amp;&amp; cd mysite
+$ python3 -m …</pre></div>
                 <a class="readmore" href="https://recozo.github.io/shi-yong-pelican-wei-hu-jing-tai-wang-zhan.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>

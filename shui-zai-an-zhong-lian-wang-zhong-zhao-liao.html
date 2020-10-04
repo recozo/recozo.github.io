@@ -3,9 +3,10 @@
 <head>
         <meta charset="utf-8" />
         <meta name="generator" content="Pelican" />
-        <title>Recozo's Blog - Authors</title>
+        <title>谁在暗中连网，中招了？</title>
         <link rel="stylesheet" href="https://recozo.github.io/theme/css/main.css" />
         <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom Feed" />
+        <meta name="description" content="时间同步的有关问题 今天在新装服务器的时候，设置并启用防火墙后查看日志，发现间隔一段时间就有被拦截的访问外网记录…… 不应该的啊，原来一直都没有出现过这种情况啊？？！！谁在暗中连网，中招了？？？ 上网搜索了被拦截的IP访问地址，发现都是指向网络时间服务器，一下子就释然了，..." />
 </head>
 
 <body id="index" class="home">
@@ -13,19 +14,48 @@
                 <h1><a href="https://recozo.github.io/">Recozo's Blog</a></h1>
                 <nav><ul>
                     <li><a href="https://recozo.github.io/category/article.html">article</a></li>
-                    <li><a href="https://recozo.github.io/category/debian.html">debian</a></li>
+                    <li class="active"><a href="https://recozo.github.io/category/debian.html">debian</a></li>
                     <li><a href="https://recozo.github.io/category/how-to.html">how-to</a></li>
                     <li><a href="https://recozo.github.io/category/tricks.html">tricks</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
-
 <section id="content" class="body">
-    <h1>Authors on Recozo's Blog</h1>
-    <ul>
-        <li><a href="https://recozo.github.io/author/recozo.html">Recozo</a> (20)</li>
-    </ul>
-</section>
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://recozo.github.io/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html" rel="bookmark"
+           title="Permalink to 谁在暗中连网，中招了？">谁在暗中连网，中招了？</a></h1>
+    </header>
 
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-02T00:34:00+08:00">
+                Published: 2020-10-02
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-02T00:34:00+08:00">
+                Updated: 2020-10-02
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/debian.html">debian</a>.</p>
+
+</footer><!-- /.post-info -->      <div class="section" id="id2">
+<h2>时间同步的有关问题</h2>
+<p>今天在新装服务器的时候，设置并启用防火墙后查看日志，发现间隔一段时间就有被拦截的访问外网记录……
+不应该的啊，原来一直都没有出现过这种情况啊？？！！谁在暗中连网，中招了？？？</p>
+<p>上网搜索了被拦截的IP访问地址，发现都是指向网络时间服务器，一下子就释然了，
+不过一下子又好奇了，一直没有怎么关注 debian 下的时间同步功能，于是找了下有关资料，</p>
+<p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10</a></p>
+<p>我现在使用的是 debian 10.6的版本，使用的是 systemd-timesyncd，等下次有需要再仔细了解一下。</p>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>

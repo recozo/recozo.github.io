@@ -23,6 +23,287 @@
                     <ol id="posts-list" class="hfeed" start="9">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="https://recozo.github.io/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html" rel="bookmark"
+                           title="Permalink to 基于 wagtail 创建网站应用">基于 wagtail 创建网站应用</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-03T14:12:00+08:00">
+                Published: 2020-10-03
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-03T14:12:00+08:00">
+                Updated: 2020-10-03
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/wagtail.html">wagtail</a> <a href="https://recozo.github.io/tag/django.html">django</a> <a href="https://recozo.github.io/tag/postgresql.html">postgresql</a> <a href="https://recozo.github.io/tag/git.html">git</a> </p>
+</footer><!-- /.post-info -->                <p>参考链接</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10</a></li>
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces">https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces</a></li>
+</ul>
+<div class="section" id="id1">
+<h2>系统运行环境配置</h2>
+<p>设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，为该用户开启 sudo 功能。</p>
+<ol class="arabic">
+<li><p class="first">以 root 用户安装 sudo</p>
+<pre class="literal-block">
+# apt install sudo
+# adduser recozo sudo
+</pre>
+</li>
+<li><p class="first">以 recozo 用户登录</p>
+</li>
+<li><p class="first">安装 postgresql数据库</p>
+<pre class="literal-block">
+$ sudo apt install postgresql postgresql-client curl nginx
+</pre>
+<p>切换至 …</p></li></ol></div>
+                <a class="readmore" href="https://recozo.github.io/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/vim-xue-xi-bi-ji.html" rel="bookmark"
+                           title="Permalink to Vim 学习笔记">Vim 学习笔记</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-02T10:43:00+08:00">
+                Published: 2020-10-02
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-02T10:43:00+08:00">
+                Updated: 2020-10-02
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/tricks.html">tricks</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/vi.html">vi</a> <a href="https://recozo.github.io/tag/vim.html">vim</a> </p>
+</footer><!-- /.post-info -->                <p class="first last">vi 与 vim 的学习笔记</p>
+
+                <a class="readmore" href="https://recozo.github.io/vim-xue-xi-bi-ji.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/ru-he-xiu-gai-zhu-ji-ming-he-zhong-zhi-ssh.html" rel="bookmark"
+                           title="Permalink to 如何修改主机名和重置SSH">如何修改主机名和重置SSH</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-02T00:34:00+08:00">
+                Published: 2020-10-02
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-02T00:34:00+08:00">
+                Updated: 2020-10-02
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/debian.html">debian</a>.</p>
+
+</footer><!-- /.post-info -->                <div class="section" id="id1">
+<h2>虚拟机下常用功能</h2>
+<p>一、修改主机名称:</p>
+<pre class="literal-block">
+# hostnamectl set-hostname HostA
+# vi /etc/hosts
+# vi /etc/network/interfaces
+# vi /etc/resolv.conf
+</pre>
+<p>二、重新生成SSH主机KEY:</p>
+<pre class="literal-block">
+# rm -v /etc/ssh/ssh_host_*
+# dpkg-reconfigure openssh-server
+</pre>
+<p>三、更新系统:</p>
+<pre class="literal-block">
+# apt update
+# apt upgrade
+</pre>
+<p>四、阿里云主机IP的设置:</p>
+<pre class="literal-block">
+# cd /etc/systemd/network
+# ls
+</pre>
+</div>
+
+                <a class="readmore" href="https://recozo.github.io/ru-he-xiu-gai-zhu-ji-ming-he-zhong-zhi-ssh.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html" rel="bookmark"
+                           title="Permalink to 谁在暗中连网，中招了？">谁在暗中连网，中招了？</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-10-02T00:34:00+08:00">
+                Published: 2020-10-02
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-02T00:34:00+08:00">
+                Updated: 2020-10-02
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/debian.html">debian</a>.</p>
+
+</footer><!-- /.post-info -->                <div class="section" id="id2">
+<h2>时间同步的有关问题</h2>
+<p>今天在新装服务器的时候，设置并启用防火墙后查看日志，发现间隔一段时间就有被拦截的访问外网记录……
+不应该的啊，原来一直都没有出现过这种情况啊？？！！谁在暗中连网，中招了？？？</p>
+<p>上网搜索了被拦截的IP访问地址，发现都是指向网络时间服务器，一下子就释然了，
+不过一下子又好奇了，一直没有怎么关注 debian 下的时间同步功能，于是找了下有关资料，</p>
+<p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10</a></p>
+<p>我现在使用的是 debian 10.6的版本，使用的是 systemd-timesyncd，等下次有需要再仔细了解一下。</p>
+</div>
+
+                <a class="readmore" href="https://recozo.github.io/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/bai-du-api-ying-yong.html" rel="bookmark"
+                           title="Permalink to 百度 API 应用">百度 API 应用</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-09-15T00:16:00+08:00">
+                Published: 2020-09-15
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-09-15T00:16:00+08:00">
+                Updated: 2020-09-15
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/tricks.html">tricks</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/baidu.html">baidu</a> <a href="https://recozo.github.io/tag/api.html">api</a> </p>
+</footer><!-- /.post-info -->                <div class="section" id="id1">
+<h2>百度分享的使用</h2>
+<p>百度分享的网站目前已经关了，不过功能目前好像还有用，暂时先用着吧……</p>
+<p>参考： <a class="reference external" href="https://www.cnblogs.com/cyhan/p/11671566.html">https://www.cnblogs.com/cyhan/p/11671566.html</a></p>
+<p>这里完整的展示一下插件如何编写。</p>
+<ol class="arabic">
+<li><p class="first">插入百度分享插件js文件</p>
+<p>官方插件不支持https，如果要用https的话可下载 <a class="reference external" href="https://github.com/hrwhisper/baiduShare/">支持HTTPS百度分享插件</a> 。</p>
+<p>下载后需要把 static 文件夹放在网站的根目录下，
+并将百度分享代码中的 <a class="reference external" href="http://bdimg.share.baidu.com/">http://bdimg.share.baidu.com/</a> 改为 / 。</p>
+<pre class="literal-block">
+with (document) 0[(getElementsByTagName('head')[0] || body)
+    .appendChild(createElement('script'))
+    .src = '/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date …</pre></li></ol></div>
+                <a class="readmore" href="https://recozo.github.io/bai-du-api-ying-yong.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/shi-yong-openvpn-an-quan-fang-wen-ye-wu-wang-luo.html" rel="bookmark"
+                           title="Permalink to 使用 OpenVPN 安全访问业务网络">使用 OpenVPN 安全访问业务网络</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-09-01T10:12:00+08:00">
+                Published: 2020-09-01
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-02T10:43:00+08:00">
+                Updated: 2020-10-02
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/openvpn.html">openvpn</a> <a href="https://recozo.github.io/tag/usb-key.html">usb key</a> <a href="https://recozo.github.io/tag/ca.html">ca</a> </p>
+</footer><!-- /.post-info -->                <p>本配置方法用于正常使用OPENVPN的同时，启用CA与证书令牌，
+如有需要还可附加启用RADIUS用户与口令认证。</p>
+<p>本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，该用户开启 sudo 功能，并且配置好了内外网卡地址。</p>
+<p>参见：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10</a></li>
+<li><a class="reference external" href="https://www.osradar.com/openvpn-authentication-with-freeradius/">https://www.osradar.com/openvpn-authentication-with-freeradius/</a></li>
+<li><a class="reference external" href="https://openvpn.net/community-resources/how-to/#using-alternative-authentication-methods">https://openvpn.net/community-resources/how-to/#using-alternative-authentication-methods</a></li>
+</ul>
+<div class="section" id="id1">
+<h2>一、安装OpenVPN</h2>
+<p>使用以下命令安装 OpenVPN</p>
+<pre class="literal-block">
+$ sudo apt install openvpn
+</pre>
+</div>
+<div class="section" id="id2">
+<h2>二、创建服务器证书和加密文件等</h2>
+<p>安装完OPENVPN后，默认自动安装了 easyrsa …</p></div>
+                <a class="readmore" href="https://recozo.github.io/shi-yong-openvpn-an-quan-fang-wen-ye-wu-wang-luo.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://recozo.github.io/xfce-shi-yong-ji-qiao.html" rel="bookmark"
+                           title="Permalink to XFCE 使用技巧">XFCE 使用技巧</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2020-09-01T00:16:00+08:00">
+                Published: 2020-09-01
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-09-01T00:16:00+08:00">
+                Updated: 2020-09-01
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/tricks.html">tricks</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/xfce.html">xfce</a> </p>
+</footer><!-- /.post-info -->                <div class="section" id="xfce-panel">
+<h2>XFCE Panel 消失了</h2>
+<p>在远程桌面中使用本地资源共享硬盘时，时常会死机（原因待查）。</p>
+<p>有次死机后，重新启动服务器后，远程登录后发现顶部的菜单和底部的快捷栏都不见了（本地登录正常）！！！</p>
+<p>参见：<a class="reference external" href="https://forum.xfce.org/viewtopic.php?id=6751">https://forum.xfce.org/viewtopic.php?id=6751</a></p>
+<p>重置保存的会话缓存后，恢复正常</p>
+<pre class="literal-block">
+$ rm -rf ~/.cache/sessions
+</pre>
+</div>
+
+                <a class="readmore" href="https://recozo.github.io/xfce-shi-yong-ji-qiao.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="https://recozo.github.io/zi-dong-gua-ji-xue-xi.html" rel="bookmark"
                            title="Permalink to 自动挂机学习">自动挂机学习</a></h1>
                 </header>
@@ -145,7 +426,7 @@ $ su - root
 <li>打算转向 Python 进行程序开发，好吧，这理由有点勉强……</li>
 </ul>
 <div class="section" id="id1">
-<h2>一、安装系统，可参照安装远程开发桌面环境</h2>
+<h2>安装系统，可参照安装远程开发桌面环境</h2>
 <p>记得执行以下命令设置git用户信息:</p>
 <pre class="literal-block">
 $ sudo apt install git
@@ -154,11 +435,12 @@ $ git config --global user.name &quot;Recozo&quot;
 </pre>
 </div>
 <div class="section" id="id2">
-<h2>二、安装 PELICAN</h2>
+<h2>安装 PELICAN</h2>
 <p>输入以下命令安装pelican并设置相关的运行环境:</p>
 <pre class="literal-block">
 $ cd ~/Documents
-$ mkdir mysite &amp;&amp; cd mysite …</pre></div>
+$ mkdir mysite &amp;&amp; cd mysite
+$ python3 -m …</pre></div>
                 <a class="readmore" href="https://recozo.github.io/shi-yong-pelican-wei-hu-jing-tai-wang-zhan.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>

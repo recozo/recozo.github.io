@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Recozo's Blog - database</title>
+        <link rel="stylesheet" href="https://recozo.github.io/theme/css/main.css" />
+        <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://recozo.github.io/">Recozo's Blog</a></h1>
+                <nav><ul>
+                    <li><a href="https://recozo.github.io/category/article.html">article</a></li>
+                    <li><a href="https://recozo.github.io/category/debian.html">debian</a></li>
+                    <li><a href="https://recozo.github.io/category/how-to.html">how-to</a></li>
+                    <li><a href="https://recozo.github.io/category/tricks.html">tricks</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="https://recozo.github.io/postgresql-xue-xi.html">POSTGRESQL 学习</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-10-03T20:16:00+08:00">
+                Published: 2020-10-03
+        </abbr>
+		<br />
+        <abbr class="modified" title="2020-10-03T20:16:00+08:00">
+                Updated: 2020-10-03
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://recozo.github.io/author/recozo.html">Recozo</a>
+        </address>
+<p>In <a href="https://recozo.github.io/category/how-to.html">how-to</a>.</p>
+<p>tags: <a href="https://recozo.github.io/tag/postgresql.html">postgresql</a> <a href="https://recozo.github.io/tag/database.html">database</a> </p>
+</footer><!-- /.post-info --><div class="section" id="roles">
+<h2>Roles</h2>
+<p>PostgreSQL represents accounts as roles.
+Roles that can log in are called login roles.
+Roles that contain other roles are called group roles.
+Roles that are group and can log in are called group login roles.
+However, for easier maintainability and security, DBAs generally don't grant login rights to group roles.
+A role can be designated as superuser.
+Recent versions of PostgreSQL no longer use the terms users and groups.
+For backward compatibility, CREATE USER and CREATE GROUP still work in current version, but shun them and use CREATE ROLE instead.</p>
+<div class="section" id="creating-login-roles">
+<h3>Creating Login Roles</h3>
+<p>Example 2-4. Creating login roles</p>
+<pre class="literal-block">
+CREATE ROLE leo LOGIN PASSWORD 'king' CREATEDB VALID UNTIL 'infinity';
+</pre>
+<p>Example 2-5. Creating superuser roles</p>
+<pre class="literal-block">
+CREATE ROLE regina LOGIN PASSWORD 'queen' SUPERUSER VALID UNTIL '2020-1-1 00:00';
+</pre>
+</div>
+<div class="section" id="creating-group-roles">
+<h3>Creating Group Roles</h3>
+<pre class="literal-block">
+CREATE ROLE royalty INHERIT;
+GRANT royalty TO leo;
+GRANT royalty TO regina;
+</pre>
+</div>
+<div class="section" id="inheriting-rights-from-group-roles">
+<h3>Inheriting rights from group roles</h3>
+<pre class="literal-block">
+SET ROLE some_role
+SET SESSION AUTHORIZATION some_role
+</pre>
+<ul class="simple">
+<li>Only superusers can execute SET SESSION AUTHORIZATION ,
+and it allows them to impersonate any user regardless of role membership.</li>
+<li>SET SESSION AUTHORIZATION changes the values of the current_user and session_user variables
+to those of the user being impersonated.
+SET ROLE changes only the current_user variable.</li>
+<li>Because both the current_user and session_user are changed by SET SESSION AUTHORIZATION ,
+subsequent SET role commands are limited to those allowed by the user being impersonated.
+After SET ROLE , roles can be set to any role that the original user has rights to impersonate.</li>
+</ul>
+<p>通过编辑 pg_hba.conf 可以修改用户（ROLE）的认证方法，默认使用 peer ，会要求有相应的系统用户，
+通过修改为 md5，可以使用密码验证 或修改为 trust， 可以直接登录无须验证。</p>
+<p>参见： <a class="reference external" href="https://www.postgresql.org/docs/current/auth-methods.html">https://www.postgresql.org/docs/current/auth-methods.html</a></p>
+</div>
+</div>
+<div class="section" id="database-creation">
+<h2>Database Creation</h2>
+<pre class="literal-block">
+CREATE DATABASE mydb;
+</pre>
+<p>This creates a copy, owned by the login role that issued the command,
+of the template1 default. Any role with CREATEDB rights can create new databases.</p>
+<div class="section" id="template-databases">
+<h3>Template Databases</h3>
+<p>A template database is a database that serves as a model for other databases.
+The default PostgreSQL installation comes with two template databases: template0 and template1 .
+If you don’t specify a template database to follow when you create a database,
+the template1 database is used as the template for the new database.</p>
+<pre class="literal-block">
+CREATE DATABASE my_db TEMPLATE my_template_db;
+UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'mydb';
+</pre>
+</div>
+<div class="section" id="using-schemas">
+<h3>Using Schemas</h3>
+<p>Schemas organize your database into logical groups.
+It’s up to you how to organize your schemas.</p>
+<p>Another common way to organize schemas is by roles.
+We can take advantage of the default search path set in postgresql.conf:</p>
+<pre class="literal-block">
+search_path = &quot;$user&quot;, public;
+</pre>
+<p>Another practice that we strongly advocate is to create schemas to house extensions:</p>
+<pre class="literal-block">
+CREATE SCHEMA my_extensions;
+ALTER DATABASE mydb SET search_path='&quot;$user&quot;, public, my_extensions';
+</pre>
+</div>
+</div>
+<div class="section" id="privileges">
+<h2>Privileges</h2>
+<p>Privileges (often called permissions) can be tricky to administer in PostgreSQL
+because of the fine granular control at your disposal.
+Security can bore down to the object level.
+You could assign different privileges to each column of your table, if that ever becomes necessary.</p>
+<div class="section" id="types-of-privileges">
+<h3>Types of Privileges</h3>
+<p>Some of the object-level privileges you find in PostgreSQL are
+SELECT , INSERT , UPDATE , ALTER , EXECUTE , TRUNCATE ,
+and a qualifier to those called WITH GRANT .
+Note that privileges are relevant only with respect to a particular database asset.
+For example, TRUNCATE for functions and EXECUTE for tables make no sense.</p>
+</div>
+<div class="section" id="getting-started">
+<h3>Getting Started</h3>
+<ol class="arabic">
+<li><p class="first">PostgreSQL creates one superuser and one database for you at installation, both named postgres.
+Log into your server as postgres .</p>
+</li>
+<li><p class="first">Before creating your first database, create a role that will own the database and can log in,
+such as:</p>
+<pre class="literal-block">
+CREATE ROLE mydb_admin LOGIN PASSWORD 'something';
+</pre>
+</li>
+<li><p class="first">Create the database and set the owner:</p>
+<pre class="literal-block">
+CREATE DATABASE mydb WITH owner = mydb_admin;
+</pre>
+</li>
+<li><p class="first">Now log in as the mydb_admin user and start setting up additional schemas and tables.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="grant">
+<h3>GRANT</h3>
+<p>The GRANT command assigns privileges to others. The basic usage is:</p>
+<pre class="literal-block">
+GRANT some_privilege TO some_role;
+</pre>
+<p>A few things to keep in mind when it comes to GRANT :</p>
+<ul>
+<li><p class="first">You need to be the holder of the privilege that you’re granting
+and you must have grant privilege yourself. You can’t give away what you don’t have.</p>
+</li>
+<li><p class="first">Some privileges always remain with the owner of an object and can never be granted away.
+These include DROP and ALTER .</p>
+</li>
+<li><p class="first">The owner of an object already has all privileges.
+Granting an owner privilege in what it already owns is unnecessary.</p>
+</li>
+<li><p class="first">When granting privileges, you can add WITH GRANT OPTION .
+This means that the grantee can grant onwards:</p>
+<pre class="literal-block">
+GRANT ALL ON ALL TABLES IN SCHEMA public TO mydb_admin WITH GRANT OPTION;
+</pre>
+</li>
+<li><p class="first">To grant all relevant privileges on an object use ALL instead of the specific privilege:</p>
+<pre class="literal-block">
+GRANT SELECT, REFERENCES, TRIGGER ON ALL TABLES IN SCHEMA my_schema TO PUBLIC;
+</pre>
+</li>
+<li><p class="first">The ALL alias can also be used to grant for all objects within a database or schema:</p>
+<pre class="literal-block">
+GRANT SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA my_schema TO PUBLIC;
+</pre>
+</li>
+<li><p class="first">To grant privileges to all roles, you can use the alias PUBLIC</p>
+<pre class="literal-block">
+GRANT USAGE ON SCHEMA my_schema TO PUBLIC;
+</pre>
+</li>
+</ul>
+<p>Some privileges are by default granted to PUBLIC .
+These are CONNECT and CREATE TEMP TABLE for databases, EXECUTE for functions, and USAGE for languages.
+In many cases you might consider revoking some of defaults for your own safety.
+Use the REVOKE command:</p>
+<pre class="literal-block">
+REVOKE EXECUTE ON ALL FUNCTIONS IN SCHEMA my_schema FROM PUBLIC;
+</pre>
+</div>
+<div class="section" id="default-privileges">
+<h3>Default Privileges</h3>
+<p>PostgreSQL 9.0 introduced default privileges,
+which allow users to set privileges on all database assets within a particular schema or database,
+as well as in advance of their creation.
+Adding or changing default privileges won’t affect current privilege settings.</p>
+<p>Example 2-6. Defining default privileges on a schema:</p>
+<pre class="literal-block">
+GRANT USAGE ON SCHEMA my_schema TO PUBLIC;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT SELECT, REFERENCES ON TABLES TO PUBLIC;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT ALL ON TABLES TO mydb_admin WITH GRANT OPTION;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT SELECT, UPDATE ON SEQUENCES TO public;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT ALL ON FUNCTIONS TO mydb_admin WITH GRANT OPTION;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT USAGE ON TYPES TO PUBLIC;
+</pre>
+</div>
+<div class="section" id="privilege-idiosyncrasies">
+<h3>Privilege Idiosyncrasies</h3>
+<p>Unlike in other database products,
+being the owner of a PostgreSQL database does not give you access to all objects in the database,
+but it does grant you privileges to whatever objects you create and allows you to drop the database.</p>
+<p>Another role can create objects that you can’t access in your owned database.
+Interestingly, though, you can still drop the whole database.</p>
+<p>People often forget to set GRANT USAGE ON SCHEMA or GRANT ALL ON SCHEMA.
+Even if your tables and functions have rights assigned to a role,
+these tables and functions will still not be accessible
+if the role has no USAGE rights to the schema.</p>
+</div>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
