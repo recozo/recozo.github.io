@@ -12,8 +12,8 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
 * 使用 Python 开发
 * 打算转向 Python 进行程序开发，好吧，这理由有点勉强……
 
-一、安装系统，可参照安装远程开发桌面环境
---------------------------------------------------
+安装系统，可参照安装远程开发桌面环境
+==================================================
 
 记得执行以下命令设置git用户信息::
 
@@ -21,8 +21,8 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
     $ git config --global user.email "recozo@outlook.com"
     $ git config --global user.name "Recozo"
 
-二、安装 PELICAN
---------------------------------------------------
+安装 PELICAN
+==================================================
 
 输入以下命令安装pelican并设置相关的运行环境::
 
@@ -40,20 +40,21 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
     $ pelican-quickstart
     $ touch README.rst
     $ vi .gitignore
-        参照 https://github.com/github/gitignore/blob/master/Python.gitignore
-        加入以下内容：
-      	    #pelican
-	        output/
 
-            #vscode
-            .vscode/
+参照 https://github.com/github/gitignore/blob/master/Python.gitignore
+以及以下内容录入 .gitignore 内容 ::
+
+    #pelican
+    output/
+
+继续执行以下命令 ::
 
     $ git init
     $ git add -A
     $ git commit -a -m 'Initial commit'
 
-三、发布第一篇文章
---------------------------------------------------
+发布第一篇文章
+==================================================
 
 # 在 content 目录中保存文章::
 
@@ -73,8 +74,8 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
 
 保存文件。
 
-四、查看网站效果以及内容
--------------------------------------
+查看网站效果以及内容
+==================================================
 
 运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）::
 
@@ -86,8 +87,8 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
 
 可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果
 
-五、使用 GITHUB 发布网站以及源文件
-----------------------------------
+使用 GITHUB 发布网站以及源文件
+==================================================
 
 # 在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定::
 
@@ -103,8 +104,9 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
     $ ghp-import output -b gh-pages
     $ git push origin gh-pages:master
 
-六、使用 GIT 还原
-----------------------------------
+使用 GIT 在本地还原 recozo.github.io 项目
+==================================================
+
 ::
 
     $ cd ~/Documents
@@ -116,8 +118,29 @@ Pelican 是一个使用Python编写开发的静态网站静态网站内容生成
     $ source .venv/bin/activate
     $ pip install -r requirements.txt
 
-七、关于浏览器缓冲的问题
---------------------------------------------------
+利用 GIT 恢复或撤销操作
+==================================================
+
+如果需要恢复或撤销已经提交了的操作
+
+*   git reset --soft HEAD~
+    把该分支移动回原来的位置，而不会改变索引和工作目录
+*   git reset [--mixed] HEAD~
+    撤销一上次的提交，还会取消暂存区所有的东西
+*   git reset --hard HEAD~
+    撤销了最后的提交、git add 和 git commit 命令 以及 工作目录中的所有工作
+
+如果需要同时撤销已经发布到GITHUB的操作 ::
+
+    # 查看提交的日志（版本）
+    git log
+    # 本地仓库回退到某一版本
+    git reset --hard xxxx
+    # 强制 PUSH，此时远程分支已经恢复成指定的 commit 了
+    git push origin master --force
+
+关于浏览器缓冲的问题
+==================================================
 
 将 Pelican 从 4.2 升级到了 4.5 ，当访问 http://127.0.0.1:8000 时，
 总是不能打开 index.html，每次都弹出下载界面，无论是 Firefox 还是 Chrome，都这毛病，以为是升级的原因，
@@ -131,8 +154,8 @@ F1 进入设置即可在 Advanced settings 看到这个选项 Disable HTTP Cache
 注意，要安装 python-magic ，在 pelican 的 server.py 的 guess_type 是通过 python-magic 进行处理的，
 如果未安装，即仍然会弹出下载界面。 
 
-八、在 VSCODE 中调试 Pelican
---------------------------------------------------
+在 VSCODE 中调试 Pelican
+==================================================
 
 在 .vscode 目录下新建一个 launch.json 文件，录入以下内容，即可在 VSCODE 中对 Pelican 进行断点调试了::
 
