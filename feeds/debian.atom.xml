@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - debian</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/debian.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2022-06-19T14:34:00+08:00</updated><entry><title>Linux Firewalls</title><link href="https://recozo.github.io/linux-firewalls.html" rel="alternate"></link><published>2022-06-19T14:34:00+08:00</published><updated>2022-06-19T14:34:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2022-06-19:/linux-firewalls.html</id><summary type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;第二章 包过滤概念&lt;/h2&gt;
+&lt;p&gt;什么是防火墙?多年来，这个词的含义发生了变化。根据RFC 2647“防火墙性能基准术语”，
+防火墙是“在网络之间 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;第二章 包过滤概念&lt;/h2&gt;
+&lt;p&gt;什么是防火墙?多年来，这个词的含义发生了变化。根据RFC 2647“防火墙性能基准术语”，
+防火墙是“在网络之间执行访问控制策略的设备或设备组”。这个定义很宽泛，实际上是有目的的。
+防火墙可以包含OSI模型的许多层，可能指的是一个设备，它可以进行包过滤、执行包检查和过滤、
+在较高层的应用程序上实现策略，或者执行其中的任何一层或更多。&lt;/p&gt;
+&lt;p&gt;无状态或无状态防火墙通常只基于OSI模型的IP层(第3层)执行一些包过滤，尽管有时这种类型的
+防火墙涉及更高层的协议。这类设备的一个示例可能包括位于网络边缘的边界路由器，它实现一个
+或多个访问列表，以防止各种类型的恶意流量进入网络。有些人可能会说这类设备根本就不是防火墙。
+然而，它显然符合RFC的定义。&lt;/p&gt;
+&lt;p&gt;边界路由器访问列表可能会根据接收报文的接口实现许多不同的策略。通常在连接到Internet的
+网络边缘过滤某些包。这些包将在本章后面讨论。&lt;/p&gt;
+&lt;p&gt;与无状态防火墙相反，有状态防火墙跟踪以前在给定会话中看到的信息包，并根据给定连接中已经
+看到的内容对信息包应用访问策略。有状态防火墙还包含无状态防火墙的基本包过滤功能。
+例如，有状态防火墙将跟踪TCP三向握手的各个阶段，并拒绝在握手中出现顺序不一致的数据包。
+由于没有连接，UDP处理有状态防火墙有些困难，因为没有状态可言。然而，有状态防火墙跟踪
+最近的UDP交换，以确保已接收的数据包与最近的传出数据包相关。&lt;/p&gt;
+&lt;p&gt;应用程序级网关(ALG)，有时被称为应用层网关，是另一种形式的防火墙。与无状态防火墙不同，
+无状态防火墙具有网络层和可能的传输层的知识，ALG主要处理第7层，即OSI模型的应用层。
+alg通常对所传递的应用程序数据有深入的了解，因此可以查找与相关应用程序的正常流量有任何偏差。&lt;/p&gt;
+&lt;p&gt;ALG通常驻留在客户机和实服务器之间，并且在所有意图和目的下，模拟实服务器对客户机的行为。
+实际上，本地流量永远不会离开局域网，而远程流量永远不会进入局域网。&lt;/p&gt;
+&lt;p&gt;ALG有时也指辅助另一个防火墙的模块或软件。许多防火墙都附带一个FTP ALG来支持FTP的端口模式
+数据通道，其中客户端告诉服务器要连接到哪个本地端口，以便它可以打开数据通道。服务器启动传入的
+数据通道连接(然而，通常是客户机启动所有连接)。多媒体会话通常使用两端发起的多个连接，通常
+同时使用TCP和UDP协议，因此需要alg通过防火墙通过多媒体协议。&lt;/p&gt;
+&lt;p&gt;ALG是代理。另一种形式的代理是电路级代理。电路级代理通常不具有特定于应用程序的知识，
+但它们可以强制执行访问和授权策略，并充当端到端连接中的终止点。SOCKS是一个电路级代理的例子。
+代理服务器充当连接双方的终止点，但是服务器不具有任何应用程序特定的知识。&lt;/p&gt;
+&lt;p&gt;在每一种情况下，防火墙的目的都是强制您定义的访问控制或安全策略。安全策略本质上是关于
+访问控制的——允许和不允许谁在您控制的服务器和网络上执行哪些操作。&lt;/p&gt;
+&lt;p&gt;虽然不一定特定于防火墙，但防火墙很多时候发现自己在执行额外的任务，其中一些可能包括
+网络地址转换(NAT)、反病毒检查、事件通知、URL过滤、用户身份验证和网络层加密。&lt;/p&gt;
+&lt;p&gt;本书涵盖了包过滤防火墙背后的思想，包括静态的和动态的，或无状态的和有状态的。上面提到的
+每一种方法都控制哪些服务可以被访问以及由谁访问。基于不同OSI参考模型层的不同信息，
+每种方法都有其优点和优势。&lt;/p&gt;
+&lt;p&gt;第一章“包过滤防火墙的基本概念”，介绍了防火墙的概念和信息基础。本章介绍如何使用这些信息实现防火墙规则。&lt;/p&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h3&gt;包过滤防火墙&lt;/h3&gt;
+&lt;p&gt;在最基本的级别上，包过滤防火墙由一列接受和拒绝规则组成。这些规则明确地定义了哪些
+数据包可以通过网络接口，哪些数据包不可以通过网络接口。防火墙规则使用第1章中描述的
+信息包头字段来决定是将信息包转发到目的地，还是静默地丢弃信息包，还是阻止信息包并
+向发送机器返回一个错误条件。这些规则可以基于各种各样的因素，包括源或目的IP地址、
+源和(更常见的)目的端口，以及单个数据包的部分，如TCP头标志、协议类型、MAC地址等。&lt;/p&gt;
+&lt;p&gt;MAC地址过滤在连接互联网的防火墙中并不常见。通过MAC过滤，防火墙可以阻止或只允许
+某些MAC地址。然而，十有八九你只看到一个MAC地址，就是防火墙上游路由器上的那个。
+这意味着，在你的防火墙所能看到的范围内，互联网上的每台主机看起来都有相同的MAC地址。
+新防火墙管理员的一个常见错误是试图在Internet防火墙上使用MAC过滤。&lt;/p&gt;
+&lt;p&gt;使用混合的TCP/IP参考模型，包过滤防火墙在网络层和传输层发挥作用，如图2.1所示。&lt;/p&gt;
+&lt;p&gt;总体思路是，您需要非常小心地控制Internet和您直接连接到Internet的机器之间传递的内容。
+在Internet的外部接口上，您可以分别过滤从外部进入的内容和从机器输出的内容，
+尽可能精确和明确。&lt;/p&gt;
+&lt;p&gt;对于单机设置，将网络接口视为I/O对可能会有所帮助。防火墙独立地过滤通过接口
+进入和流出的内容。输入过滤和输出过滤可能具有完全不同的规则。
+图2.2描述了在流程图中对规则的处理。&lt;/p&gt;
+&lt;p&gt;这听起来很有力，确实如此;但这并不是一个万无一失的安全机制。这只是故事的一部分，
+只是数据安全的多层方法中的一层。并不是所有的应用程序通信协议都支持包过滤。
+这种类型过滤太低级，不支持细粒度的身份验证和访问控制。这些安全服务必须
+在更高的级别提供。IP没有能力验证发送者是他或她声称的那个人。在这个级别上
+唯一可用的标识信息是IP包报头中的源地址。可以很容易地修改源地址。再往上一层，
+网络层和传输层都无法验证应用程序数据是否正确。然而，包级别允许对直接端口访问、
+包内容和正确的通信协议进行更大、更简单的控制，这比在更高级别上容易或方便地做到的要多。&lt;/p&gt;
+&lt;p&gt;如果没有包级别的过滤，更高级别的过滤和代理安全措施要么无效，要么可能无效。
+至少在某种程度上，它们必须依赖于底层通信协议的正确性。安全协议栈中的每一层都
+添加了其他层无法轻易提供的部分。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h3&gt;选择默认包过滤策略&lt;/h3&gt;
+&lt;p&gt;如本章前面所述，防火墙是实现访问控制策略的设备。这个策略的很大一部分是关于
+默认防火墙策略的决定。默认防火墙策略有两种基本方法:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;缺省情况下拒绝所有报文，并显式地允许选定的数据包通过。&lt;/li&gt;
+&lt;li&gt;默认接受所有内容，并明确拒绝所选数据包通过。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;毫无疑问，“拒绝一切”的政策是推荐的方法。这种方法可以更容易地设置安全的防火墙，
+但是必须显式地启用您想要的每个服务和相关协议事务(参见图2.3)。这意味着您必须了解
+您所启用的每个服务的通信协议。“拒绝一切”方法需要更多的前期工作来启用互联网访问。
+一些商业防火墙产品只支持“拒绝一切”策略&lt;/p&gt;
+&lt;p&gt;“接受一切”策略使立即启动和运行变得容易得多，但它迫使您预期可能希望禁用的所有访问类型
+(请参见图2.4)。危险在于，直到为时已晚时，您才会预料到危险的访问类型，或者稍后启用
+不安全的服务，而没有首先阻止对它的外部访问。最后，开发一个安全的可接受一切的防火墙
+需要更多的工作，更困难，几乎总是更不安全，因此也更容易出错。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h3&gt;包的拒绝与丢弃&lt;/h3&gt;
+&lt;p&gt;iptables和nftables中的Netfilter防火墙机制为您提供了拒绝或丢弃数据包的选择。
+有什么区别呢?如图2.5所示，当一个报文被拒绝时，该报文将被丢弃，并向发送方返回
+一个ICMP错误消息。当一个信息包被丢弃时，信息包被简单地丢弃，而不向发送方发出任何通知。&lt;/p&gt;
+&lt;p&gt;静默地丢弃数据包几乎总是更好的选择，原因有三。
+首先，发送错误响应会使网络流量加倍。大多数丢失的信息包之所以丢失，是因为它们是恶意的，
+而不是因为它们代表了访问您不碰巧提供的服务的无害尝试。
+其次，您响应的数据包可以用于拒绝服务(DoS)攻击。
+第三，任何响应(甚至是错误消息)都会向潜在的攻击者提供有用的信息。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h3&gt;过滤输入包&lt;/h3&gt;
+&lt;p&gt;外部接口I/O对的输入端，即输入规则集，在保护站点方面更有意义。如前所述，可以根据
+源地址、目的地址、源端口、目的端口、TCP状态标志和其他条件进行过滤。在下面的部分中，
+您将在某一点或另一点了解所有这些信息。&lt;/p&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h4&gt;远端源地址过滤&lt;/h4&gt;
+&lt;p&gt;在信息包级别，识别IP信息包发送者的唯一方法是信息包头中的源地址。这一事实允许
+源地址欺骗的可能性，在这种情况下，发送者在源字段中放置了一个不正确的地址，
+而不是他或她自己的地址。这个地址可能是一个不存在的地址，也可能是一个属于其他人的合法地址。
+这可能会允许令人讨厌的类型通过显示为本地可信流量来入侵您的系统;在攻击其他网站时
+显示你的身份;在攻击你的时候假装成别人;让你的系统陷入僵局响应不存在的地址;或者以其他方式
+误导您传入消息的来源。&lt;/p&gt;
+&lt;p&gt;重要的是要记住，您通常无法检测到被欺骗的地址。该地址可能是合法和可路由的，但可能不属于
+数据包的发送方。下一部分描述可以检测的欺骗地址。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-7"&gt;
+&lt;h4&gt;源地址欺骗和非法地址&lt;/h4&gt;
+&lt;p&gt;在所有情况下，都应该在外部接口上拒绝几种主要的源地址。这些是声称来自以下的传入数据包:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;您的IP地址—您永远不会看到声称来自您的机器的合法传入数据包。
+因为源地址是唯一可用的信息，并且可以修改它，所以这是您可以在包过滤级别检测到的合法地址欺骗的一种形式。声称来自您机器的传入数据包是欺骗的。您无法确定其他传入数据包是否来自它们声称所在的地方。(请注意，如果某些操作系统收到源地址和目的地址都属于主机网络接口的数据包，它们就会崩溃。)&lt;/li&gt;
+&lt;li&gt;您的局域网地址—您很少会在外部Internet接口上看到声称来自您的局域网的合法的
+传入数据包。如果局域网对Internet有多个接入点，就有可能看到这样的数据包，
+但这可能是本地网络配置错误的标志。在大多数情况下，这样的数据包是试图通过
+利用本地信任关系来获得对站点的访问的一部分。&lt;/li&gt;
+&lt;li&gt;A、B、C类私有IP地址—历史上A、B、C类范围内的三组地址为私有局域网保留使用。
+它们不适合在互联网上使用。因此，这些地址可以被任何网站内部使用，而不需要
+购买注册的IP地址。你的机器永远不会看到来自这些源地址的数据包:&lt;/li&gt;
+&lt;li&gt;D类组播IP地址- D类范围内的IP地址在参与组播网络广播(如音频广播或视频广播)时
+被留出作为目的地址。取值范围为224.0.0.0 ~ 239.255.255.255。您的机器永远
+不应该看到来自这些源地址的数据包。&lt;/li&gt;
+&lt;li&gt;E类保留IP地址- E类范围内的IP地址被预留给未来和实验使用，不公开分配。
+取值范围为240.0.0.0 ~ 247.255.255.255。您的机器永远不应该
+看到来自这些源地址的包—而且大多数情况下也不会看到。(因为整个地址范围
+一直到255.255.255.255都是永久保留的，所以E类地址范围实际上可以定义为
+240.0.0.0到255.255.255.255。事实上，一些源定义的E类地址范围正是这样。)&lt;/li&gt;
+&lt;li&gt;环回接口地址—环回接口是Linux系统用于本地、基于网络的服务的私有网络接口。
+操作系统不通过网络接口驱动程序发送本地流量，而是通过环回接口实现了一个快捷方式，
+以提高性能。根据定义，环回流量是产生环回流量的系统的目标。它不会在网络上播出。
+环回地址范围为127.0.0.0 ~ 127.255.255.255。您通常会看到它
+被称为127.0.0.1,localhost，或环回接口，lo。&lt;/li&gt;
+&lt;li&gt;格式错误的广播地址——广播地址是应用于网络上所有机器的特殊地址。
+地址0.0.0.0是一个特殊的广播源地址。一个合法的广播源地址可以是0.0.0.0或者一个普通的IP地址。
+DHCP客户端和服务器将看到来自源地址0.0.0.0的传入广播数据包。这是该源地址的唯一合法使用。
+它不是一个合法的点对点单播源地址。当被视为常规的、点对点的、非广播的数据包中的源地址时，
+该地址是伪造的，或者发送者没有完全配置。&lt;/li&gt;
+&lt;li&gt;A类网络0地址-如前所述，任何在0.0.0.0到0.255.255.255范围内的源地址作为单播地址是不合法的。&lt;/li&gt;
+&lt;li&gt;链接本地网络地址——当dhcp客户端无法从服务器获取地址时，他们有时会为自己分配一个链接本地地址。
+这些地址的范围是169.254.0.0 ~ 169.254.255.255。&lt;/li&gt;
+&lt;li&gt;电信级nat——有些ip被标记为供互联网提供商使用，但它们永远不应该出现在公共网络上。
+但是，这些地址可以在云场景中使用，因此，如果您的服务器托管在云提供商处，您可能会看到这些地址。
+运营商级NAT地址的取值范围为100.64.0.0 ~ 100.127.255.255。&lt;/li&gt;
+&lt;li&gt;test - net地址—为测试网络保留192.0.2.0 ~ 192.0.2.255的地址空间。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-8"&gt;
+&lt;h4&gt;阻止问题的网站&lt;/h4&gt;
+&lt;p&gt;另一种常见的、但使用频率较低的源地址过滤方案是阻止来自选定机器的所有访问，
+或者更典型的是阻止来自整个网络的IP地址块的所有访问。这就是互联网社区
+处理问题网站和不监督用户的isp的方式。如果一个网站被认为是一个糟糕的网络邻居，
+其他网站往往会全面封锁它。&lt;/p&gt;
+&lt;p&gt;在个人层面，当远程网络中的个人习惯性地使自己感到讨厌时，阻止来自选定网络的所有访问是很方便的。
+这在历史上一直被用作对抗未经请求的电子邮件的一种手段，有些人甚至会封锁整个国家的IP地址范围。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-9"&gt;
+&lt;h4&gt;限制传入数据包到选定的远程主机&lt;/h4&gt;
+&lt;p&gt;您可能希望仅从特定的外部站点或个人接收某些类型的传入数据包。在这些情况下，防火墙规则
+将定义接收这些数据包的特定IP地址或有限范围的IP源地址。&lt;/p&gt;
+&lt;p&gt;第一类传入数据包来自响应您请求的远程服务器。尽管有些服务(如web或FTP服务)可能来自任何地方，
+但其他服务只能合法地来自您的ISP或特别选择的可信主机。服务器的例子可能只提供通过
+您的ISP POP邮件服务，域名服务(DNS)名称服务器响应，以及可能的DHCP或动态IP地址分配。&lt;/p&gt;
+&lt;p&gt;第二类传入数据包来自访问站点提供的服务的远程客户端。同样，尽管一些传入的服务连接
+(比如到web服务器的连接)可能来自任何地方，但其他本地服务将只提供给少数可信任的远程用户或朋友。
+受限制的本地服务的例子可能是ssh和ping。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-10"&gt;
+&lt;h4&gt;本地目的地址过滤&lt;/h4&gt;
+&lt;p&gt;根据目的地址过滤入站数据包并不是什么大问题。在正常操作下，您的网络接口卡会忽略
+没有发送到它的常规数据包。广播报文除外，广播报文向网络中所有主机广播。&lt;/p&gt;
+&lt;p&gt;IPv4地址255.255.255.255为通用广播目的地址。它是指直接物理网段上的所有主机，称为有限广播。
+广播地址可以更明确地定义为给定IP地址子网中的最高地址。例如，如果您的ISP的网络地址
+是192.168.10.0,24位子网掩码(255.255.255.0)，而您的IP地址是192.168.10.30，
+您将看到从您的ISP发送到192.168.10.255的广播数据包。另一方面，如果你有一个较小的IP地址范围，
+比如a /30(255.255.255.252)，那么你总共有四个地址:一个网络地址，两个主机地址，和广播地址。
+以10.3.7.4/30网络为例。在这个网络中，10.3.7.4是网络地址，两个主机分别为10.3.7.5和10.3.7.6，
+广播地址为10.3.7.7。这种/30子网配置类型通常在路由器之间使用，尽管实际地址本身可能不同。
+要知道一个给定子网的广播地址是什么，唯一的方法是知道子网内的IP地址和子网掩码。
+这些类型的广播被称为定向子网广播，并被交付给该网络上的所有主机。&lt;/p&gt;
+&lt;p&gt;广播到目的地址0.0.0.0类似于前面“源地址欺骗和非法地址”一节中提到的点对点报文声称来自广播源地址的情况。
+在这里，广播报文被定向到源地址0.0.0.0，而不是目的地址255.255.255.255。
+在这种情况下，包的意图没有什么问题。这是将您的系统识别为Linux机器的尝试。由于历史原因，
+从BSD UNIX派生的网络代码返回一个ICMP Type 3错误消息，以响应使用0.0.0.0作为广播目的地址。
+其他操作系统会静默丢弃该数据包。因此，这是一个很好的例子，为什么丢弃和拒绝一个数据包会有不同。
+在这种情况下，错误消息本身就是探针所寻找的。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-11"&gt;
+&lt;h4&gt;远端源端口过滤&lt;/h4&gt;
+&lt;p&gt;从远程客户端到本地服务器的传入请求和连接将在非特权范围内拥有一个源端口。如果你的主机是
+一个web服务器，那么所有连接到你的web服务器的源端口应该在1024到65535之间。
+(服务器端口标识服务是目的，而不是保证。您不能确定您期望的服务器正在您期望的端口上运行。)&lt;/p&gt;
+&lt;p&gt;来自您所联系的远程服务器的传入响应和连接将具有分配给特定服务的源端口。如果您连接到一个
+远程网站，所有来自远程服务器的传入消息都将源端口设置为80(或本地客户端指定的任何端口)，
+即http服务端口号。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-12"&gt;
+&lt;h4&gt;本地目的端口过滤&lt;/h4&gt;
+&lt;p&gt;传入数据包中的目的端口标识数据包在计算机上要用于的程序或服务。与源端口一样，从远程客户端
+到服务的所有传入请求通常遵循相同的模式，而从远程服务到本地客户端的所有传入响应则遵循不同的模式。&lt;/p&gt;
+&lt;p&gt;从远程客户端到本地服务器的传入请求和连接将把目标端口设置为分配给特定服务的服务编号。
+例如，目的地为本地web服务器的传入数据包通常会将目的端口设置为80，即http服务端口号。&lt;/p&gt;
+&lt;p&gt;来自您所联系的远程服务器的传入响应将具有一个在非特权范围内的目标端口。
+如果您连接到一个远程网站，那么来自远程服务器的所有传入消息的目的端口将在1024到65535之间。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="tcp"&gt;
+&lt;h4&gt;传入TCP连接状态过滤&lt;/h4&gt;
+&lt;p&gt;传入的TCP数据包接收规则可以使用与TCP连接相关的连接状态标志。
+所有TCP连接都遵循相同的连接状态集。这些状态在客户端和服务器之间是不同的，
+因为在建立连接时需要进行三次握手。
+因此，防火墙可以区分来自远程客户端的传入流量和来自远程服务器的传入流量。&lt;/p&gt;
+&lt;p&gt;从远程客户端传入的TCP数据包将在作为三路连接建立握手的一部分
+接收的第一个数据包中设置SYN标志。第一个连接请求将设置SYN标志，但不设置ACK标志。&lt;/p&gt;
+&lt;p&gt;来自远程服务器的传入数据包将始终是对本地客户端程序发起的初始连接请求的响应。
+从远程服务器接收的每个TCP包都将设置ACK标志。您的本地客户机防火墙规则将要求设置
+来自远程服务器的所有传入数据包的ACK标志。服务器通常不会尝试发起到客户端程序的连接。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-13"&gt;
+&lt;h3&gt;探测器和扫描&lt;/h3&gt;
+&lt;p&gt;探测是尝试连接到单个服务端口或从单个服务端口获取响应。
+扫描是对一组不同服务端口的一系列探测。扫描通常是自动化的。&lt;/p&gt;
+&lt;p&gt;不幸的是，探针和扫描已经很少是无害的了。他们很可能处于初始信息收集阶段，
+在发起攻击之前寻找有趣的漏洞。自动扫描工具很普遍，黑客团体的协同行动也很常见。
+Internet上许多主机的安全性(或缺乏安全性)，以及蠕虫、病毒和僵尸机器的扩散，
+使扫描成为Internet上一个持续存在的问题。&lt;/p&gt;
+&lt;div class="section" id="section-14"&gt;
+&lt;h4&gt;通用端口扫描&lt;/h4&gt;
+&lt;p&gt;通用端口扫描是对大量服务端口(可能是整个范围)的不加区分的探测(参见图2.6)。
+随着更复杂、更有针对性的隐身工具的出现，这些扫描在某种程度上不那么频繁——或者至少不那么明显。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-15"&gt;
+&lt;h4&gt;目标端口扫描&lt;/h4&gt;
+&lt;p&gt;目标端口扫描查找特定的漏洞(参见图2.7)。更新、更复杂的工具试图识别硬件、操作系统和软件版本。
+这些工具旨在识别可能容易受到特定漏洞影响的目标。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-16"&gt;
+&lt;h4&gt;通用业务端口目标器&lt;/h4&gt;
+&lt;p&gt;常见的目标往往是单独探测和扫描。攻击者可能正在寻找特定的漏洞，
+例如不安全的邮件服务器、未打补丁的web服务器或打开的远程过程调用(RPC) portmap守护进程。&lt;/p&gt;
+&lt;p&gt;更多的端口列表可以在http://www.iana.org/assignments/portnumbers上找到。
+这里只提到几个常见的端口，给你一个想法:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;从保留端口0进入的报文总是虚假的。该端口未被合法使用。&lt;/li&gt;
+&lt;li&gt;TCP端口0到5的探针是扫描程序的签名。&lt;/li&gt;
+&lt;li&gt;SSH (22/tcp)、SMTP (25/tcp)、DNS (53/tcp/udp)、pop-3 (110/tcp)、
+imap (143/tcp)和SNMP (161/udp)是首选的目标端口。
+它们代表了系统的一些最潜在的易受攻击的开口，无论是本质上，由于常见的配置错误，
+还是由于软件中的已知缺陷。因为这些服务太常见了，
+它们很好地说明了为什么你不想向外部世界提供它们，或者非常小心地提供受控制的外部访问。
+NetBIOS (137-139/tcp/udp)和服务器消息块(SMB)在Windows (445/tcp)探测中是非常常见的。
+除非在系统上使用Samba，否则它们通常不会对Linux系统构成威胁。
+在这种情况下，典型的目标是Windows系统，但扫描太常见了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-17"&gt;
+&lt;h4&gt;隐形扫描&lt;/h4&gt;
+&lt;p&gt;从定义上讲，隐形端口扫描并不意味着是可检测的。它们基于TCP协议栈如何响应意外的数据包，
+或具有非法州标志组合的数据包。例如，假设一个传入数据包设置了ACK标志，但没有相关的连接。
+如果ACK被发送到一个连接了监听服务器的端口，TCP堆栈将不会找到一个相关的连接，
+并返回一个TCP RST消息，告诉发送者重置连接。如果ACK被发送到一个未使用的端口，
+系统将简单地返回一个TCP RST消息作为错误指示，就像防火墙在默认情况下可能返回一个ICMP错误消息一样。&lt;/p&gt;
+&lt;p&gt;这个问题更加复杂，因为有些防火墙只测试SYN标志或ACK标志。
+如果两者都没有设置，或者信息包包含其他标志组合，则防火墙实现可能会将信息包传递给TCP代码。
+根据TCP状态标志的组合和接收数据包的操作系统，系统将响应一个RST或沉默。
+此机制可用于帮助识别目标系统正在运行的操作系统。在任何这些情况下，接收系统都不太可能记录事件。&lt;/p&gt;
+&lt;p&gt;通过这种方式诱导目标主机生成RST报文，也可以用来映射网络，确定在网络上监听的系统的IP地址。
+如果目标系统不是服务器，并且其防火墙已设置为静默地丢弃不需要的包，那么这尤其有用。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-18"&gt;
+&lt;h4&gt;避免偏执狂:响应端口扫描&lt;/h4&gt;
+&lt;p&gt;防火墙日志通常显示各种失败的连接尝试。探测是您将在日志中看到的最常见的内容。&lt;/p&gt;
+&lt;p&gt;人们经常这样窥探你的系统吗?是的,他们也是。您的系统是否受到威胁?不,它不是。
+好吧,不一定。端口被阻塞。防火墙正在发挥作用。这些是防火墙拒绝的失败连接尝试。&lt;/p&gt;
+&lt;p&gt;在什么情况下你个人会决定报告一项调查?什么时候它才重要到要花时间去报告呢?
+什么时候你会说够了，然后继续你的生活，或者你应该每次都写abuse&amp;#64;some.system ?
+没有“正确”的答案。您如何回应是一个个人的判断，部分取决于您可获得的资源，
+您的网站上的信息有多敏感，以及互联网连接到您的网站有多关键。
+对于明显的探测和扫描，没有明确的答案。这取决于你自己的个性和舒适程度，
+你个人如何定义一个严肃的探索，以及你的社会良知。&lt;/p&gt;
+&lt;p&gt;考虑到这一点，下面是一些可行的指导方针。&lt;/p&gt;
+&lt;p&gt;最常见的尝试是自动探测、错误、基于互联网历史的合法尝试、无知、好奇和行为不端的软件的组合。&lt;/p&gt;
+&lt;p&gt;对于您没有提供的公共服务，您几乎总是可以安全地忽略对telnet、ssh、ftp、finger
+或任何其他端口的单独、隔离的单个连接尝试。探针和扫描是互联网生活中的一个事实，
+它们太频繁了，通常不会造成风险。他们有点像挨家挨户的推销员，商业电话，错误的电话号码，和垃圾邮件。
+至少对我来说，一天中没有足够的时间去回复每一个问题。&lt;/p&gt;
+&lt;p&gt;另一方面，一些探针更持久。您可能决定添加防火墙规则来完全阻止它们，甚至可能阻止它们的整个IP地址空间。&lt;/p&gt;
+&lt;p&gt;如果发现一个开放的端口，对已知存在潜在安全漏洞的端口子集的扫描通常是攻击的前兆。
+更广泛的扫描通常是整个域或子网中更广泛的打开扫描的一部分。
+当前的黑客工具一个接一个地探测这些端口的子集。&lt;/p&gt;
+&lt;p&gt;偶尔，您会看到严重的黑客攻击。现在无疑是采取行动的时候了。写他们。报告他们。
+仔细检查你的安全。观察他们在做什么。阻止他们。阻止他们的IP地址阻塞。&lt;/p&gt;
+&lt;p&gt;有些系统管理员会认真对待每一次事件，因为即使他们的机器是安全的，其他人的机器可能也不安全。
+下一个人甚至可能没有能力知道他或她正在被调查。为了每个人的利益，报告调查是一件对社会负责的事情。&lt;/p&gt;
+&lt;p&gt;应该如何响应端口扫描?如果你写信给这些人，他们的邮政主管，他们的上行服务提供商网络操作中心(NOC)，
+或网络地址块协调器，尽量礼貌一些。假定他们是无辜的。过度反应往往是错误的。
+在你看来可能是一次严重的黑客尝试，通常是一个好奇的孩子在玩一个新程序。
+对施虐者、根用户或邮政局长说一句礼貌的话，有时可以解决问题。
+更多的人需要接受网络礼仪教育，而不是需要撤销他们的网络账户。他们可能是无辜的。
+就像经常发生的那样，这个人的系统被破坏了，而这个人不知道发生了什么，并且会感激这些信息。&lt;/p&gt;
+&lt;p&gt;然而，探测并不是你看到的唯一的恶意流量。虽然探测本身是无害的，但DoS攻击并非如此。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-19"&gt;
+&lt;h4&gt;拒绝服务攻击&lt;/h4&gt;
+&lt;p&gt;DoS攻击是基于这样的想法:用大量的数据包破坏或严重降低你的互联网连接，捆绑本地服务器，
+使合法的请求无法得到满足，或者在最坏的情况下，使你的系统完全崩溃。
+最常见的两个结果是使系统过于繁忙而无法做任何有用的事情，以及占用关键的系统资源。&lt;/p&gt;
+&lt;p&gt;你无法完全抵御DoS攻击。它们可以根据攻击者的想象采取尽可能多的不同形式。
+任何导致系统响应的东西，任何导致系统分配资源的东西(包括攻击日志)，
+任何导致远程站点停止与您通信的东西——所有这些都可以用于DoS攻击。&lt;/p&gt;
+&lt;p&gt;这些攻击通常涉及几种典型的模式之一，包括TCP SYN泛洪、ping泛洪、UDP泛洪、
+碎片炸弹、缓冲区溢出和ICMP路由重定向炸弹。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="tcp-syn"&gt;
+&lt;h4&gt;TCP SYN洪水&lt;/h4&gt;
+&lt;p&gt;TCP SYN flood攻击会消耗系统资源，直到没有更多传入的TCP连接(参见图2.8)。
+该攻击利用建立连接时基本的TCP三路握手协议，配合IP源地址欺骗。&lt;/p&gt;
+&lt;p&gt;攻击者欺骗他或她的源地址作为一个私人地址，并发起一个连接到您的一个基于tcp的服务。
+攻击者看起来像是试图打开TCP连接的客户机，它向您发送人为生成的SYN消息。
+您的机器通过发送一个确认，一个SYN-ACK响应。然而，在这种情况下，
+您要回复的地址并不是攻击者的地址。事实上，因为地址是私人的，所以没有人会回应。
+被欺骗的主机不会返回RST消息来断开半打开的连接。&lt;/p&gt;
+&lt;p&gt;TCP连接建立的最后阶段，即接收到一个ACK响应，永远不会发生。
+因此，消耗有限的网络连接资源。在连接尝试超时之前，连接一直处于半打开状态。
+攻击者用一个接一个的连接请求淹没你的端口，比TCP超时时间更快地释放资源。
+如果这种情况持续下去，所有资源将被使用，并且不能接受更多传入的连接请求。
+这不仅适用于正在探测的服务，而且也适用于所有新连接。&lt;/p&gt;
+&lt;p&gt;Linux用户可以获得一些帮助。第一个是源地址过滤，如前所述。
+这将过滤掉最常用的欺骗源地址，但不能保证欺骗地址属于您可以预期和过滤的类别。&lt;/p&gt;
+&lt;p&gt;第二种方法是启用内核的SYN cookie模块，它可以缓解由SYN泛滥引起的资源短缺。
+当连接队列开始满时，系统开始用SYN cookie而不是SYN- acks响应SYN请求，
+并释放队列槽位。因此，队列永远不会完全填满。cookie有很短的超时时间;
+客户端必须在服务主机响应预期的SYN-ACK之前的短时间内响应它。
+cookie是一个序列号，它是根据SYN中的原始序列号、源地址、目的地址和端口
+以及一个秘密值生成的。如果对cookie的响应与散列算法的结果匹配，服务器就可以很好地确保SYN是有效的。&lt;/p&gt;
+&lt;p&gt;根据特定的版本，您可能需要也可能不需要在内核中使用命令echo 1 &amp;gt; /proc/sys/net/ipv4/tcp_syncookies。一些发行版和内核版本要求您使用make config、make menuconfig或make xconfig显式地将该选项配置到内核中，然后重新编译并安装新内核。&lt;/p&gt;
+&lt;p&gt;ping洪水&lt;/p&gt;
+&lt;p&gt;任何引起计算机响应的消息都可能被用来降低网络连接，因为它会迫使系统将大部分时间用于响应。
+ping发送的ICMP echo - request报文是常见的罪魁祸首。一种名为Smurf的攻击及其变体
+迫使系统消耗其资源来处理响应。实现这一目标的一种方法是欺骗受害者的源地址，
+并向整个网络的主机广播一个echo请求。一条受欺骗的请求消息可能会导致向受害者发送数百或
+数千个相应的回复。实现类似结果的另一种方法是在互联网上被破坏的主机上安装木马，
+并计时，使它们同时向同一主机发送回送请求。最后，简单的ping泛洪是DoS的另一种方法，
+攻击者发送更多的回显请求，并泛洪数据连接，尽管它越来越不常见。典型的ping泛洪如图2.9所示。&lt;/p&gt;
+&lt;p&gt;死亡之 ping&lt;/p&gt;
+&lt;p&gt;以前的一个漏洞叫做Ping of Death，它涉及发送非常大的Ping包。因此，脆弱的系统可能会崩溃。
+Linux不会受到这个漏洞的攻击，当前许多其他UNIX操作系统也不会。如果您的防火墙正在保护较旧的
+系统或个人计算机，这些系统可能容易受到攻击。&lt;/p&gt;
+&lt;p&gt;Ping of Death漏洞让我们了解了创造性黑客如何使用最简单的协议和消息交互。
+并不是所有的攻击都是试图侵入你的电脑。有些仅仅是破坏性的。
+在本例中，目标是使机器崩溃。(系统崩溃也可能是一个指示，您需要检查您的系统是否安装了木马程序。
+你可能被骗加载了一个木马程序，但程序本身可能需要重新启动系统才能激活。)&lt;/p&gt;
+&lt;p&gt;Ping是一个非常有用的基本网络工具。您可能不希望完全禁用ping。在当今的互联网环境中，
+保守人士建议禁用传入ping，或者至少严格限制从谁那里接受回显请求。由于ping有参与DoS攻击的历史，
+许多站点不再响应来自选定来源以外的任何外部ping请求。与针对应用程序和栈中其他协议的
+更普遍和更危险的威胁相比，这似乎是对基于ICMP的DoS相对较小的威胁的过度反应。&lt;/p&gt;
+&lt;p&gt;然而，对受害主机来说，放弃ping请求并不是一个解决方案。不管报文的接收方对报文的反应如何，
+系统(或网络)在检查和丢弃大量请求的过程中仍然可能会被淹没。&lt;/p&gt;
+&lt;p&gt;UDP的洪水&lt;/p&gt;
+&lt;p&gt;UDP协议作为DoS工具尤其有用。与TCP不同，UDP是无状态的。不包括流量控制机制。
+没有连接状态标志。没有使用数据报序列号。不维护下一个包的信息。
+并不是总有一种方法可以根据端口号区分客户机流量和服务器流量。如果没有状态，
+就无法区分预期的传入响应和未请求的数据包意外到达。让系统忙于响应传入的UDP探测，
+以至于没有带宽留给合法的网络流量，这是相对容易的。&lt;/p&gt;
+&lt;p&gt;因为UDP服务很容易受到这些类型的攻击(与面向连接的TCP服务相反)，
+许多站点禁用了所有非绝对必要的UDP端口。如前所述，几乎所有常见的Internet服务都是基于TCP的。
+我们将在第5章“构建和安装独立防火墙”中构建的防火墙，小心地将UDP流量限制在那些提供必要UDP服务的
+远程主机上。&lt;/p&gt;
+&lt;p&gt;经典的UDP flood攻击要么涉及两台受害机器，要么以与Smurf ping flood相同的方式工作(参见图2.10)。
+一个来自攻击者的UDP响应端口的欺骗数据包，指向主机的UDP收费端口，可以导致网络流量的无限循环。
+echo和chargen业务属于网络测试业务。chargen生成一个ASCII字符串。Echo返回发送到端口的数据。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry><entry><title>如何修改主机名和重置SSH</title><link href="https://recozo.github.io/ru-he-xiu-gai-zhu-ji-ming-he-zhong-zhi-ssh.html" rel="alternate"></link><published>2020-10-02T00:34:00+08:00</published><updated>2020-10-02T00:34:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-02:/ru-he-xiu-gai-zhu-ji-ming-he-zhong-zhi-ssh.html</id><summary type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;虚拟机下常用功能&lt;/h2&gt;
+&lt;p&gt;一、修改主机名称:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# hostnamectl set-hostname HostA
+# vi /etc/hosts
+# vi /etc/network/interfaces
+# vi /etc/resolv.conf
+&lt;/pre&gt;
+&lt;p&gt;二、重新生成SSH主机KEY:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# rm -v /etc/ssh/ssh_host_*
+# dpkg-reconfigure openssh-server
+&lt;/pre&gt;
+&lt;p&gt;三、更新系统:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt update
+# apt …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;虚拟机下常用功能&lt;/h2&gt;
+&lt;p&gt;一、修改主机名称:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# hostnamectl set-hostname HostA
+# vi /etc/hosts
+# vi /etc/network/interfaces
+# vi /etc/resolv.conf
+&lt;/pre&gt;
+&lt;p&gt;二、重新生成SSH主机KEY:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# rm -v /etc/ssh/ssh_host_*
+# dpkg-reconfigure openssh-server
+&lt;/pre&gt;
+&lt;p&gt;三、更新系统:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt update
+# apt upgrade
+&lt;/pre&gt;
+&lt;p&gt;四、删除某个 systemd 服务&lt;/p&gt;
+&lt;blockquote&gt;
+# systemctl stop [servicename]
+# systemctl disable [servicename]
+# rm /etc/systemd/system/[servicename]
+# rm /etc/systemd/system/[servicename] # and symlinks that might be related
+# rm /usr/lib/systemd/system/[servicename]
+# rm /usr/lib/systemd/system/[servicename] # and symlinks that might be related
+# systemctl daemon-reload
+# systemctl reset-failed&lt;/blockquote&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://superuser.com/questions/513159/how-to-remove-systemd-services"&gt;https://superuser.com/questions/513159/how-to-remove-systemd-services&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;五、彻底删除某应用&lt;/p&gt;
+&lt;blockquote&gt;
+# sudo apt autoremove --purge [applicationname]&lt;/blockquote&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://howtoinstall.co/en/debian/wheezy/bind9?action=remove"&gt;https://howtoinstall.co/en/debian/wheezy/bind9?action=remove&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;六、清除 BASH 历史&lt;/p&gt;
+&lt;blockquote&gt;
+cat /dev/null &amp;gt; ~/.bash_history &amp;amp;&amp;amp; history -c &amp;amp;&amp;amp; exit&lt;/blockquote&gt;
+&lt;p&gt;四、阿里云主机IP的设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cd /etc/systemd/network
+# ls
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry><entry><title>谁在暗中连网，中招了？</title><link href="https://recozo.github.io/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html" rel="alternate"></link><published>2020-10-02T00:34:00+08:00</published><updated>2020-10-02T00:34:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-02:/shui-zai-an-zhong-lian-wang-zhong-zhao-liao.html</id><summary type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;时间同步的有关问题&lt;/h2&gt;
+&lt;p&gt;今天在新装服务器的时候，设置并启用防火墙后查看日志，发现间隔一段时间就有被拦截的访问外 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;时间同步的有关问题&lt;/h2&gt;
+&lt;p&gt;今天在新装服务器的时候，设置并启用防火墙后查看日志，发现间隔一段时间就有被拦截的访问外网记录……
+不应该的啊，原来一直都没有出现过这种情况啊？？！！谁在暗中连网，中招了？？？&lt;/p&gt;
+&lt;p&gt;上网搜索了被拦截的IP访问地址，发现都是指向网络时间服务器，一下子就释然了，
+不过一下子又好奇了，一直没有怎么关注 debian 下的时间同步功能，于是找了下有关资料，&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-debian-10&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我现在使用的是 debian 10.6的版本，使用的是 systemd-timesyncd，等下次有需要再仔细了解一下。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry><entry><title>安装远程开发桌面环境</title><link href="https://recozo.github.io/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html" rel="alternate"></link><published>2020-08-26T16:01:00+08:00</published><updated>2020-08-26T16:01:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-08-26:/an-zhuang-yuan-cheng-kai-fa-zhuo-mian-huan-jing.html</id><summary type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌 …&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;安装操作系统及辅助功能&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;正常安装debian（假定安装时指定的普通用户为 recozo），语言选择英文，时区美国东部时间……，安装软件时桌面环境选择 XFCE，启用 SSH Server，选择 standard system utilities&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装完成后，默认使用普通用户登录，登录后打开一个终端窗口，切换为 root 用户，为普通用户启用 sudo 功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ su - root
+# apt install sudo
+# adduser recozo sudo
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装中文输入法（支持五笔与拼音），安装完后点击右上角的输入法图标进行输入法配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install fcitx-table-wubi
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装远程桌面（&lt;a class="reference external" href="https://forums.kali.org/showthread.php?46345-Enabling-Remote-Desktop-and-SSH-access-to-Kali"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install xrdp
+# systemctl start xrdp
+# systemctl start xrdp-sesman
+# systemctl enable xrdp
+# systemctl enable xrdp-sesman
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用远程声音（&lt;a class="reference external" href="https://github.com/neutrinolabs/pulseaudio-module-xrdp/wiki/README"&gt;参考&lt;/a&gt;）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install build-essential dpkg-dev libpulse-dev pulseaudio
+# apt build-dep pulseaudio
+# apt source pulseaudio
+# cd pulseaudio-12.2/
+# ./configure
+
+# apt install git
+# git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git
+
+# cd pulseaudio-module-xrdp
+# ./bootstrap &amp;amp;&amp;amp; ./configure PULSE_DIR=/root/pulseaudio-12.2
+# make
+# make install
+# ls $(pkg-config --variable=modlibexecdir libpulse)
+# cd
+# rm -r pulseaudio*
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;设置正确的时区&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# timedatectl set-timezone Asia/Shanghai
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;重新启动系统以确保新的桌面环境正常启动，可在其它电脑上进行远程登录并进行操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="debian"></category></entry></feed>

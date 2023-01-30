@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - django</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/django.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2023-01-30T18:40:00+08:00</updated><entry><title>模型与数据库</title><link href="https://recozo.github.io/django-models-and-databases.html" rel="alternate"></link><published>2023-01-19T10:20:00+08:00</published><updated>2023-01-30T18:40:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2023-01-19:/django-models-and-databases.html</id><summary type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;1. 利用模型执行数据库操作&lt;/h2&gt;
+&lt;p&gt;一旦创建数据模型后，Django 自动生成一套数据库操作 API，可以执行创建、检索、更新
+和删除操作。&lt;/p&gt;
+&lt;p&gt;为 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;1. 利用模型执行数据库操作&lt;/h2&gt;
+&lt;p&gt;一旦创建数据模型后，Django 自动生成一套数据库操作 API，可以执行创建、检索、更新
+和删除操作。&lt;/p&gt;
+&lt;p&gt;为了用 Python 对象展示数据表对象，Django 使用了一套直观的系统：一个模型类代表的是
+数据库表，一个模型类的实例代表的是数据库表中的一条记录。&lt;/p&gt;
+&lt;p&gt;字段查询，即如何制定 SQL WHERE 子句，以关键字参数的形式传递给 QuerySet 方法
+filter()、exclude() 和 get()。
+基本的查询关键字参数遵照 field__lookuptype=value，查询类型有二十多种。
+详细资料：
+&lt;a class="reference external" href="https://docs.djangoproject.com/en/4.1/ref/models/querysets/#field-lookups"&gt;https://docs.djangoproject.com/en/4.1/ref/models/querysets/#field-lookups&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;跨关系查询，Django 提供了一种强大而直观的方式来“追踪”查询中的关系，在后台自动为你处理
+SQL JOIN。要跨一个关系，使用跨模型的相关字段的字段名，用双下划线分割，（根据实际需要，
+跨度不受限）直到得到你想要的字段，如
+Blog.objects.filter(entry__authors__name='Lennon')，就有二个跨度。
+它也可以反向工作，默认情况下，你在查找中使用模型的小写名称来引用一个 “反向” 关系。
+也可以不使用小写名称，通过使用 ForeignKey.related_query_name 自定义目标模型中
+反向过滤器的名称。如果设置了，它默认为 related_name 或 default_related_name 的值，
+否则默认为模型的小写名称。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;2. 关联对象&lt;/h2&gt;
+&lt;p&gt;正向访问：当你在模型中定义了关联关系（如 ForeignKey， OneToOneField， 或
+ManyToManyField），该模型的实例将会自动获取一套 API，能快捷地访问关联对象。&lt;/p&gt;
+&lt;p&gt;逆向访问：Django也提供了从关联关系的另一边进行访问的API，即从被关联模型到
+定义该关联关系的模型的访问。例如，一个Blog对象b能通过entry_set属性b.entry_set.all()
+访问包含所有关联Entry对象的列表。&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;一对多关联&lt;/p&gt;
+&lt;p&gt;正向访问：If a model has a ForeignKey, instances of that model will have
+access to the related (foreign) object via the foreign-key attribute.&lt;/p&gt;
+&lt;p&gt;逆向访问：If a model(source) has a ForeignKey, instances of the foreign-key
+model(target) will have access to a Manager that returns all instances of
+the source model. By default, this Manager is named FOO_set, where FOO is
+the source model name, lowercased. You can override the FOO_set name by
+setting the related_name parameter in the ForeignKey definition.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;多对多关联&lt;/p&gt;
+&lt;p&gt;多对多关联的两端均自动获取访问另一端的 API。该 API 的工作方式类似一对多关联的逆向访问。&lt;/p&gt;
+&lt;p&gt;定义了 ManyToManyField 的模型使用字段名作为属性名，而 “反向” 模型使用源模型名的
+小写形式，加上 '_set' （就像反向一对多关联一样）。
+和 ForeignKey 一样， ManyToManyField 也能指定 related_name。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;一对一关联&lt;/p&gt;
+&lt;p&gt;若在模型中定义了 OneToOneField，该模型的实例只需通过该属性就能访问关联对象。
+不同点在于 “反向” 查询。一对一关联所关联的对象也能访问 Manager 对象，
+但这个 Manager 仅代表一个对象，而不是对象的集合。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;逆向关联是如何实现的&lt;/p&gt;
+&lt;p&gt;其它对象关联映射实现要求你在两边都定义关联关系。而 Django 开发者坚信这违反了
+DRY 原则（不要自我重复），故 Django 仅要求你在一端定义关联关系。&lt;/p&gt;
+&lt;p&gt;但这是如何实现的呢，给你一个模型类，模型类并不知道是否有其它模型类关联它，
+直到其它模型类被加载？&lt;/p&gt;
+&lt;p&gt;答案位于应用注册。 Django 启动时，它会导入 INSTALLED_APPS 列出的每个应用，
+和每个应用中的 model 模块。无论何时创建了一个新模型类，Django 为每个关联模型
+添加反向关联。若被关联的模型未被导入，Django 会持续追踪这些关联，并在关联模型
+被导入时添加关联关系。&lt;/p&gt;
+&lt;p&gt;出于这个原因，包含你所使用的所有模型的应用必须列在 INSTALLED_APPS 中。否则，
+反向关联可能不会正常工作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;3. 为模型提供初始数据&lt;/h2&gt;
+&lt;p&gt;第一次设置应用程序时，有时需要用硬编码的数据预填充数据库。你可以通过数据迁移
+（data migration）或固定数据（fixture）提供初始数据。&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用数据迁移&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://docs.djangoproject.com/en/4.1/topics/migrations/#data-migrations"&gt;https://docs.djangoproject.com/en/4.1/topics/migrations/#data-migrations&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用固定数据&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://docs.djangoproject.com/en/4.1/howto/initial-data/"&gt;https://docs.djangoproject.com/en/4.1/howto/initial-data/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;固定数据是 Django 知道如何导入数据库的数据集合。若你已有一些可用数据，
+创建固定数据最直接的方式是使用 manage.py dumpdata 命令。当然，你也可以手写固定数据；
+固定数据支持 JSON，XML 或 YAML （要求已安装 PyYAML）格式。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;./manage.py&lt;span class="w"&gt; &lt;/span&gt;dumpdata&lt;span class="w"&gt; &lt;/span&gt;-h
+$&lt;span class="w"&gt; &lt;/span&gt;./manage.py&lt;span class="w"&gt; &lt;/span&gt;dumpdata&lt;span class="w"&gt; &lt;/span&gt;myapp&lt;span class="w"&gt; &lt;/span&gt;--format&lt;span class="w"&gt; &lt;/span&gt;json&lt;span class="w"&gt; &lt;/span&gt;--indent&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;--output&lt;span class="w"&gt; &lt;/span&gt;mydump
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;你使用 manage.py loaddata 命令导入固定数据，Django 会在三个位置搜索固定数据：&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;在每个安装的应用程序的 fixtures 目录中&lt;/li&gt;
+&lt;li&gt;在 FIXTURE_DIRS 配置中指定的任何目录中&lt;/li&gt;
+&lt;li&gt;固定数据中包括的目录路径&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;./manage.py&lt;span class="w"&gt; &lt;/span&gt;loaddata&lt;span class="w"&gt; &lt;/span&gt;-h
+$&lt;span class="w"&gt; &lt;/span&gt;./manage.py&lt;span class="w"&gt; &lt;/span&gt;loaddata&lt;span class="w"&gt; &lt;/span&gt;foo/bar/mydata
+$&lt;span class="w"&gt; &lt;/span&gt;./manage.py&lt;span class="w"&gt; &lt;/span&gt;loaddata&lt;span class="w"&gt; &lt;/span&gt;foo/bar/mydata.json
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果没有指定文件的扩展名，会探索所有可用的固定数据内容，如果指定了文件扩展名，
+则只有该类型的固定数据才会被加载。&lt;/p&gt;
+&lt;p&gt;以上最后一条命令，将对每个安装的应用程序搜索 &amp;lt;app_label&amp;gt;/fixtures/foo/bar/mydata.json，
+为 FIXTURE_DIRS 中的每个目录搜索 &amp;lt;dirname&amp;gt;/foo/bar/mydata.json，
+并搜索字面路径 foo/bar/mydata.json。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="django"></category><category term="django"></category><category term="models and databases"></category></entry><entry><title>基于 wagtail 创建网站应用</title><link href="https://recozo.github.io/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html" rel="alternate"></link><published>2020-10-03T14:12:00+08:00</published><updated>2022-04-03T14:12:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-03:/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html</id><summary type="html">&lt;p&gt;参考链接&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;系统运行环境配置&lt;/h2&gt;
+&lt;p&gt;设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;参考链接&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;系统运行环境配置&lt;/h2&gt;
+&lt;p&gt;设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，为该用户开启 sudo 功能。&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;以 root 用户安装 sudo&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install sudo
+# adduser recozo sudo
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;以 recozo 用户登录&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装 postgresql数据库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install postgresql postgresql-client curl nginx
+&lt;/pre&gt;
+&lt;p&gt;切换至 postgres 用户&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo -i -u postgres
+$ psql
+&lt;/pre&gt;
+&lt;p&gt;通过 psql 创建数据库角色与数据库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;gt;&amp;gt; CREATE ROLE mywagtail_admin LOGIN PASSWORD 'password';
+&amp;gt;&amp;gt; CREATE DATABASE mywagtail WITH owner = mywagtail_admin;
+
+退出 postgres 用户，回到 recozo 用户环境
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装用于支持 pillow 图片处理的库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install libjpeg-dev zlib1g-dev
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装用于支持PYTHON虚拟环境的库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install python3-venv
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="wagtail-1"&gt;
+&lt;h2&gt;二、新建一个 wagtail 网站程序&lt;/h2&gt;
+&lt;p&gt;初始化网站程序&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ mkdir ~/mywagtail &amp;amp;&amp;amp; cd ~/mywagtail
+
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install wheel wagtail wagtail-2fa gunicorn psycopg2-binary
+
+$ wagtail start project .
+$ vi project/settings/base.py
+&lt;/pre&gt;
+&lt;p&gt;使用以下内容更新 base.py 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 修改并使用POSTGRESQL数据库
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mywagtail',
+        'USER': 'mywagtail_admin',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+# 启用双因子验证
+# 用户可安装 microsoft autherticator
+# 当用户首次登录后，会弹出二维码扫描，使用microsoft autherticator绑定设备
+# 以后每次登录成功后都要到 microsoft autherticator 获取 OTP 并正确输入后才能成功登录
+# https://wagtail-2fa.readthedocs.io/en/latest/
+INSTALLED_APPS = [
+    # ...
+    'wagtail_2fa',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    # ...
+]
+MIDDLEWARE = [
+    # .. other middleware
+    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'wagtail_2fa.middleware.VerifyUserMiddleware',
+
+    # 'wagtail.core.middleware.SiteMiddleware',
+    # .. other middleware
+]
+WAGTAIL_2FA_REQUIRED = True
+# 启用双因子验证
+
+# 修改并设置中文及时区
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai
+&lt;/pre&gt;
+&lt;p&gt;** 注意 **&lt;/p&gt;
+&lt;p&gt;To avoid possible confusion as to effective scope, in django 4.0 the private internal
+utility is_safe_url() is renamed to url_has_allowed_host_and_scheme().&lt;/p&gt;
+&lt;p&gt;在 wagtail-2fa 中使用了 is_safe_url，暂时解决方案如下&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vi .venv/lib/python3.9/site-packages/wagtail_2fa/views.py
+from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
+&lt;/pre&gt;
+&lt;p&gt;** 注意 **&lt;/p&gt;
+&lt;p&gt;执行以下命令分别生成数据库，网站管理员以及启动网站测试&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ python manage.py migrate
+$ python manage.py createsuperuser
+$ python manage.py runserver
+&lt;/pre&gt;
+&lt;p&gt;记得在正式发布时，必须在生产机上运行 python manage.py collectstatic&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="github"&gt;
+&lt;h2&gt;利用 GITHUB 分发现有程序&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;克隆现有程序&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git clone https://github.com/recozo/mywagtail.git recozo_com
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;还原应用程序运行环境&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd recozo_com
+$ python3 -m venv .venv
+$ pip install -r requirements.txt
+$ vi project/settings/base.py
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;修改 base.py 使用对应的 POSTGRESQL 数据库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mywagtail',
+        'USER': 'mywagtail_admin',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;继续还原参数配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vi project/settings/production.py
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;修改 production.py 使用正确的域名以及模板目录名&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ALLOWED_HOSTS = ['recozo.com']
+RCZ_TEMPLATE_ACTIVE_DIR = 'recozo_com'
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;基于该现有 wagtail 程序创建一个新的网站&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;统一为模板指定模板活动目录的变量（在 project/context_processors.py中设置）&lt;/li&gt;
+&lt;li&gt;在 project/settings/dev.py中设置RCZ_TEMPLATE_ACTIVE_DIR
+（该目录统一设置在 home 的templates目录下，注意，如果正式发布，请在production.py中进行相同设置）&lt;/li&gt;
+&lt;li&gt;版面模板及相关的CSS和JS均保存在home目录下，参见 recozo_com 的实现&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;根据实际选择执行以下命令&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ python manage.py migrate
+$ python manage.py createsuperuser
+$ python manage.py collectstatic
+$ python manage.py runserver
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="nginx"&gt;
+&lt;h2&gt;通过 nginx 发布网站&lt;/h2&gt;
+&lt;p&gt;创建 systemd socket 文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/systemd/system/gunicorn.recozo_com.socket
+&lt;/pre&gt;
+&lt;p&gt;将以下内容写入 socket 文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[Unit]
+Description=gunicorn recozo_com socket
+
+[Socket]
+ListenStream=/run/gunicorn.recozo_com.sock
+
+[Install]
+WantedBy=sockets.target
+&lt;/pre&gt;
+&lt;p&gt;创建 systemd 服务文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/systemd/system/gunicorn.recozo_com.service
+&lt;/pre&gt;
+&lt;p&gt;将以下内容写入 service 文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.recozo_com.socket
+After=network.target
+
+[Service]
+User=recozo
+Group=www-data
+WorkingDirectory=/home/recozo/recozo_com
+ExecStart=/home/recozo/recozo_com/.venv/bin/gunicorn \
+                --access-logfile - \
+                --workers 3 \
+                --bind unix:/run/gunicorn.recozo_com.sock \
+                project.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+&lt;/pre&gt;
+&lt;p&gt;启用 socket 与 service&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo systemctl start gunicorn.recozo_com.socket
+$ sudo systemctl enable gunicorn.recozo_com.socket
+&lt;/pre&gt;
+&lt;p&gt;检查 socket 文件与激活&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo systemctl status gunicorn.recozo_com.socket
+$ file /run/gunicorn.recozo_com.sock
+$ sudo journalctl -u gunicorn.recozo_com.socket
+
+$ sudo systemctl status gunicorn.recozo_com.service
+$ curl --unix-socket /run/gunicorn.recozo_com.sock 10.62.1.132
+$ sudo systemctl status gunicorn.recozo_com.service
+$ sudo journalctl -u gunicorn.recozo_com.service
+&lt;/pre&gt;
+&lt;p&gt;如果修改了/etc/systemd/system/gunicorn.recozo_com.service&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart gunicorn.recozo_com.service
+&lt;/pre&gt;
+&lt;p&gt;配置 nginx 代理 gunicorn&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/nginx/sites-available/recozo_com
+&lt;/pre&gt;
+&lt;p&gt;使用以下内容更新站点配置文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+server {
+        listen 80;
+        server_name jw.luxi.gov.cn or 10.62.1.132;
+
+        # 增加上传文件的最大限制为10M，为防范DOS，默认只有1M
+client_max_body_size 10M;
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location /static/ {
+                root /home/recozo/recozo_com;
+        }
+        location /media/ {
+                root /home/recozo/recozo_com;
+        }
+
+        location / {
+                include proxy_params;
+                proxy_pass http://unix:/run/gunicorn.recozo_com.sock;
+        }
+}
+&lt;/pre&gt;
+&lt;p&gt;启用 nginx 网站&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo ln -s /etc/nginx/sites-available/recozo_com /etc/nginx/sites-enabled
+$ sudo nginx -t
+$ sudo systemctl restart nginx
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;参考资料&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;分类功能&lt;/p&gt;
+&lt;p&gt;参见：&lt;a class="reference external" href="https://posts-by.lb.ee/building-a-configurable-taxonomy-in-wagtail-django-94ca1080fb28"&gt;https://posts-by.lb.ee/building-a-configurable-taxonomy-in-wagtail-django-94ca1080fb28&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;源码：&lt;a class="reference external" href="https://gist.github.com/lb-/fda43b343cbf24c44c2c74ec69f2eafd#file-final_models-py"&gt;https://gist.github.com/lb-/fda43b343cbf24c44c2c74ec69f2eafd#file-final_models-py&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;翻译功能&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://docs.wagtail.io/en/v2.9/advanced_topics/customisation/admin_templates.html"&gt;https://docs.wagtail.io/en/v2.9/advanced_topics/customisation/admin_templates.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;目前 wagtail 好像只支持对本身提供的管理后台本地化，
+即只能对 .venv/lib/python3.7/site-packages/wagtail/admin/locale/zh_Hans/LC_MESSAGES/django.po
+这个文件进行本地化，比如 wagtail_2fa 这个模块要进行中文处理，只能将其 PO 文件内容复制到 wagtail 的django.po 文件中去
+不知道是不是我还没有找到正确的实现办法&lt;/p&gt;
+&lt;p&gt;更新 po 文件后，使用 django-admin compilemessages 生成 mo 文件即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;注意事项&lt;/p&gt;
+&lt;p&gt;由于中文翻译，导致 truncatechars 后边未带...，
+请自行修改中文 .venv/lib/python3.7/site-packages/wagtail/admin/locale/zh_Hans/LC_MESSAGES/django.po 文件中的
+msgctxt &amp;quot;String to return when truncating text&amp;quot;，&lt;/p&gt;
+&lt;p&gt;然后执行 django-admin compilemessages 生成 mo 文件即可&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="django"></category><category term="wagtail"></category><category term="django"></category><category term="postgresql"></category><category term="git"></category></entry><entry><title>Django 学习</title><link href="https://recozo.github.io/django-xue-xi.html" rel="alternate"></link><published>2022-01-01T00:28:00+08:00</published><updated>2022-01-01T00:28:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2022-01-01:/django-xue-xi.html</id><summary type="html">&lt;div class="section" id="introduction-to-django"&gt;
+&lt;h2&gt;1. Introduction to Django&lt;/h2&gt;
+&lt;div class="section" id="scaffolding-a-django-project-and-app"&gt;
+&lt;h3&gt;Scaffolding a Django Project and App&lt;/h3&gt;
+&lt;p&gt;常用命令:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ django-admin.py startproject myprojectname .
+$ python manage runserver
+$ python manage startapp myappname
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="model-view-template"&gt;
+&lt;h3&gt;Model View Template&lt;/h3&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;Models&lt;/dt&gt;
+&lt;dd&gt;Django models define the data for your application and provide an
+abstraction layer to SQL database access through an Object
+Relational …&lt;/dd&gt;&lt;/dl&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="introduction-to-django"&gt;
+&lt;h2&gt;1. Introduction to Django&lt;/h2&gt;
+&lt;div class="section" id="scaffolding-a-django-project-and-app"&gt;
+&lt;h3&gt;Scaffolding a Django Project and App&lt;/h3&gt;
+&lt;p&gt;常用命令:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ django-admin.py startproject myprojectname .
+$ python manage runserver
+$ python manage startapp myappname
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="model-view-template"&gt;
+&lt;h3&gt;Model View Template&lt;/h3&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;Models&lt;/dt&gt;
+&lt;dd&gt;Django models define the data for your application and provide an
+abstraction layer to SQL database access through an Object
+Relational Mapper (ORM).&lt;/dd&gt;
+&lt;dt&gt;Views&lt;/dt&gt;
+&lt;dd&gt;A Django view is where most of the logic for your application is
+defined. A view is a function that you write that will receive
+a request in the form of a Python object (specifically, a Django
+HttpRequest object).Your view must return an HttpResponse object
+that encapsulates all the information being provided to the client.&lt;/dd&gt;
+&lt;dt&gt;Templates&lt;/dt&gt;
+&lt;dd&gt;A template is a HyperText Markup Language (HTML) file (usually –
+any text file can be a template) that contains special placeholders
+that are replaced by variables your application provides.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="introduction-to-http"&gt;
+&lt;h3&gt;Introduction to HTTP&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="processing-a-request"&gt;
+&lt;h3&gt;Processing a Request&lt;/h3&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Match request against URL Routes  -- Django&lt;/li&gt;
+&lt;li&gt;Call view method with HttpRequest Object  -- Your Code&lt;/li&gt;
+&lt;li&gt;Perform logic inside view method   -- Your Code&lt;/li&gt;
+&lt;li&gt;Return HttpResponse object  -- Your Code&lt;/li&gt;
+&lt;li&gt;Send response to client  -- Django&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="django-project"&gt;
+&lt;h3&gt;Django Project&lt;/h3&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;manage.py&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;As the name suggests, this is a script that is used to manage your
+Django project. some of the more common ones are listed here:&lt;/p&gt;
+&lt;ul class="last simple"&gt;
+&lt;li&gt;runserver&lt;/li&gt;
+&lt;li&gt;startapp&lt;/li&gt;
+&lt;li&gt;shell&lt;/li&gt;
+&lt;li&gt;dbshell&lt;/li&gt;
+&lt;li&gt;makemigrations&lt;/li&gt;
+&lt;li&gt;migrate&lt;/li&gt;
+&lt;li&gt;test&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;dt&gt;The myproject Directory&lt;/dt&gt;
+&lt;dd&gt;This is the actual Python package for your project. It contains
+settings for the project, some configuration files for your web
+server, and the global URL maps.&lt;/dd&gt;
+&lt;dt&gt;Django Development Server&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;By default, the server listens on port 8000 on localhost (127.0.0.1).&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+python3 manage.py runserver 8001
+python3 manage.py runserver 0.0.0.0:8000
+&lt;/pre&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="django-apps"&gt;
+&lt;h3&gt;Django Apps&lt;/h3&gt;
+&lt;p&gt;An app directory contains all the models, views, and templates (and more)
+that they need to provide application functionality.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python3 manage.py startapp myapp
+&lt;/pre&gt;
+&lt;p&gt;Inside the app directory are several files and a folder :&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;__init__.py&lt;/li&gt;
+&lt;li&gt;admin.py&lt;/li&gt;
+&lt;li&gt;apps.py&lt;/li&gt;
+&lt;li&gt;models.py&lt;/li&gt;
+&lt;li&gt;migrations&lt;/li&gt;
+&lt;li&gt;tests.py&lt;/li&gt;
+&lt;li&gt;views.py&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="view-details"&gt;
+&lt;h3&gt;View Details&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="url-mapping-detail"&gt;
+&lt;h3&gt;URL Mapping Detail&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="get-post-and-querydict-objects"&gt;
+&lt;h3&gt;GET, POST, and QueryDict Objects&lt;/h3&gt;
+&lt;p&gt;Django automatically parses these parameter strings into QueryDict objects.
+The data is then available on the HttpRequest object that is passed to your
+view—specifically, in the HttpRequest.GET and HttpRequest.POST attributes,
+for URL parameters and body parameters respectively. QueryDict objects are
+objects that mostly behave like dictionaries, except that they can contain
+multiple values for a key. Code snippets&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+qd = QueryDict('k=a&amp;amp;k=b&amp;amp;k=c')
+qd[k']
+qd.get('k')
+qd.getlist('k')
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="exploring-django-settings"&gt;
+&lt;h3&gt;Exploring Django Settings&lt;/h3&gt;
+&lt;p&gt;Django has more settings available that aren't listed in the settings.py file,
+and so it will use its built-in defaults in these cases. You can also use the
+file to set arbitrary settings that you make up for your application.
+Third-party applications might want settings to be added here as well.&lt;/p&gt;
+&lt;p&gt;Using Settings in Your Code&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+from django.conf import settings # import settings from here instead
+
+if settings.DEBUG:
+    do_some_logging()
+&lt;/pre&gt;
+&lt;p&gt;When importing settings from django.conf, Django mitigates the three issues
+we just discussed:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Settings are read from whatever Django settings file has been specified.&lt;/li&gt;
+&lt;li&gt;Any default settings values are interpolated.&lt;/li&gt;
+&lt;li&gt;Django takes care of parsing any settings defined by a third-party library.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="finding-html-templates-in-app-directories"&gt;
+&lt;h3&gt;Finding HTML Templates in App Directories&lt;/h3&gt;
+&lt;p&gt;Django will look in this (and in other apps' templates directories) because of
+APP_DIRS being True in the settings.py file&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="rendering-a-template-with-the-render-function"&gt;
+&lt;h3&gt;Rendering a Template with the render Function&lt;/h3&gt;
+&lt;p&gt;render takes at least two arguments: the first is always the request that was
+passed to the view, and the second is the name/relative path of the template
+being rendered. We will also call it with a third argument, the render context
+that contains all the variables that will be available in the template&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="rendering-variables-in-templates"&gt;
+&lt;h3&gt;Rendering Variables in Templates&lt;/h3&gt;
+&lt;p&gt;To render a variable in a template, simply wrap it with braces: {{ book_name }}.
+Django will automatically escape HTML in output so that you can include special
+characters (such as &amp;lt; or &amp;gt;) in your variable without worrying about it garbling
+your output. If a variable is not passed to a template, Django will simply render
+nothing at that location, instead of throwing an exception.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="debugging-and-dealing-with-errors"&gt;
+&lt;h3&gt;Debugging and Dealing with Errors&lt;/h3&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;Exceptions&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;Exceptions are raised (or thrown in other languages) when an error occurs.
+Some common exceptions that you might see:&lt;/p&gt;
+&lt;ul class="last simple"&gt;
+&lt;li&gt;IndentationError&lt;/li&gt;
+&lt;li&gt;SyntaxError&lt;/li&gt;
+&lt;li&gt;NameError&lt;/li&gt;
+&lt;li&gt;KeyError&lt;/li&gt;
+&lt;li&gt;IndexError&lt;/li&gt;
+&lt;li&gt;TypeError&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Debugging&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="summary"&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;This chapter was a quick introduction to Django. You first got up to speed on the
+HTTP protocol and the structure of HTTP requests and responses. We then saw how
+Django uses the MVT paradigm, and then how it parses a URL, generates an HTTP request,
+and sends it to a view to get an HTTP response. We scaffolded the Bookr project
+and then created the reviews app for it. We then built two example views to illustrate
+how to get data from a request and use it when rendering templates. You should have
+experimented to see how Django escapes output in HTML when rendering a template.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="model-and-migrations"&gt;
+&lt;h2&gt;2. Model and Migrations&lt;/h2&gt;
+&lt;div class="section" id="django-orm"&gt;
+&lt;h3&gt;Django ORM&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="database-configuration-and-creating-django-applications"&gt;
+&lt;h3&gt;Database Configuration and Creating Django Applications&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="django-apps-1"&gt;
+&lt;h3&gt;Django Apps&lt;/h3&gt;
+&lt;p&gt;A Django project can have multiple apps that often act as discrete entities.
+That's why, whenever required, an app can be plugged into a different Django project as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="django-migration"&gt;
+&lt;h3&gt;Django Migration&lt;/h3&gt;
+&lt;p&gt;the transformation of Python code into database structures is known as migration.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py migrate
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="creating-django-models-and-migrations"&gt;
+&lt;h3&gt;Creating Django Models and Migrations&lt;/h3&gt;
+&lt;p&gt;A Django model is essentially a Python class that holds the blueprint
+for creating a table in a database. The models.py file can have many such models,
+and each model transforms into a database table. The attributes of the class form
+the fields and relationships of the database table as per the model definitions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="field-types"&gt;
+&lt;h3&gt;Field Types&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="field-options"&gt;
+&lt;h3&gt;Field Options&lt;/h3&gt;
+&lt;p&gt;Django has many more field types and field options that can be explored from the extensive
+official Django documentation. Execute the following command in the shell or terminal to
+migrate the Django models into the database&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py makemigrations appname
+&lt;/pre&gt;
+&lt;p&gt;The makemigrations &amp;lt;appname&amp;gt; command creates the migration scripts for the given app;
+When we run makemigrations without the app name, the migration scripts will be created
+for all the apps in the project. The following command, when run in the shell or terminal,
+will show the status of model migrations throughout the project&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py showmigrations
+&lt;/pre&gt;
+&lt;p&gt;Next, let's understand how Django transforms a model into an actual database table&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py sqlmigrate appname migrationscript
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="primary-keys"&gt;
+&lt;h3&gt;Primary Keys&lt;/h3&gt;
+&lt;p&gt;Since the migration script has already been created by executing makemigrations,
+let's now migrate the newly created model in the app by executing the following command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py migrate app
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="relationships"&gt;
+&lt;h3&gt;Relationships&lt;/h3&gt;
+&lt;p&gt;Many to One&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+&lt;/pre&gt;
+&lt;p&gt;Many to Many&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+contributors = models.ManyToManyField('Contributor', through='BookContributor')
+&lt;/pre&gt;
+&lt;p&gt;through: This is a special field option for many-to-many relationships. When we
+have a many-to-many relationship across two tables, if we want to store some extra
+information about the relationship, then we can use this to establish the relationship
+via an intermediary table. When the through field option is not provided while
+establishing a many-to-many relationship, Django automatically creates an intermediary
+table to manage the relationship.&lt;/p&gt;
+&lt;p&gt;One-to-One Relationships&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+person = models.OneToOneField(Person, on_delete=models.CASCADE)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="model-methods"&gt;
+&lt;h3&gt;Model Methods&lt;/h3&gt;
+&lt;p&gt;In Django, we can write methods inside a model class. These are called model methods and
+they can be custom methods or special methods that override the default methods of Django models.
+One such method is __str__(). This method returns the string representation of the Model instances
+and can be especially useful while using the Django shell.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="django-s-database-crud-operations"&gt;
+&lt;h3&gt;Django's Database CRUD Operations&lt;/h3&gt;
+&lt;p&gt;To execute the CRUD operations, we will enter Django's command-line shell
+by executing the following command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py shell
+&lt;/pre&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;Exercise 2.02: Creating an Entry in the Bookr Database&lt;/dt&gt;
+&lt;dd&gt;In this exercise, you created an entry in the database by creating an instance of the model object
+and used the save() method to write the model object into the database. the changes(update) to the
+class instance are not saved until the save() method is called.&lt;/dd&gt;
+&lt;dt&gt;Exercise 2.03: Using the create() Method to Create an Entry&lt;/dt&gt;
+&lt;dd&gt;Invoke the create() method to create an object in the database in a single step.
+Ensure that you pass all the required parameters&lt;/dd&gt;
+&lt;dt&gt;Exercise 2.04: Creating Records for a Many-to-One Relationship&lt;/dt&gt;
+&lt;dd&gt;In this exercise, we learned that while creating a database record, an object can be assigned to
+a field if it is a foreign key.&lt;/dd&gt;
+&lt;dt&gt;Exercise 2.05: Creating Records with Many-to-Many Relationships&lt;/dt&gt;
+&lt;dd&gt;use the relationship to create the objects, we can use through_default to pass
+in a dictionary with the parameters defining the required fields.&lt;/dd&gt;
+&lt;dt&gt;Exercise 2.07: Using the get() Method to Retrieve an Object&lt;/dt&gt;
+&lt;dd&gt;In this exercise, we learned how to fetch a single object using the get() method.
+There are several disadvantages to using this method, though. It is important to
+note that the get() method can only fetch one object. If there is another object
+carrying the same value as the field mentioned, then we can expect a 'returned
+more than one' error message. We can also get a 'matching query does not exist'
+error message when there are no objects returned from the get() query. The get()
+method can be used with any of the object's fields to retrieve a record.&lt;/dd&gt;
+&lt;dt&gt;Exercise 2.08: Using the all() Method to Retrieve a Set of Objects&lt;/dt&gt;
+&lt;dd&gt;In this exercise, we learned how to retrieve all the objects using the all() method
+and we also learned how to use the retrieved set of objects as a list.&lt;/dd&gt;
+&lt;dt&gt;Exercise 2.09: Using the filter() Method to Retrieve Objects&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;In this exercise, we saw the use of filters to retrieve a set of a few objects
+filtered by a certain condition.  Now, let's suppose we want to filter and query
+a set of objects using the object's fields by providing certain conditions. In such
+a case, we can use what is called a double-underscore lookup( __gt, __gte,  __lt, __lte,
+__contains, __icontains, __startswith, etc).&lt;/p&gt;
+&lt;p&gt;we can use the exclude() method to exclude a certain condition and fetch all the required objects.&lt;/p&gt;
+&lt;p&gt;We can retrieve a list of objects while ordering by a specified field, using the order_by() method.
+We can also use a prefix with the negative sign for the field parameter to order results
+in descending order.&lt;/p&gt;
+&lt;p class="last"&gt;Yet another useful method offered by Django is values(). It helps us get a query set of
+dictionaries instead of objects.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Now let's study how to perform queries across relationships. There are several ways
+to go about this, such as Querying Using Foreign Keys, Querying Using Model Name
+(written in lowercase) , Querying Across Foreign Key Relationships Using the Object Instance.&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;Exercise 2.10: Querying Across a Many-to-Many Relationship Using Field Lookup&lt;/dt&gt;
+&lt;dd&gt;In this exercise, we learned how to perform queries across many-to-many relationships
+using field lookup.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Exercise 2.11: A Many-to-Many Query Using Objects&lt;/p&gt;
+&lt;p&gt;Exercise 2.12: A Many-to-Many Query Using the set() Method&lt;/p&gt;
+&lt;p&gt;Exercise 2.13: Using the update() Method&lt;/p&gt;
+&lt;p&gt;Exercise 2.14: Using the delete() Method&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="summary-1"&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;we learned about Django models, migrations, and how they help propagate the changes
+to the Django models in the database.&lt;/p&gt;
+&lt;p&gt;We shored up our knowledge of databases by learning about database relationships,
+and their key types, in relational databases.  We also worked with the Django shell,
+where we used Python code to perform the same CRUD queries we performed earlier using SQL.
+Later, we learned how to retrieve our data in a more refined manner using pattern matching
+and field lookups.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="url-mapping-views-and-templates"&gt;
+&lt;h2&gt;3. URL Mapping, Views, and Templates&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="section" id="introduction-to-django-admin"&gt;
+&lt;h2&gt;4. Introduction to Django Admin&lt;/h2&gt;
+&lt;div class="section" id="creating-a-superuser-account"&gt;
+&lt;h3&gt;Creating a Superuser Account&lt;/h3&gt;
+&lt;p&gt;Enter the following command to create a superuser:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python manage.py createsuperuser
+&lt;/pre&gt;
+&lt;p&gt;Visit the admin app at &lt;a class="reference external" href="http://127.0.0.1:8000/admin"&gt;http://127.0.0.1:8000/admin&lt;/a&gt; and log in with the superuser account
+that you have created.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="crud-operations-using-the-django-admin-app"&gt;
+&lt;h3&gt;CRUD Operations Using the Django Admin App&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="users-and-groups"&gt;
+&lt;h3&gt;Users and Groups&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="section" id="summary-2"&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;In this chapter, we saw how to create superusers through the Django command line
+and how to use them to access the admin app. After a brief tour of the admin app's
+basic functionality, we examined how to register our models with it to produce a
+CRUD interface for our data.&lt;/p&gt;
+&lt;p&gt;Then we learned how to refine this interface by modifying site-wide features. We
+altered how the admin app presents model data to the user by registering custom
+model admin classes with the admin site. This allowed us to make fine-grained
+changes to the representation of our models' interfaces. These modifications
+included customizing change list pages by adding additional columns, filters,
+date hierarchies, and search bars. We also modified the layout of the model admin pages
+by grouping and excluding fields.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="serving-static-files"&gt;
+&lt;h2&gt;5. Serving Static Files&lt;/h2&gt;
+&lt;p&gt;Django provides tools for serving static assets with its development server
+during development. When your application goes to production, it can also
+collect all your assets and copy them to a folder for a dedicated web server
+to host. This allows you to keep your static files segregated in a meaningful way
+during development and automatically bundle them for deployment.&lt;/p&gt;
+&lt;p&gt;This functionality is provided by Django's built-in staticfiles app. It adds
+several useful features for working with and serving static files:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;The static template tag to automatically build the static URL for an asset and
+include it in your HTML.&lt;/li&gt;
+&lt;li&gt;A view (called static) that serves static files in development.&lt;/li&gt;
+&lt;li&gt;Static file finders to customize where assets are found on your filesystem.&lt;/li&gt;
+&lt;li&gt;The collectstatic management command, which finds all static files and moves
+them into a single directory for deployment.&lt;/li&gt;
+&lt;li&gt;The findstatic management command, which shows which static file on disk is
+loaded for a particular request. This also helps to debug if a particular file
+is not being loaded.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="forms"&gt;
+&lt;h2&gt;6. Forms&lt;/h2&gt;
+&lt;div class="section" id="what-is-a-form"&gt;
+&lt;h3&gt;What is a form?&lt;/h3&gt;
+&lt;p&gt;A form is made up of inputs that define key-value pairs of data to submit to the server.
+Each input in the form has a name, and this is how its data is identified on the server-side
+(in a Django view). There can be multiple inputs with the same name, whose data is available
+in a list containing all the posted values with this name.&lt;/p&gt;
+&lt;p&gt;FORM SECURITY WITH CROSS-SITE REQUEST FORGERY PROTECTION&lt;/p&gt;
+&lt;p&gt;The CSRF token must be added into the HTML for every form being sent and is done with
+the {% csrf_token %} template tag. The CSRF token is unique to every visitor on the site
+and periodically changes.&lt;/p&gt;
+&lt;p&gt;ACCESSING DATA IN THE VIEW&lt;/p&gt;
+&lt;p&gt;These are request.GET , which contains parameters passed in the URL, and request.POST ,
+which contains parameters in the HTTP request body.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;All values are sent as text, even number and date inputs.&lt;/li&gt;
+&lt;li&gt;For the select inputs, the selected value attributes of the selected options are sent,
+not the text content of the option tag.&lt;/li&gt;
+&lt;li&gt;If you select multiple options for books_you_own , then you will see multiple values
+in the request. This is why we use the getlist method since multiple values are sent
+for the same input name.&lt;/li&gt;
+&lt;li&gt;If the checkbox was checked, you will have a checkbox_on input in the debug output.
+If it was not checked, then the key will not exist at all (that is, there is no key,
+instead of having the key existing with an empty string or None value).&lt;/li&gt;
+&lt;li&gt;We have a value for the name submit_input , which is the text Submit Input . You submitted
+the form by clicking the Submit Input button, so we receive its value. Notice that no value
+is set for the button_element input since that button was not clicked.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CHOOSING BETWEEN GET AND POST&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;The most important is deciding whether or not the request should be idempotent.&lt;/li&gt;
+&lt;li&gt;Another point to consider is that Django only applies CSRF projection to POST requests.&lt;/li&gt;
+&lt;li&gt;If sending form data with a GET request, the form parameters will be visible in the URL.&lt;/li&gt;
+&lt;li&gt;the maximum length of a URL allowed by a browser can be short compared to the size of
+a POST body – sometimes only around 2,000 characters (or about 2 KB) compared to
+many megabytes or gigabytes that a POST body can be&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;WHY USE GET WHEN WE CAN PUT PARAMETERS IN THE URL?&lt;/p&gt;
+&lt;p&gt;THE DJANGO FORMS LIBRARY&lt;/p&gt;
+&lt;p&gt;The Django Forms library allows you to quickly define a form using a Python class.
+This is done by creating a subclass of the base Django Form class. You can then use
+an instance of this class to render the form in your template and validate the input
+data.&lt;/p&gt;
+&lt;p&gt;DEFINING A FORM&lt;/p&gt;
+&lt;p&gt;You define a class that inherits from the django.forms.Form class. The class has
+attributes, which are instances of different django.forms.Field subclasses.&lt;/p&gt;
+&lt;p&gt;When rendered, the attribute name in the class corresponds to its input name in HTML.
+To give you a quick idea of what fields there are, some examples are CharField ,
+IntegerField , BooleanField , ChoiceField , and DateField . Each field
+generally corresponds to one input when rendered in HTML, but there's not always
+a one-to-one mapping between a form field class and an input type. Form fields are
+more coupled to the type of data they collect rather than how they are displayed.&lt;/p&gt;
+&lt;p&gt;To illustrate this, consider a text input and a password input. They both accept
+some typed-in text data, but the main difference between them is that the text
+is visibly displayed in a text input, whereas with a password input the text is
+obscured. In a Django form, both of these fields are represented using CharField .
+The difference in how they are displayed is set by changing the widget the
+field is using.&lt;/p&gt;
+&lt;p&gt;Django defines a number of Widget classes that define how a Field should be
+rendered as HTML. They inherit from django.forms.widgets.Widget . A
+widget can be passed to the Field constructor to change how it is rendered.&lt;/p&gt;
+&lt;p&gt;RENDERING A FORM IN A TEMPLATE&lt;/p&gt;
+&lt;p&gt;Django does not add the &amp;lt;form&amp;gt; element or submit button(s) for you when
+rendering the template; you should add these around where your form is placed in
+the template. The form can be rendered like any other variable.&lt;/p&gt;
+&lt;p&gt;VALIDATING FORMS AND RETRIEVING PYTHON VALUES&lt;/p&gt;
+&lt;p&gt;We will now look at the other part of what makes Django forms useful:
+their ability to automatically validate the form and then retrieve native Python objects
+and values from them.&lt;/p&gt;
+&lt;p&gt;In Django, a form can either be unbound or bound. These terms describe whether or
+not the form has had the submitted POST data sent to it for validation.A form is bound
+if it is called with some data to be used for validation, such as the POST data.
+A bound form allows us to start using built-in validation-related tools:
+first, the is_valid method to check the form's validity, then the cleaned_data attribute
+on the form, which contains the values converted from strings to Python objects.&lt;/p&gt;
+&lt;p&gt;The cleaned_data attribute is only available after the form has been cleaned,
+which means the process of &amp;quot;cleaning up&amp;quot; the data and converting it from strings to
+Python objects. The cleaning process runs during the is_valid call. You will get
+AttributeError raised if you try to access cleaned_data before calling is_valid .&lt;/p&gt;
+&lt;p&gt;note that unlike when we iterated over all of the POST data, cleaned_data only
+contains form fields. The other data (such as the CSRF token and the submit button
+that was clicked) is present in the POST QueryDict but is not included as
+it does not include form fields.&lt;/p&gt;
+&lt;p&gt;BUILD-IN FIELD VALIDATION&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;required&lt;/li&gt;
+&lt;li&gt;max_length&lt;/li&gt;
+&lt;li&gt;min_length&lt;/li&gt;
+&lt;li&gt;max_value&lt;/li&gt;
+&lt;li&gt;min_value&lt;/li&gt;
+&lt;li&gt;max_digits&lt;/li&gt;
+&lt;li&gt;decimal_places&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="summary-3"&gt;
+&lt;h3&gt;SUMMARY&lt;/h3&gt;
+&lt;p&gt;This chapter was an introduction to forms in Django. We introduced some HTML
+inputs for entering data onto a web page. We talked about how data is submitted
+to a web application and when to use GET and POST requests. We then looked at
+how Django's form classes can make generating the form HTML simpler, as well as
+allowing the automatic building of forms using models.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="advanced-form-validation-and-model-forms"&gt;
+&lt;h2&gt;7. ADVANCED FORM VALIDATION AND MODEL FORMS&lt;/h2&gt;
+&lt;/div&gt;
+</content><category term="django"></category><category term="django"></category></entry></feed>

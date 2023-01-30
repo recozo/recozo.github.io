@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档" />
+<meta name="keywords" content="rst, ReStructuredText">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="ReStructuredText 笔记"/>
+  <meta property="og:description" content="ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/restructuredtext-skills.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2023-01-22 23:44:21.996140+08:00"/>
+  <meta property="article:modified_time" content="2023-01-22 23:44:21.996140+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="how-to"/>
+  <meta property="article:tag" content="rst"/>
+  <meta property="article:tag" content="ReStructuredText"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; ReStructuredText 笔记</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="restructuredtext-skills">ReStructuredText 笔记</h1>
+    <p>
+      Posted on 2023-01-22 in <a href="https://recozo.github.io/category/how-to.html">how-to</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <div class="section" id="section-2">
+<h2>段落</h2>
+<p>段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
+缩进的段落会被视为引用段落。</p>
+<p>这是正常的段落，中文段落有什么要注意的吗？没有发现。
+空格正常吗？好像正常。</p>
+<blockquote>
+这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
+继续缩进部分的内容。</blockquote>
+<p>恢复正常段落，是正常的了吧！</p>
+</div>
+<div class="section" id="section-3">
+<h2>行内标记</h2>
+<p>标准的reST行内标记非常简单：使用一个 * 用于： <em>斜体</em> ，两个星号 ** 用于： <strong>粗体</strong> ，两个反引号 `` 用于： <tt class="docutils literal"><span class="pre">fixed-space</span> literal(中文有固定间距？)</tt> 。
+但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
+可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。</p>
+<p>请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
+不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下<strong>没有空格</strong>是吧。</p>
+</div>
+<div class="section" id="section-4">
+<h2>列表</h2>
+<p>和HTML一样，支持有序、无序和定义三种列表。
+列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。</p>
+<p>列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO</p>
+<ol class="arabic">
+<li><p class="first">有序列表由数字加上.号开始，与内容要有空格，这是列表项一
+也可以有多行，只要缩进级别一样就可以</p>
+</li>
+<li><p class="first">这是有序列表项二，一个空格</p>
+<blockquote>
+<ol class="arabic simple">
+<li>嵌套项一</li>
+<li>自动出数字</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first">这是有序列表项三，一个空格，嘿嘿</p>
+<blockquote>
+<ol class="arabic simple" start="20">
+<li>使用其它数字开始序列</li>
+<li>自动出数字</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first">这是有序列表项四，二个空格，嘿嘿</p>
+<ol class="arabic simple" start="3">
+<li>嵌套项一，古怪！
+为什么多个空格生成的HTML代码与一个空格的代码不一样？</li>
+<li>嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
+难道是pelican的bug??</li>
+<li>自动出数字</li>
+</ol>
+</li>
+<li><p class="first">这是有序列表项四，三个空格，嘿嘿</p>
+<ol class="arabic simple" start="9">
+<li>嵌套项一</li>
+<li>自动出数字</li>
+</ol>
+</li>
+</ol>
+<p>列表是不是由段落结束？</p>
+<ol class="arabic simple">
+<li>新的列表吗？</li>
+<li>不同的列表确实可以由段落分隔</li>
+<li>这儿使用了#. 但是没有沿用上一个列表的数字</li>
+</ol>
+<p>继续列表功能，无序列表</p>
+<ul>
+<li><p class="first">无序列表项一</p>
+</li>
+<li><p class="first">无序列表项二
+继续项二的内容</p>
+<blockquote>
+<ul>
+<li><p class="first">无序列表一级嵌套项</p>
+</li>
+<li><p class="first">无序列表一级嵌套项</p>
+<blockquote>
+<ul class="simple">
+<li>无序列表二级嵌套项</li>
+<li>无序列表二级嵌套项</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">还原到了最顶级列表</p>
+</li>
+</ul>
+<p>继续列表功能，定义列表</p>
+<dl class="docutils">
+<dt>术语</dt>
+<dd>定义列表将术语与定义关联在一起
+多个术语之间无须使用空行分隔</dd>
+<dt>术语不能超过一行</dt>
+<dd>定义必须相对术语缩进，和术语之间不能有空行分隔，
+否则就变成了引用段落了，是吧，哈哈</dd>
+<dt>这条术语与上一条有空行分隔</dt>
+<dd><p class="first">定义也可以有多个段落，这是段落一。</p>
+<p class="last">这是段落二。
+当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="section-5">
+<h2>预格式文本（代码块）</h2>
+<p>通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
+当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
+对 :: 的处理如下：</p>
+<pre class="literal-block">
+# 如果它作为自己的段落出现，则该段落完全不在文档中
+public class Test
+{
+}
+</pre>
+<p>如果前面有空格，则删除标记</p>
+<pre class="literal-block">
+# 仔细看，上边的段落后什么也没有
+public class Test
+{
+}
+</pre>
+<p>如果前面是非空格，则标记将替换为单个冒号:</p>
+<pre class="literal-block">
+# 仔细看，上边的段落后边有个冒号
+public class Test
+{
+}
+</pre>
+</div>
+<div class="section" id="section-6">
+<h2>章节标题</h2>
+<p>如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
+上下划线可使用以下符号（ = - ` : ' &quot; ~ ^ _ * + # &lt; &gt; ），上下划线长度不能少于文本的长度，
+使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定</p>
+<ul class="simple">
+<li>#, with overline, for parts，有上线，用于编</li>
+<li>*, with overline, for chapters，有上线，用于章</li>
+<li>=, for sections，用于节</li>
+<li>-, for subsections，用于小节</li>
+<li>^, for subsubsections，用于子小节</li>
+<li>&quot;, for paragraphs，用于款</li>
+</ul>
+<div class="section" id="section-7">
+<h3>文档标题与子标题</h3>
+<p>整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
+文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
+（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）</p>
+<p id="target-1">章节标题可以作为链接目标，如链接到段落，可以使用 &quot;<a class="reference internal" href="#section-2">段落</a>&quot;，如果标题文本中含有空格，则还要用反引号包围标题，如 &quot;<a class="reference internal" href="#section-header">Section Header</a>&quot;。</p>
+</div>
+<div class="section" id="section-header">
+<h3>Section Header</h3>
+</div>
+</div>
+<div class="section" id="section-8">
+<h2>超链接</h2>
+<p>在 reST 中，超级链接由二部分组成，
+一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
+二是目标链接（Target Link），类似于HTML的链接地址;
+源链接与目标链接都是通过 _ 来定义的，
+源链接定义的格式如下： reference-name_，也就是 _ 是在引用名之后；
+与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
+引用名如果包含空格，则需要使用反引号括起来，如 `reference name`。
+以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。</p>
+<p>具体形式可分为以下几种：</p>
+<p>独立链接：直接输入网址即可，例如：<a class="reference external" href="http://www.debian.org">http://www.debian.org</a>，此时没有对应链接文本，直接显示链接地址</p>
+<p>命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
+我喜欢的LINUX版本是 <a class="reference external" href="http://www.debian.org">Debian</a> 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）</p>
+<p>匿名链接：链接目标与链接引用都使用 __ 进行标记。如 <a class="reference external" href="http://www.debian.org">我最喜欢的LINUX发行版本是 Debian</a> 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
+创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
+匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
+因为没有引用名，只能一次性配对使用，
+文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
+因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。</p>
+<p>锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。</p>
+<pre class="literal-block">
+.. _标题链接:
+</pre>
+<p>标题链接：reST 在定义标题时，还会自动定义一个 <a class="reference internal" href="#target-1">标题链接</a></p>
+<pre class="literal-block">
+标题名称
+========
+
+跳转到 标题名称_
+</pre>
+<p>嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &lt; &gt; 括起来的）链接地址或者另一个链接引用，例如：</p>
+<p>See the <a class="reference external" href="http://www.python.org">Python home page</a> for info.
+This <a class="reference external" href="http://www.python.org">link</a> is an alias to the link above.</p>
+<pre class="literal-block">
+See the `Python home page &lt;http://www.python.org&gt;`_ for info.
+This `link &lt;Python home page_&gt;`_ is an alias to the link above.
+</pre>
+<p>从代码上来说，以上二句相同于是:</p>
+<pre class="literal-block">
+See the `Python home page`_ for info.
+This link_ is an alias to the link above.
+
+.. _Python home page: http://www.python.org
+.. _link: `Python home page`_
+</pre>
+<p>尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。</p>
+</div>
+<div class="section" id="section-9">
+<h2>表格</h2>
+<p>有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；</p>
+<p>Simple 表格:</p>
+<pre class="literal-block">
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
+</pre>
+<p>实际效果如下：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="31%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head" colspan="2">Inputs</th>
+<th class="head">Output</th>
+</tr>
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A or B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="section-10">
+<h2>显示标记</h2>
+<p>显示标记块（ <a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks">Explicit Markup Blocks</a>）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
+显示标记引导符以两个 . 加空格表示（.. ）;
+显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式:</p>
+<pre class="literal-block">
+.. explicit markup block begin
+    second line
+    ...
+    end line
+</pre>
+</div>
+<div class="section" id="directives">
+<h2>指令（ Directives ）</h2>
+<p>指令（ <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives">Directives</a> ）是显式标记的通用块，是 reST 的扩展机制之一。
+指令格式:</p>
+<pre class="literal-block">
+.. directive-type:: directive-block
+</pre>
+<p>由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
+指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）</p>
+<ul class="simple">
+<li>指令参数</li>
+<li>指令选项</li>
+<li>指令内容</li>
+</ul>
+</div>
+<div class="section" id="section-11">
+<h2>图片指令</h2>
+<p>使用 <a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image">图片指令</a> 可以在文档中包含图片，例如:</p>
+<pre class="literal-block">
+.. image:: picture.jpeg
+</pre>
+<p>图片指令有一个必选参数，和多个可选选项:</p>
+<pre class="literal-block">
+.. image:: picture.jpeg
+    :height: 100px
+    :width: 200 px
+    :scale: 50 %
+    :alt: alternate text
+    :align: right
+    :class: common options
+    :name: common options
+</pre>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/rst.html">rst</a>
+      <a href="https://recozo.github.io/tag/restructuredtext.html">ReStructuredText</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

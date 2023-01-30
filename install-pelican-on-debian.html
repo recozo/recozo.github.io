@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。 其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican 支持 reStructuredText 编写内容 使用 …" />
+<meta name="keywords" content="pelican, git, github, vscode">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="使用 Pelican 维护静态网站"/>
+  <meta property="og:description" content="Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。 其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican 支持 reStructuredText 编写内容 使用 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/install-pelican-on-debian.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2020-02-03 13:49:00+08:00"/>
+  <meta property="article:modified_time" content="2020-08-28 00:49:00+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="how-to"/>
+  <meta property="article:tag" content="pelican"/>
+  <meta property="article:tag" content="git"/>
+  <meta property="article:tag" content="github"/>
+  <meta property="article:tag" content="vscode"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; 使用 Pelican 维护静态网站</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="install-pelican-on-debian">使用 Pelican 维护静态网站</h1>
+    <p>
+      Posted on 2020-02-03 in <a href="https://recozo.github.io/category/how-to.html">how-to</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。
+其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican</p>
+<ul class="simple">
+<li>支持 reStructuredText 编写内容</li>
+<li>使用 Python 开发</li>
+<li>打算转向 Python 进行程序开发，好吧，这理由有点勉强……</li>
+</ul>
+<div class="section" id="section-1">
+<h2>安装系统，可参照安装远程开发桌面环境</h2>
+<p>记得执行以下命令设置git用户信息:</p>
+<pre class="literal-block">
+$ sudo apt install git
+$ git config --global user.email &quot;recozo&#64;outlook.com&quot;
+$ git config --global user.name &quot;Recozo&quot;
+</pre>
+</div>
+<div class="section" id="pelican-1">
+<h2>安装 PELICAN</h2>
+<p>输入以下命令安装pelican并设置相关的运行环境:</p>
+<pre class="literal-block">
+$ cd ~/Documents
+$ mkdir mysite &amp;&amp; cd mysite
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install pelican python-magic wheel ghp-import sphinx sphinx-autobuild rstcheck
+$ pip freeze | grep pelican &gt; requirements.txt
+$ pip freeze | grep python-magic &gt; requirements.txt
+$ pip freeze | grep ghp-import &gt;&gt; requirements.txt
+$ pip freeze | grep sphinx &gt;&gt; requirements.txt
+$ pip freeze | grep sphinx-autobuild &gt;&gt; requirements.txt
+$ pip freeze | grep rstcheck &gt;&gt; requirements.txt
+$ pelican-quickstart
+$ touch README.rst
+$ vi .gitignore
+</pre>
+<p>参照 <a class="reference external" href="https://github.com/github/gitignore/blob/master/Python.gitignore">https://github.com/github/gitignore/blob/master/Python.gitignore</a>
+以及以下内容录入 .gitignore 内容</p>
+<pre class="literal-block">
+#pelican
+output/
+</pre>
+<p>继续执行以下命令</p>
+<pre class="literal-block">
+$ git init
+$ git add -A
+$ git commit -a -m 'Initial commit'
+</pre>
+</div>
+<div class="section" id="section-2">
+<h2>发布第一篇文章</h2>
+<p># 在 content 目录中保存文章:</p>
+<pre class="literal-block">
+vi content/welcome-to-my-blog.rst
+</pre>
+<p>示例:</p>
+<pre class="literal-block">
+Welcome to my blog !
+####################
+
+:date: 2020-08-28 01:30
+:modified: 2020-08-29 10:15
+:tags: essay
+:category: article
+
+Hello, welcome to my first blog !
+</pre>
+<p>保存文件。</p>
+</div>
+<div class="section" id="section-3">
+<h2>查看当前所有配置</h2>
+<p>使用以下命令可以查看当前的所有配置（包括默认配置）:</p>
+<pre class="literal-block">
+$ pelican --print-settings
+</pre>
+</div>
+<div class="section" id="section-4">
+<h2>使用主题</h2>
+<p>在社区管理维护的 <a class="reference external" href="https://github.com/getpelican/pelican-themes">Pelican Themes</a> 中，
+有多个主题可供使用，目前我们使用的是 Flex 。
+尽管可以直接通过 Pelican Themes 安装并使用主题，但是更新有所滞后，
+所以我们还是直接克隆 Flex 的 github 库（在我们自己的 Fork）。</p>
+<ol class="arabic">
+<li><p class="first">下载主题</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Documents
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/recozo/Flex.git
+</pre></div>
+</li>
+<li><p class="first">安装主题</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>pelican-themes<span class="w"> </span>--install<span class="w"> </span>~/Documents/Flex<span class="w"> </span>--verbose
+$<span class="w"> </span>pelican-themes<span class="w"> </span>--list
+</pre></div>
+</li>
+<li><p class="first">使用主题，可以通过 pelican content -t your-theme-path
+也可以通过在配置文件中定义 THEME 启用主题</p>
+<div class="highlight"><pre><span></span><span class="c1"># pelicanconf.py</span>
+<span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;./.venv/lib/python3.10/site-packages/pelican/themes/Flex&#39;</span>
+</pre></div>
+</li>
+</ol>
+</div>
+<div class="section" id="section-5">
+<h2>链接到内部内容</h2>
+<p>内部内容指保存在 content 目录中的文件（如图片、PDF等）</p>
+<ol class="arabic">
+<li><p class="first">使用 filename</p>
+<blockquote>
+<p><a class="reference external" href="https://recozo.github.io/images/test01.jpeg">a link relative to the current image file</a>
+<a class="reference external" href="https://recozo.github.io/pdfs/PythonTestingWithSelenium.pdf">a link relative to the current pdf file</a></p>
+</blockquote>
+</li>
+<li><p class="first">使用 static，此时即使指定的文件所在目录不在 STATIC_PATHS 中，
+该文件（及目录）也会被复制到 output 目录中</p>
+<blockquote>
+<p><a class="reference external" href="https://recozo.github.io/images/test01.jpeg">a link static to the current image file</a>
+<a class="reference external" href="https://recozo.github.io/pdfs/PythonTestingWithSelenium.pdf">a link static to the current pdf file</a></p>
+</blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="restructuredtext">
+<h2>启用 restructuredtext 扩展</h2>
+<p>安装 reStructuredText 扩展后， <a class="reference external" href="https://docs.restructuredtext.net/articles/prerequisites">请查看使用该扩展前的前置依赖</a></p>
+<p>第一次使用时，可使用 sphinx-quickstart 创建相关配置。</p>
+</div>
+<div class="section" id="section-6">
+<h2>查看网站效果以及内容</h2>
+<p>运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:</p>
+<pre class="literal-block">
+$ pelican --autoreload --listen --ignore-cache
+</pre>
+<p>在浏览器中访问以下地址可检查网站效果:</p>
+<pre class="literal-block">
+http://localhost:8000
+</pre>
+<p>可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果</p>
+</div>
+<div class="section" id="github">
+<h2>使用 GITHUB 发布网站以及源文件</h2>
+<ol class="arabic">
+<li><p class="first">在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:</p>
+<pre class="literal-block">
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+</pre>
+</li>
+<li><p class="first">将源文件保存为 pelican 分支:</p>
+<pre class="literal-block">
+$ git push -u origin master:pelican
+</pre>
+</li>
+<li><p class="first">发布项目网站(<a class="reference external" href="https://recozo.github.io">https://recozo.github.io</a>)内容:</p>
+<pre class="literal-block">
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="git-recozo-github-io">
+<h2>使用 GIT 在本地还原 recozo.github.io 项目</h2>
+<pre class="literal-block">
+$ cd ~/Documents
+$ git clone https://github.com/recozo/recozo.github.io.git pelican
+$ cd pelican/
+$ git branch -m master
+$ git fetch origin master:gh-pages
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+</pre>
+</div>
+<div class="section" id="git">
+<h2>利用 GIT 恢复或撤销操作</h2>
+<p>如果需要恢复或撤销已经提交了的操作</p>
+<ul class="simple">
+<li>git reset --soft HEAD~
+把该分支移动回原来的位置，而不会改变索引和工作目录</li>
+<li>git reset [--mixed] HEAD~
+撤销一上次的提交，还会取消暂存区所有的东西</li>
+<li>git reset --hard HEAD~
+撤销了最后的提交、git add 和 git commit 命令 以及 工作目录中的所有工作</li>
+</ul>
+<p>如果需要同时撤销已经发布到GITHUB的操作</p>
+<pre class="literal-block">
+# 查看提交的日志（版本）
+git log
+# 本地仓库回退到某一版本
+git reset --hard xxxx
+# 强制 PUSH，此时远程分支已经恢复成指定的 commit 了
+git push origin master --force
+</pre>
+</div>
+<div class="section" id="section-7">
+<h2>关于浏览器缓冲的问题</h2>
+<p>将 Pelican 从 4.2 升级到了 4.5 ，当访问 <a class="reference external" href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> 时，
+总是不能打开 index.html，每次都弹出下载界面，无论是 Firefox 还是 Chrome，都这毛病，以为是升级的原因，
+重新弄了台虚拟机，重新安装还是出这个问题，浪费了二天的时间找原因（不过也不是完全浪费，学到了如何 DEBUG），
+最后发现是浏览器缓存导致的问题，删除缓存后能正常访问，但是由于缓存功能没有关闭，后续仍然会出问题。</p>
+<p>不建议停用浏览器的缓存功能， Firefox 支持启用开发者模式时禁用 HTTP 缓存 （F12 进入开发者模式，
+F1 进入设置即可在 Advanced settings 看到这个选项 Disable HTTP Cache(when toolbox is open)），
+爽不？！</p>
+<p>注意，要安装 python-magic ，在 pelican 的 server.py 的 guess_type 是通过 python-magic 进行处理的，
+如果未安装，即仍然会弹出下载界面。</p>
+</div>
+<div class="section" id="vscode-pelican">
+<h2>在 VSCODE 中调试 Pelican</h2>
+<p>在 .vscode 目录下新建一个 launch.json 文件，录入以下内容，即可在 VSCODE 中对 Pelican 进行断点调试了:</p>
+<pre class="literal-block">
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+
+        {
+            &quot;name&quot;: &quot;Python: Module&quot;,
+            &quot;type&quot;: &quot;python&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;module&quot;: &quot;pelican&quot;,
+            &quot;args&quot;:[&quot;--listen&quot;],
+            &quot;justMyCode&quot;: false,
+        }
+    ]
+}
+</pre>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/pelican.html">pelican</a>
+      <a href="https://recozo.github.io/tag/git.html">git</a>
+      <a href="https://recozo.github.io/tag/github.html">github</a>
+      <a href="https://recozo.github.io/tag/vscode.html">vscode</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

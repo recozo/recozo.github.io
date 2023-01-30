@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="以下操作在 Windows 10 环境下 下载 Virtual Audio Cable。下载地址：https://www.vb-audio.com/Cable/index.htm 安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设 …" />
+<meta name="keywords" content="speech recognition">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="将音频（视频）转录为文字"/>
+  <meta property="og:description" content="以下操作在 Windows 10 环境下 下载 Virtual Audio Cable。下载地址：https://www.vb-audio.com/Cable/index.htm 安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/speech-recognition.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2023-01-22 23:44:21.996140+08:00"/>
+  <meta property="article:modified_time" content="2023-01-22 23:44:21.996140+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="how-to"/>
+  <meta property="article:tag" content="speech recognition"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; 将音频（视频）转录为文字</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="speech-recognition">将音频（视频）转录为文字</h1>
+    <p>
+      Posted on 2023-01-22 in <a href="https://recozo.github.io/category/how-to.html">how-to</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>以下操作在 Windows 10 环境下</p>
+<ol class="arabic">
+<li><p class="first">下载 Virtual Audio Cable。下载地址：<a class="reference external" href="https://www.vb-audio.com/Cable/index.htm">https://www.vb-audio.com/Cable/index.htm</a></p>
+</li>
+<li><p class="first">安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设置为播放和录制的默认设备；</p>
+<blockquote>
+<p>此时你会发现播放音频或视频没有声音了，你可以理解为声音已经被传送至 CABLE Input 了，并且被作为 CABLE Output 的输入了，
+也就是我们已经将音频或视频的声音作为话筒的输入了。
+如果你录制的同时还想听到音频或视频的声音，可以打开 CABLE Output 的属性，点击 <em>侦听</em> 面板，选择 <em>侦听此设备</em> ，然后 <em>通过此设备播放</em> 选择你的实际播放设备即可。
+也可以继续下载VB-Audio Additional Virtual Cables，那么还可以另外再创建4个虚拟声卡；
+想玩大点的（如声音混合等），可以下载该网站的其它软件。</p>
+</blockquote>
+</li>
+<li><p class="first">下载 youtube 视频</p>
+<blockquote>
+<ul class="simple">
+<li>通过在youtube链接中插入my，即可以在线下载该视频，缺点是不支持1080P或以上，不支持选择视频分辨率，也不支持只下载音频；
+假如 youtube 地址是 <a class="reference external" href="https://www.youtube.com/watch?v=q2adWg-Ct6Y">https://www.youtube.com/watch?v=q2adWg-Ct6Y</a> ，只须将地址更换为 <a class="reference external" href="https://www.youtubemy.com/watch?v=q2adWg-Ct6Y">https://www.youtubemy.com/watch?v=q2adWg-Ct6Y</a> ，就会出现下载界面。</li>
+<li>通过桌面程序下载，目前我正在使用的是 4K Video Downloader ，主要是因为可以免费使用，并支持下载 youtube 的视频文件或只下载音频文件；</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">打开网页 <a class="reference external" href="https://www.textfromtospeech.com/zh/voice-to-text/">https://www.textfromtospeech.com/zh/voice-to-text/</a> ，通过播放你下载的视频或音频文件，即可在线转录成文字了。</p>
+<blockquote>
+<p>使用这个网站是因为发现国内访问速度还行，谷歌也有在线转录功能，但是由于延时太长，导致转录效果不佳。</p>
+</blockquote>
+</li>
+</ol>
+<div class="section" id="section-2">
+<h2>如何将文字转换为语音</h2>
+<p>win10 环境下，无需安装第三方软件，利用 edge 浏览器的朗读功能和录音机功能实现。</p>
+<p>edge 可以通过在地址栏使用 <a class="reference external" href="file://d:/filename.txt">file://d:/filename.txt</a> 打开本地文件，这样的话无须网站支持。</p>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/speech-recognition.html">speech recognition</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

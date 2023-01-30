@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="百度分享的使用 百度分享的网站目前已经关了，不过功能目前好像还有用，暂时先用着吧…… 参考： https://www.cnblogs.com/cyhan/p/11671566.html 这里完 …" />
+<meta name="keywords" content="baidu, api">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="百度 API 应用"/>
+  <meta property="og:description" content="百度分享的使用 百度分享的网站目前已经关了，不过功能目前好像还有用，暂时先用着吧…… 参考： https://www.cnblogs.com/cyhan/p/11671566.html 这里完 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/bai-du-api-ying-yong.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2020-09-15 00:16:00+08:00"/>
+  <meta property="article:modified_time" content="2020-09-15 00:16:00+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="tricks"/>
+  <meta property="article:tag" content="baidu"/>
+  <meta property="article:tag" content="api"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; 百度 API 应用</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="bai-du-api-ying-yong">百度 API 应用</h1>
+    <p>
+      Posted on 2020-09-15 in <a href="https://recozo.github.io/category/tricks.html">tricks</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <div class="section" id="section-1">
+<h2>百度分享的使用</h2>
+<p>百度分享的网站目前已经关了，不过功能目前好像还有用，暂时先用着吧……</p>
+<p>参考： <a class="reference external" href="https://www.cnblogs.com/cyhan/p/11671566.html">https://www.cnblogs.com/cyhan/p/11671566.html</a></p>
+<p>这里完整的展示一下插件如何编写。</p>
+<ol class="arabic">
+<li><p class="first">插入百度分享插件js文件</p>
+<p>官方插件不支持https，如果要用https的话可下载 <a class="reference external" href="https://github.com/hrwhisper/baiduShare/">支持HTTPS百度分享插件</a> 。</p>
+<p>下载后需要把 static 文件夹放在网站的根目录下，
+并将百度分享代码中的 <a class="reference external" href="http://bdimg.share.baidu.com/">http://bdimg.share.baidu.com/</a> 改为 / 。</p>
+<pre class="literal-block">
+with (document) 0[(getElementsByTagName('head')[0] || body)
+    .appendChild(createElement('script'))
+    .src = '/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</pre>
+</li>
+<li><p class="first">代码结构</p>
+<p>分享代码可以分为三个部分：HTML、设置和js加载，示例如下：</p>
+<p>代码结构</p>
+<pre class="literal-block">
+&lt;div class=&quot;bdsharebuttonbox&quot; data-tag=&quot;share_1&quot;&gt;
+        &lt;!-- 此处添加展示按钮 --&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    window._bd_share_config = {
+    //此处添加分享具体设置
+    }
+
+    //以下为js加载部分
+    with(document)0[(getElementsByTagName('head')[0]||body)
+        .appendChild(createElement('script'))
+        .src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+&lt;/script&gt;
+</pre>
+</li>
+<li><p class="first">按钮标签</p>
+<p>按钮标签代码</p>
+<pre class="literal-block">
+&lt;div class=&quot;bdsharebuttonbox&quot; data-tag=&quot;share_1&quot;&gt;
+    &lt;a class=&quot;bds_mshare&quot; data-cmd=&quot;mshare&quot;&gt;&lt;/a&gt;
+    &lt;a class=&quot;bds_qzone&quot; data-cmd=&quot;qzone&quot; href=&quot;#&quot;&gt;&lt;/a&gt;
+    &lt;a class=&quot;bds_tsina&quot; data-cmd=&quot;tsina&quot;&gt;&lt;/a&gt;
+    &lt;a class=&quot;bds_baidu&quot; data-cmd=&quot;baidu&quot;&gt;&lt;/a&gt;
+    &lt;a class=&quot;bds_renren&quot; data-cmd=&quot;renren&quot;&gt;&lt;/a&gt;
+    &lt;a class=&quot;bds_tqq&quot; data-cmd=&quot;tqq&quot;&gt;&lt;/a&gt;
+    &lt;a class=&quot;bds_more&quot; data-cmd=&quot;more&quot;&gt;更多&lt;/a&gt;
+    &lt;a class=&quot;bds_count&quot; data-cmd=&quot;count&quot;&gt;&lt;/a&gt;
+&lt;/div&gt;
+</pre>
+<p>说明：</p>
+<p>只有普通页面分享需要按钮标签。划词分享、图片分享无需添加HTML结构。</p>
+<p>HTML结构可以放在body的任意位置，可复制多份。</p>
+<p>class＝&quot;bdsharebuttonbox&quot; 部分为dom选择器，请勿改动。</p>
+<p>data-tag属性为分享按钮标识，用于实现同一页面中多分享按钮不同配置，详见设置部分。</p>
+<p>data-cmd属性为分享目标标识，取值请参见：分享媒体id对应表。此外值为more时点击展现更多弹窗，值为count时展现分享数。</p>
+<p>HTML代码中其他部分均可自定义。</p>
+</li>
+</ol>
+</div>
+<div class="section" id="section-2">
+<h2>在网页嵌入百度地图</h2>
+<p>参考： <a class="reference external" href="http://lbsyun.baidu.com/jsdemo.htm#a7_1">http://lbsyun.baidu.com/jsdemo.htm#a7_1</a></p>
+<pre class="literal-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0, user-scalable=no&quot; /&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        #allmap {height:400px;width: 600px;margin: 0;overflow: hidden;font-family:&quot;微软雅黑&quot;;}
+    &lt;/style&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;//api.map.baidu.com/api?v=2.0&amp;ak=您的密钥&quot;&gt;&lt;/script&gt;
+    &lt;title&gt;关闭默认地图POI事件&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;allmap&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+        // 百度地图API功能
+    var map = new BMap.Map(&quot;allmap&quot;);
+    var point = new BMap.Point(114.040208,27.635682);
+    map.centerAndZoom(point, 17);
+    var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);               // 将标注添加到地图中
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+&lt;/script&gt;
+</pre>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/baidu.html">baidu</a>
+      <a href="https://recozo.github.io/tag/api.html">api</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

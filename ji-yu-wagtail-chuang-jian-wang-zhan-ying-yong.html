@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="参考链接 https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces 系统运行环境配置 设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基 …" />
+<meta name="keywords" content="wagtail, django, postgresql, git">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="基于 wagtail 创建网站应用"/>
+  <meta property="og:description" content="参考链接 https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces 系统运行环境配置 设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2020-10-03 14:12:00+08:00"/>
+  <meta property="article:modified_time" content="2022-04-03 14:12:00+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="django"/>
+  <meta property="article:tag" content="wagtail"/>
+  <meta property="article:tag" content="django"/>
+  <meta property="article:tag" content="postgresql"/>
+  <meta property="article:tag" content="git"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; 基于 wagtail 创建网站应用</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="ji-yu-wagtail-chuang-jian-wang-zhan-ying-yong">基于 wagtail 创建网站应用</h1>
+    <p>
+      Posted on 2020-10-03 in <a href="https://recozo.github.io/category/django.html">django</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>参考链接</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10">https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-10</a></li>
+<li><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces">https://www.digitalocean.com/community/tutorials/how-to-set-up-a-scalable-django-app-with-digitalocean-managed-databases-and-spaces</a></li>
+</ul>
+<div class="section" id="section-1">
+<h2>系统运行环境配置</h2>
+<p>设置开发与运行环境，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，为该用户开启 sudo 功能。</p>
+<ol class="arabic">
+<li><p class="first">以 root 用户安装 sudo</p>
+<pre class="literal-block">
+# apt install sudo
+# adduser recozo sudo
+</pre>
+</li>
+<li><p class="first">以 recozo 用户登录</p>
+</li>
+<li><p class="first">安装 postgresql数据库</p>
+<pre class="literal-block">
+$ sudo apt install postgresql postgresql-client curl nginx
+</pre>
+<p>切换至 postgres 用户</p>
+<pre class="literal-block">
+$ sudo -i -u postgres
+$ psql
+</pre>
+<p>通过 psql 创建数据库角色与数据库</p>
+<pre class="literal-block">
+&gt;&gt; CREATE ROLE mywagtail_admin LOGIN PASSWORD 'password';
+&gt;&gt; CREATE DATABASE mywagtail WITH owner = mywagtail_admin;
+
+退出 postgres 用户，回到 recozo 用户环境
+</pre>
+</li>
+</ol>
+<ul>
+<li><p class="first">安装用于支持 pillow 图片处理的库</p>
+<pre class="literal-block">
+$ sudo apt install libjpeg-dev zlib1g-dev
+</pre>
+</li>
+<li><p class="first">安装用于支持PYTHON虚拟环境的库</p>
+<pre class="literal-block">
+$ sudo apt install python3-venv
+</pre>
+</li>
+</ul>
+</div>
+<div class="section" id="wagtail-1">
+<h2>二、新建一个 wagtail 网站程序</h2>
+<p>初始化网站程序</p>
+<pre class="literal-block">
+$ mkdir ~/mywagtail &amp;&amp; cd ~/mywagtail
+
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install wheel wagtail wagtail-2fa gunicorn psycopg2-binary
+
+$ wagtail start project .
+$ vi project/settings/base.py
+</pre>
+<p>使用以下内容更新 base.py 内容</p>
+<pre class="literal-block">
+# 修改并使用POSTGRESQL数据库
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mywagtail',
+        'USER': 'mywagtail_admin',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+# 启用双因子验证
+# 用户可安装 microsoft autherticator
+# 当用户首次登录后，会弹出二维码扫描，使用microsoft autherticator绑定设备
+# 以后每次登录成功后都要到 microsoft autherticator 获取 OTP 并正确输入后才能成功登录
+# https://wagtail-2fa.readthedocs.io/en/latest/
+INSTALLED_APPS = [
+    # ...
+    'wagtail_2fa',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    # ...
+]
+MIDDLEWARE = [
+    # .. other middleware
+    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'wagtail_2fa.middleware.VerifyUserMiddleware',
+
+    # 'wagtail.core.middleware.SiteMiddleware',
+    # .. other middleware
+]
+WAGTAIL_2FA_REQUIRED = True
+# 启用双因子验证
+
+# 修改并设置中文及时区
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai
+</pre>
+<p>** 注意 **</p>
+<p>To avoid possible confusion as to effective scope, in django 4.0 the private internal
+utility is_safe_url() is renamed to url_has_allowed_host_and_scheme().</p>
+<p>在 wagtail-2fa 中使用了 is_safe_url，暂时解决方案如下</p>
+<pre class="literal-block">
+$ vi .venv/lib/python3.9/site-packages/wagtail_2fa/views.py
+from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
+</pre>
+<p>** 注意 **</p>
+<p>执行以下命令分别生成数据库，网站管理员以及启动网站测试</p>
+<pre class="literal-block">
+$ python manage.py migrate
+$ python manage.py createsuperuser
+$ python manage.py runserver
+</pre>
+<p>记得在正式发布时，必须在生产机上运行 python manage.py collectstatic</p>
+</div>
+<div class="section" id="github">
+<h2>利用 GITHUB 分发现有程序</h2>
+<ol class="arabic">
+<li><p class="first">克隆现有程序</p>
+<pre class="literal-block">
+$ git clone https://github.com/recozo/mywagtail.git recozo_com
+</pre>
+</li>
+<li><p class="first">还原应用程序运行环境</p>
+<pre class="literal-block">
+$ cd recozo_com
+$ python3 -m venv .venv
+$ pip install -r requirements.txt
+$ vi project/settings/base.py
+</pre>
+</li>
+<li><p class="first">修改 base.py 使用对应的 POSTGRESQL 数据库</p>
+<pre class="literal-block">
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mywagtail',
+        'USER': 'mywagtail_admin',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+</pre>
+</li>
+<li><p class="first">继续还原参数配置</p>
+<pre class="literal-block">
+$ vi project/settings/production.py
+</pre>
+</li>
+<li><p class="first">修改 production.py 使用正确的域名以及模板目录名</p>
+<pre class="literal-block">
+ALLOWED_HOSTS = ['recozo.com']
+RCZ_TEMPLATE_ACTIVE_DIR = 'recozo_com'
+</pre>
+</li>
+<li><p class="first">基于该现有 wagtail 程序创建一个新的网站</p>
+<ol class="arabic simple">
+<li>统一为模板指定模板活动目录的变量（在 project/context_processors.py中设置）</li>
+<li>在 project/settings/dev.py中设置RCZ_TEMPLATE_ACTIVE_DIR
+（该目录统一设置在 home 的templates目录下，注意，如果正式发布，请在production.py中进行相同设置）</li>
+<li>版面模板及相关的CSS和JS均保存在home目录下，参见 recozo_com 的实现</li>
+</ol>
+</li>
+<li><p class="first">根据实际选择执行以下命令</p>
+<pre class="literal-block">
+$ python manage.py migrate
+$ python manage.py createsuperuser
+$ python manage.py collectstatic
+$ python manage.py runserver
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="nginx">
+<h2>通过 nginx 发布网站</h2>
+<p>创建 systemd socket 文件</p>
+<pre class="literal-block">
+$ sudo vi /etc/systemd/system/gunicorn.recozo_com.socket
+</pre>
+<p>将以下内容写入 socket 文件</p>
+<pre class="literal-block">
+[Unit]
+Description=gunicorn recozo_com socket
+
+[Socket]
+ListenStream=/run/gunicorn.recozo_com.sock
+
+[Install]
+WantedBy=sockets.target
+</pre>
+<p>创建 systemd 服务文件</p>
+<pre class="literal-block">
+$ sudo vi /etc/systemd/system/gunicorn.recozo_com.service
+</pre>
+<p>将以下内容写入 service 文件</p>
+<pre class="literal-block">
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.recozo_com.socket
+After=network.target
+
+[Service]
+User=recozo
+Group=www-data
+WorkingDirectory=/home/recozo/recozo_com
+ExecStart=/home/recozo/recozo_com/.venv/bin/gunicorn \
+                --access-logfile - \
+                --workers 3 \
+                --bind unix:/run/gunicorn.recozo_com.sock \
+                project.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+</pre>
+<p>启用 socket 与 service</p>
+<pre class="literal-block">
+$ sudo systemctl start gunicorn.recozo_com.socket
+$ sudo systemctl enable gunicorn.recozo_com.socket
+</pre>
+<p>检查 socket 文件与激活</p>
+<pre class="literal-block">
+$ sudo systemctl status gunicorn.recozo_com.socket
+$ file /run/gunicorn.recozo_com.sock
+$ sudo journalctl -u gunicorn.recozo_com.socket
+
+$ sudo systemctl status gunicorn.recozo_com.service
+$ curl --unix-socket /run/gunicorn.recozo_com.sock 10.62.1.132
+$ sudo systemctl status gunicorn.recozo_com.service
+$ sudo journalctl -u gunicorn.recozo_com.service
+</pre>
+<p>如果修改了/etc/systemd/system/gunicorn.recozo_com.service</p>
+<pre class="literal-block">
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart gunicorn.recozo_com.service
+</pre>
+<p>配置 nginx 代理 gunicorn</p>
+<pre class="literal-block">
+$ sudo vi /etc/nginx/sites-available/recozo_com
+</pre>
+<p>使用以下内容更新站点配置文件</p>
+<pre class="literal-block">
+server {
+        listen 80;
+        server_name jw.luxi.gov.cn or 10.62.1.132;
+
+        # 增加上传文件的最大限制为10M，为防范DOS，默认只有1M
+client_max_body_size 10M;
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location /static/ {
+                root /home/recozo/recozo_com;
+        }
+        location /media/ {
+                root /home/recozo/recozo_com;
+        }
+
+        location / {
+                include proxy_params;
+                proxy_pass http://unix:/run/gunicorn.recozo_com.sock;
+        }
+}
+</pre>
+<p>启用 nginx 网站</p>
+<pre class="literal-block">
+$ sudo ln -s /etc/nginx/sites-available/recozo_com /etc/nginx/sites-enabled
+$ sudo nginx -t
+$ sudo systemctl restart nginx
+</pre>
+</div>
+<div class="section" id="section-2">
+<h2>参考资料</h2>
+<ol class="arabic">
+<li><p class="first">分类功能</p>
+<p>参见：<a class="reference external" href="https://posts-by.lb.ee/building-a-configurable-taxonomy-in-wagtail-django-94ca1080fb28">https://posts-by.lb.ee/building-a-configurable-taxonomy-in-wagtail-django-94ca1080fb28</a></p>
+<p>源码：<a class="reference external" href="https://gist.github.com/lb-/fda43b343cbf24c44c2c74ec69f2eafd#file-final_models-py">https://gist.github.com/lb-/fda43b343cbf24c44c2c74ec69f2eafd#file-final_models-py</a></p>
+</li>
+<li><p class="first">翻译功能</p>
+<p><a class="reference external" href="https://docs.wagtail.io/en/v2.9/advanced_topics/customisation/admin_templates.html">https://docs.wagtail.io/en/v2.9/advanced_topics/customisation/admin_templates.html</a></p>
+<p>目前 wagtail 好像只支持对本身提供的管理后台本地化，
+即只能对 .venv/lib/python3.7/site-packages/wagtail/admin/locale/zh_Hans/LC_MESSAGES/django.po
+这个文件进行本地化，比如 wagtail_2fa 这个模块要进行中文处理，只能将其 PO 文件内容复制到 wagtail 的django.po 文件中去
+不知道是不是我还没有找到正确的实现办法</p>
+<p>更新 po 文件后，使用 django-admin compilemessages 生成 mo 文件即可。</p>
+</li>
+<li><p class="first">注意事项</p>
+<p>由于中文翻译，导致 truncatechars 后边未带...，
+请自行修改中文 .venv/lib/python3.7/site-packages/wagtail/admin/locale/zh_Hans/LC_MESSAGES/django.po 文件中的
+msgctxt &quot;String to return when truncating text&quot;，</p>
+<p>然后执行 django-admin compilemessages 生成 mo 文件即可</p>
+</li>
+</ol>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/wagtail.html">wagtail</a>
+      <a href="https://recozo.github.io/tag/django.html">django</a>
+      <a href="https://recozo.github.io/tag/postgresql.html">postgresql</a>
+      <a href="https://recozo.github.io/tag/git.html">git</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

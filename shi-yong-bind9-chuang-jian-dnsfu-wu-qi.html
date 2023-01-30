@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件， 创建了一个普通用户 recozo，该用户开启 sudo 功能。 参 …" />
+<meta name="keywords" content="bind9, dns">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="使用 BIND9 创建DNS服务器"/>
+  <meta property="og:description" content="本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件， 创建了一个普通用户 recozo，该用户开启 sudo 功能。 参 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/shi-yong-bind9-chuang-jian-dnsfu-wu-qi.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2020-11-21 10:12:00+08:00"/>
+  <meta property="article:modified_time" content="2020-11-21 10:43:00+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="how-to"/>
+  <meta property="article:tag" content="bind9"/>
+  <meta property="article:tag" content="dns"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; 使用 BIND9 创建DNS服务器</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="shi-yong-bind9-chuang-jian-dnsfu-wu-qi">使用 BIND9 创建DNS服务器</h1>
+    <p>
+      Posted on 2020-11-21 in <a href="https://recozo.github.io/category/how-to.html">how-to</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，该用户开启 sudo 功能。</p>
+<p>参见：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.debian.org/bind9">https://wiki.debian.org/bind9</a></li>
+<li><a class="reference external" href="https://www.linuxbabe.com/debian/dns-resolver-debian-10-buster-bind9">https://www.linuxbabe.com/debian/dns-resolver-debian-10-buster-bind9</a></li>
+</ul>
+<div class="section" id="bind9">
+<h2>一、安装 BIND9</h2>
+<p>使用以下命令安装 BIND9</p>
+<pre class="literal-block">
+$ sudo apt install bind9 bind9-doc dnsutils resolvconf
+</pre>
+<p>检查版本及运行信息</p>
+<pre class="literal-block">
+$ sudo named -v
+$ systemctl status bind9
+$ sudo netstat -lnptu | grep named
+$ sudo rndc status
+</pre>
+</div>
+<div class="section" id="configurations-for-a-local-dns-resolver">
+<h2>二、Configurations for a Local DNS Resolver</h2>
+<pre class="literal-block">
+sudo vi /etc/bind/named.conf.options
+</pre>
+<p>In the options clause, add the following lines. Replace IP addresses in the allow-recursion statement with your own local network addresses.</p>
+<pre class="literal-block">
+directory &quot;/var/cache/bind&quot;;
+
+// If there is a firewall between you and nameservers you want
+// to talk to, you may need to fix the firewall to allow multiple
+// ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+// If your ISP provided one or more IP addresses for stable
+// nameservers, you probably want to use them as forwarders.
+// Uncomment the following block, and insert the addresses replacing
+// the all-0's placeholder.
+
+// forwarders {
+//      0.0.0.0;
+// };
+
+//========================================================================
+// If BIND logs error messages about the root key being expired,
+// you will need to update your keys.  See https://www.isc.org/bind-keys
+//========================================================================
+// dnssec-validation auto;
+
+// listen-on-v6 { any; };
+
+// add by Recozo begin
+
+// enable the query log
+querylog yes;
+
+// Transmit requests to 192.168.1.1 if
+// this server doesn't know how to resolve them
+forward only;
+forwarders { 202.101.224.68; };
+
+auth-nxdomain no;    # conform to RFC1035
+
+// From 9.9.5 ARM, disables interfaces scanning to prevent unwanted stop listening
+interface-interval 0;
+// Listen on local interfaces only(IPV4)
+listen-on-v6 { none; };
+listen-on { 127.0.0.1; 10.62.9.105; };
+
+// Accept requests for internal network only
+allow-query { 127.0.0.1; 10.62.0.0/16; };
+
+// Do not make public version of BIND
+version none;
+
+// add by Recozo end
+</pre>
+<pre class="literal-block">
+$ sudo named-checkconf
+$ sudo systemctl restart bind9
+$ dig xxx.domainname.com
+$ sudo journalctl -eu bind9
+</pre>
+<p>三、Setting the Default DNS Resolver on Debian 10 Buster Server</p>
+<pre class="literal-block">
+sudo systemctl start bind9-resolvconf
+
+sudo systemctl enable bind9-resolvconf
+</pre>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/bind9.html">bind9</a>
+      <a href="https://recozo.github.io/tag/dns.html">dns</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

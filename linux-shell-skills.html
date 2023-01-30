@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://recozo.github.io/theme/pygments/default.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://recozo.github.io/theme/font-awesome/css/solid.css">
+
+
+
+
+  <link href="https://recozo.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Recozo's Blog Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Recozo" />
+<meta name="description" content="如何查看 debian 包中的文件 dpkg -L packagename What&#39;s the difference between /sbin/nologin and /bin/false ? When /sbin/nologin is set as the shell, if user with that shell logs in, they&#39;ll get a polite message saying &#39;This account is currently not available.&#39; This …" />
+<meta name="keywords" content="linux, shell">
+
+
+  <meta property="og:site_name" content="Recozo's Blog"/>
+  <meta property="og:title" content="Linux Shell Skills"/>
+  <meta property="og:description" content="如何查看 debian 包中的文件 dpkg -L packagename What&#39;s the difference between /sbin/nologin and /bin/false ? When /sbin/nologin is set as the shell, if user with that shell logs in, they&#39;ll get a polite message saying &#39;This account is currently not available.&#39; This …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://recozo.github.io/linux-shell-skills.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2023-01-22 23:44:21.996140+08:00"/>
+  <meta property="article:modified_time" content="2023-01-22 23:44:21.996140+08:00"/>
+  <meta property="article:author" content="https://recozo.github.io/author/recozo.html">
+  <meta property="article:section" content="how-to"/>
+  <meta property="article:tag" content="linux"/>
+  <meta property="article:tag" content="shell"/>
+  <meta property="og:image" content="">
+
+  <title>Recozo's Blog &ndash; Linux Shell Skills</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://recozo.github.io/">
+      <img src="https://recozo.github.io/theme/img/profile.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://recozo.github.io/"></a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="http://www.github.com" >Portfolio</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/alexandrevicenzi/en"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/alexandrevicenzi"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/alxvicenzi"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="https://recozo.github.io/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://recozo.github.io/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="linux-shell-skills">Linux Shell Skills</h1>
+    <p>
+      Posted on 2023-01-22 in <a href="https://recozo.github.io/category/how-to.html">how-to</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <div class="section" id="debian">
+<h2>如何查看 debian 包中的文件</h2>
+<pre class="literal-block">
+dpkg -L packagename
+</pre>
+</div>
+<div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false">
+<h2>What's the difference between /sbin/nologin and /bin/false ?</h2>
+<p>When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.</p>
+<p>/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.</p>
+<p>Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.</p>
+<p>nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.</p>
+</div>
+<div class="section" id="five-find-command-linux-find-locate-whereis-which-type-1">
+<h2><a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html">Five find command Linux: find, locate, whereis, which, type</a></h2>
+<dl class="docutils">
+<dt>find</dt>
+<dd>Find is the most common and most powerful search command, you can find anything you want to find the file in it.</dd>
+<dt>locate</dt>
+<dd>The locate command is &quot;another way find -name&quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.</dd>
+<dt>whereis</dt>
+<dd>The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.</dd>
+<dt>which</dt>
+<dd>The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.</dd>
+<dt>type</dt>
+<dd><p class="first">The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.</p>
+<pre class="literal-block">
+type -a echo
+</pre>
+<p><a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command">There are two classes of builtins</a></p>
+<ol class="last arabic simple">
+<li>Some commands have to be built into the shell program itself because they cannot work if they are external.</li>
+<li>The other class of commands are built into the shell purely for efficiency.</li>
+</ol>
+</dd>
+</dl>
+</div>
+<div class="section" id="what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it-1">
+<h2><a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it">What is the difference between executing a Bash script vs sourcing it?</a></h2>
+<pre class="literal-block">
+./myscript
+
+. myscript
+source myscript
+</pre>
+<p>./ 代表的是当前目录。
+. myscript 与 source myscript 是一样的，This &quot;spelling&quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.</p>
+<p>Executing a script will run the commands in a new shell process.</p>
+<p>Sourcing a script will run the commands in the current shell process.</p>
+<p>Use source if you want the script to change the environment in your currently running shell. use execute otherwise.</p>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://recozo.github.io/tag/linux.html">linux</a>
+      <a href="https://recozo.github.io/tag/shell.html">shell</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Recozo's Blog ",
+  "url" : "https://recozo.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

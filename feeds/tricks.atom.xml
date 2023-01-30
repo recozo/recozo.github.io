@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - tricks</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/tricks.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2020-10-04T13:07:00+08:00</updated><entry><title>自动挂机学习</title><link href="https://recozo.github.io/zi-dong-gua-ji-xue-xi.html" rel="alternate"></link><published>2020-09-01T00:16:00+08:00</published><updated>2020-10-04T13:07:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/zi-dong-gua-ji-xue-xi.html</id><summary type="html">&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 &lt;a class="reference external" href="https://www.google.com/chrome/"&gt;Chrome&lt;/a&gt; 以及 &lt;a class="reference external" href="https://chromedriver.chromium.org/downloads"&gt;ChromeDriver&lt;/a&gt; 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装学习强国学习辅助程序源码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd Documents/
+$ git clone …&lt;/pre&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 &lt;a class="reference external" href="https://www.google.com/chrome/"&gt;Chrome&lt;/a&gt; 以及 &lt;a class="reference external" href="https://chromedriver.chromium.org/downloads"&gt;ChromeDriver&lt;/a&gt; 并安装，注意 Chrome 与 ChromeDriver 的版本要相互支持&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Downloads
+$ sudo apt install ./google-chrome-stable_current_amd64.deb
+$ unzip chromedriver_linux64.zip
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装学习强国学习辅助程序源码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd Documents/
+$ git clone https://github.com/TechXueXi/TechXueXi.git
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装辅助功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install python3-venv
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ python3 -m venv .venv
+
+$ source .venv/bin/activate
+$ pip install requests
+$ pip install selenium
+$ cp ~/Downloads/chromedriver ~/Documents/TechXueXi/SourcePackages/
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;运行辅助学习程序&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents/TechXueXi/SourcePackages
+$ source .venv/bin/activate
+
+$ python pandalearning.py
+&lt;/pre&gt;
+&lt;p&gt;如果是因为缺少模块而报错，直接使用 pip install 模块名 即可解决。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;后续更新操作&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents/TechXueXi
+$ git pull
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content><category term="tricks"></category><category term="chrome"></category><category term="chromedriver"></category><category term="selenium"></category></entry><entry><title>Vim 学习笔记</title><link href="https://recozo.github.io/vim-xue-xi-bi-ji.html" rel="alternate"></link><published>2020-10-02T10:43:00+08:00</published><updated>2020-10-02T10:43:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-02:/vim-xue-xi-bi-ji.html</id><summary type="html">&lt;p class="first last"&gt;vi 与 vim 的学习笔记&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;连续录入多个相同的字符( &lt;a class="reference external" href="https://stackoverflow.com/questions/5054128/repeating-characters-in-vim-insert-mode"&gt;参见&lt;/a&gt; ):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+50i- ESC
+# 如果当前是 INSERT 模式，可以使用 CTRL + O 临时进入命令模式
+CTRL+O 50i- ESC
+# CTRL+O 用于临时进入命令模式
+# 50 表示要重复的字数
+# i 表示插入命令
+# - 要插入的字符
+# ESC 离开插入模式（其实是退出当前的临时命令）
+&lt;/pre&gt;
+&lt;p&gt;在10行和112行之间插入4空格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+10,112 s/^/    /
+&lt;/pre&gt;
+&lt;p&gt;删除空行以及只有空格的行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:g/^\s*$/d
+&lt;/pre&gt;
+&lt;p&gt;恢复删除操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi对删除(d or x)或复制(y)有各自专用的 buffer，
+删除buffer会自动保留最近的9个删除操作(行内删除除外)至buffer，9个删除自动按照1-9保存，最近一次删除保存在1；
+可以使用 &amp;quot;1pu.u.u etc 命令查看各个删除的内容
+
+复制buffer可保留26个命名（从a-z）复制内容，如果复制时未使用命名，自动使用a??
+&amp;quot;d7yy
+&amp;quot;a5dd
+此处注意dd操作会分别保存在删除buffer 1中和复制buffer a 中
+&lt;/pre&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;代码编辑操作&lt;/h2&gt;
+&lt;p&gt;在 vi 中有些功能可以帮助程序员进行代码编辑，如缩进、搜索代码块&lt;/p&gt;
+&lt;p&gt;缩进设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set autoindent             用于开启缩进功能
+:set shiftwidth=4   用于设置缩进（量）
+:set list           用于查看TAB与EOF，TAB 显示为 ^I，EOF 显示为 $
+&lt;/pre&gt;
+&lt;p&gt;或者:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set ai sw=4                省略格式
+&lt;/pre&gt;
+&lt;p&gt;当处于编辑状态时可以使用以下快捷键快速调整缩进:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-T              增加一个缩进
+CTRL-D              减少一个缩进
+^ CTRL-D    （输入的^在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行仍然会保留之前的缩进
+0 CTRL-D    （输入的0在CTRL-D会自动删除）当前行删除全部缩进，即当前行的缩进为0，但是此时输入回车后，下一行缩进为0
+&lt;/pre&gt;
+&lt;p&gt;当处于命令状态时可以使用以下命令调整缩进:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;gt;&amp;gt;          增加缩进，5&amp;gt;&amp;gt; 增加5个缩进宽度 set shiftwidth=4 指定的
+&amp;lt;&amp;lt;          减少缩进，5&amp;lt;&amp;lt; 减少5个缩进宽度
+&lt;/pre&gt;
+&lt;p&gt;当处于命令状态时，可以使用 % 查看对应的 () [] {}，如果光标没有在括号上，vi 会自动从光标位置向前查找当前行的括号，然后移动到对应的括号上去;
+另一个有用的技巧是打开以下设置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:set showmatch
+&lt;/pre&gt;
+&lt;p&gt;与 % 不同的是，这个功能主要是用于编辑状态，当你输入 ) ] } 时，光标会短暂跳转到对应的括号，如果不存在对应的括号，会 beep，当然如果对应的括号不在当前屏幕，vi 会当没事一样&lt;/p&gt;
+&lt;div class="section" id="ex"&gt;
+&lt;h3&gt;ex 编辑器介绍&lt;/h3&gt;
+&lt;p&gt;vi 可以视为基于 ex 之上的可视化编辑器；ex 作为行编辑器，其命令的格式为 :[行号][命令]。&lt;/p&gt;
+&lt;p&gt;相对多数的 ex 命令而言，vi 本身也提供了对应的命令，而且一般来说 vi 的命令更加便捷，
+但是如果涉及到多行操作命令，ex 命令仍然有其自身优势，比如全文寻找并/或替换词语等&lt;/p&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h4&gt;行号地址说明&lt;/h4&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="22%" /&gt;
+&lt;col width="61%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;多行01&lt;/td&gt;
+&lt;td&gt;:3,18d&lt;/td&gt;
+&lt;td&gt;删除3至18行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;多行02&lt;/td&gt;
+&lt;td&gt;:160,224m23&lt;/td&gt;
+&lt;td&gt;将160至224行移动到23行之后（类似 vi 的 delete 和 put）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;多行03&lt;/td&gt;
+&lt;td&gt;:23,29co100&lt;/td&gt;
+&lt;td&gt;将23至29行复制到100行之后（类似 vi 的 yank 和 put）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;符号01&lt;/td&gt;
+&lt;td&gt;:.,$d&lt;/td&gt;
+&lt;td&gt;将当前行至最尾行删除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;符号02&lt;/td&gt;
+&lt;td&gt;:20,.m$&lt;/td&gt;
+&lt;td&gt;将20行到当前行的内容移动到文件尾行之后&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;符号03&lt;/td&gt;
+&lt;td&gt;:%t$&lt;/td&gt;
+&lt;td&gt;将所有行复制到文件尾行之行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;重定义当前行&lt;/td&gt;
+&lt;td&gt;:100,+5p&lt;/td&gt;
+&lt;td&gt;错误的作法&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;重定义当前行&lt;/td&gt;
+&lt;td&gt;:100;+5p&lt;/td&gt;
+&lt;td&gt;正确的做法，打印100行到其后5行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;重定义当前行&lt;/td&gt;
+&lt;td&gt;:/pattern/;+5p&lt;/td&gt;
+&lt;td&gt;打印下一个包含模式的行到其后5行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h4&gt;全局替换说明&lt;/h4&gt;
+&lt;pre class="literal-block"&gt;
+:s/old/new/
+&lt;/pre&gt;
+&lt;p&gt;对当前行第一次出现的 old 替换为 new&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:s/old/new/g
+&lt;/pre&gt;
+&lt;p&gt;对当前所有出现的 old 均替换为 new，此处未尾处的 g 选项影响本行中的每个模式，
+注意不要与 :g 命令（全局搜索）搞混了， :g 命令影响文件（指定行号范围）中的每一行。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:50,100s/old/new/g
+&lt;/pre&gt;
+&lt;p&gt;对50到100行所有的 old 替换为 new。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:1,$s/old/new/g
+:%s/old/new/g
+&lt;/pre&gt;
+&lt;p&gt;以上二条命令作用一样，对文件中所有出现的 old 替换为 new。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:%s/old/new/gc
+&lt;/pre&gt;
+&lt;p&gt;以上命令需要对每个替换进行确认，通过人工检查防止不符合要求的替换。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:g/pattern/s/old/new/g
+&lt;/pre&gt;
+&lt;p&gt;以上可称为上下文替换操作，即通过第一个 :g/pattern/ 命令找到所有符合模式要求的行，
+然后对以上找到的行执行 s/old/new/g，即对所找到的行中，进行 old 到 new 的替换。&lt;/p&gt;
+&lt;p&gt;如果搜索模式与替换内容一样可以省略替换内容，如以下二个写法作用一样&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:g/old/s/old/new/g
+:g/old/s//new/g
+&lt;/pre&gt;
+&lt;p&gt;此时要注意的是，其实以上的写法与以下的写法效果也是一样的&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:%s/old/new/g
+&lt;/pre&gt;
+&lt;p&gt;而这种写法是最简化的，&lt;/p&gt;
+&lt;p&gt;另外请注意，:g 命令也可以结合 :d :m :t 等 ex 命令使用，换而言之，:g 命令相当于是一个行号范围。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;窗口操作&lt;/h2&gt;
+&lt;p&gt;在 vim 中支持多窗口，可以打开多个窗口编辑，方便大多个文件中相互复制内容或相互参考内容&lt;/p&gt;
+&lt;p&gt;使用命令行打开多个窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vim -o file1 file2          小写o以纵向方式打开二个窗口
+vim -O5 file1 file2         大写O以水平方式打开五个窗口
+&lt;/pre&gt;
+&lt;p&gt;在 vim 内开窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:split filename             纵向开窗口，如果不录入 filename ，会打开当前编辑的同一文件（buffer）
+:vsplit filename            水平开窗口，如果不录入 filename ，会打开当前编辑的同一文件（buffer）
+:new                        纵向开窗口（空文件）
+CTRL-W s                    纵向开窗口（当前同一文件）
+CTRL-W v                    水平开窗口（当前同一文件）
+CTRL-W n                    纵向开窗口（空文件）
+&lt;/pre&gt;
+&lt;p&gt;切换窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W h
+CTRL-W j
+CTRL-W k
+CTRL-W l                    以上命令与 h j k l 的移动方面一致
+CTRL-W w                    以从上到下从左到右的方式循环切换窗口
+CTRL-W t                    移动到左上角窗口
+CTRL-W b                    移动到右下角窗口
+CTRL-W p                    回到上一个（最近访问过的）窗口
+&lt;/pre&gt;
+&lt;p&gt;移动窗口（不改动布局）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W r                    将当前窗口与右或下窗口交换位置，当右或下没窗口时与第一个交换
+CTRL-W R                    将当前窗口与左或上窗口交换位置，当左或上没窗口时与最后一个窗口交换
+CTRL-W x                    将当前窗口与右或下窗口交换位置，当右或下没窗口时，与前一个窗口交换位置
+3CTRL-W x                   将当前窗口与右或下第3个窗口交换位置
+&lt;/pre&gt;
+&lt;p&gt;移动窗口（改动布局）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W K                    将当前窗口移至最上方（全宽）
+CTRL-W J                    将当前窗口移至最下方（全宽）
+CTRL-W H                    将当前窗口移至最左边（全高）
+CTRL-W L                    将当前窗口移至最右边（全高）
+CTRL-W T                    将当前窗口移至一个新标签页
+&lt;/pre&gt;
+&lt;p&gt;调整窗口大小:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W =                    将所有窗口调整为一样大小
+:resize n                   设置窗口高度（行），如果不指定 n，则为可能的最大高度
+:resize +n                  增加窗口高度 n 行
+:resize -n                  减少窗口高度 n 行
+:vertical resize n          设置窗口宽度（列），如果不指定 n，则为可能的最大宽度
+:vertical resize +n         增加窗口宽度 n 列
+:verticla resize -n         减少窗口宽度 n 列
+&lt;/pre&gt;
+&lt;p&gt;BUFFERS操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:windo cmd                  对当前标签页的所有buffer（窗口）执行cmd操作
+:windo %s/oldcontent/newcontent/g
+:bufdo cmd                  对所有标签页的所有buffer（窗口）执行cmd操作
+&lt;/pre&gt;
+&lt;p&gt;标签页操作:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+:tabnew filename            新建一个标签页，如果不指定filename，即打一个空文档
+:tabclose                   关闭当前标签页
+:tabonly                    关闭其它标签页
+&lt;/pre&gt;
+&lt;p&gt;关闭或退出窗口:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CTRL-W q 或 :quit            退出窗口
+CTRL-W c 或 :close           关闭窗口
+CTRL-W o 或 :only            关闭其它窗口
+:hide [cmd]                 退出窗口并隐藏buffer
+以上命令其它均要考虑buffer，但是暂时还没有使用buffer的高级用途，待以后吧 TODO
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="tricks"></category><category term="vi"></category><category term="vim"></category></entry><entry><title>百度 API 应用</title><link href="https://recozo.github.io/bai-du-api-ying-yong.html" rel="alternate"></link><published>2020-09-15T00:16:00+08:00</published><updated>2020-09-15T00:16:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-15:/bai-du-api-ying-yong.html</id><summary type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;百度分享的使用&lt;/h2&gt;
+&lt;p&gt;百度分享的网站目前已经关了，不过功能目前好像还有用，暂时先用着吧……&lt;/p&gt;
+&lt;p&gt;参考： &lt;a class="reference external" href="https://www.cnblogs.com/cyhan/p/11671566.html"&gt;https://www.cnblogs.com/cyhan/p/11671566.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这里完 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;百度分享的使用&lt;/h2&gt;
+&lt;p&gt;百度分享的网站目前已经关了，不过功能目前好像还有用，暂时先用着吧……&lt;/p&gt;
+&lt;p&gt;参考： &lt;a class="reference external" href="https://www.cnblogs.com/cyhan/p/11671566.html"&gt;https://www.cnblogs.com/cyhan/p/11671566.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这里完整的展示一下插件如何编写。&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;插入百度分享插件js文件&lt;/p&gt;
+&lt;p&gt;官方插件不支持https，如果要用https的话可下载 &lt;a class="reference external" href="https://github.com/hrwhisper/baiduShare/"&gt;支持HTTPS百度分享插件&lt;/a&gt; 。&lt;/p&gt;
+&lt;p&gt;下载后需要把 static 文件夹放在网站的根目录下，
+并将百度分享代码中的 &lt;a class="reference external" href="http://bdimg.share.baidu.com/"&gt;http://bdimg.share.baidu.com/&lt;/a&gt; 改为 / 。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+with (document) 0[(getElementsByTagName('head')[0] || body)
+    .appendChild(createElement('script'))
+    .src = '/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;代码结构&lt;/p&gt;
+&lt;p&gt;分享代码可以分为三个部分：HTML、设置和js加载，示例如下：&lt;/p&gt;
+&lt;p&gt;代码结构&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;lt;div class=&amp;quot;bdsharebuttonbox&amp;quot; data-tag=&amp;quot;share_1&amp;quot;&amp;gt;
+        &amp;lt;!-- 此处添加展示按钮 --&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;script&amp;gt;
+    window._bd_share_config = {
+    //此处添加分享具体设置
+    }
+
+    //以下为js加载部分
+    with(document)0[(getElementsByTagName('head')[0]||body)
+        .appendChild(createElement('script'))
+        .src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;按钮标签&lt;/p&gt;
+&lt;p&gt;按钮标签代码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;lt;div class=&amp;quot;bdsharebuttonbox&amp;quot; data-tag=&amp;quot;share_1&amp;quot;&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_mshare&amp;quot; data-cmd=&amp;quot;mshare&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_qzone&amp;quot; data-cmd=&amp;quot;qzone&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_tsina&amp;quot; data-cmd=&amp;quot;tsina&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_baidu&amp;quot; data-cmd=&amp;quot;baidu&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_renren&amp;quot; data-cmd=&amp;quot;renren&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_tqq&amp;quot; data-cmd=&amp;quot;tqq&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_more&amp;quot; data-cmd=&amp;quot;more&amp;quot;&amp;gt;更多&amp;lt;/a&amp;gt;
+    &amp;lt;a class=&amp;quot;bds_count&amp;quot; data-cmd=&amp;quot;count&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/pre&gt;
+&lt;p&gt;说明：&lt;/p&gt;
+&lt;p&gt;只有普通页面分享需要按钮标签。划词分享、图片分享无需添加HTML结构。&lt;/p&gt;
+&lt;p&gt;HTML结构可以放在body的任意位置，可复制多份。&lt;/p&gt;
+&lt;p&gt;class＝&amp;quot;bdsharebuttonbox&amp;quot; 部分为dom选择器，请勿改动。&lt;/p&gt;
+&lt;p&gt;data-tag属性为分享按钮标识，用于实现同一页面中多分享按钮不同配置，详见设置部分。&lt;/p&gt;
+&lt;p&gt;data-cmd属性为分享目标标识，取值请参见：分享媒体id对应表。此外值为more时点击展现更多弹窗，值为count时展现分享数。&lt;/p&gt;
+&lt;p&gt;HTML代码中其他部分均可自定义。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;在网页嵌入百度地图&lt;/h2&gt;
+&lt;p&gt;参考： &lt;a class="reference external" href="http://lbsyun.baidu.com/jsdemo.htm#a7_1"&gt;http://lbsyun.baidu.com/jsdemo.htm#a7_1&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=utf-8&amp;quot; /&amp;gt;
+    &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;initial-scale=1.0, user-scalable=no&amp;quot; /&amp;gt;
+    &amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+        #allmap {height:400px;width: 600px;margin: 0;overflow: hidden;font-family:&amp;quot;微软雅黑&amp;quot;;}
+    &amp;lt;/style&amp;gt;
+    &amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;//api.map.baidu.com/api?v=2.0&amp;amp;ak=您的密钥&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;title&amp;gt;关闭默认地图POI事件&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;div id=&amp;quot;allmap&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
+        // 百度地图API功能
+    var map = new BMap.Map(&amp;quot;allmap&amp;quot;);
+    var point = new BMap.Point(114.040208,27.635682);
+    map.centerAndZoom(point, 17);
+    var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);               // 将标注添加到地图中
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="tricks"></category><category term="baidu"></category><category term="api"></category></entry><entry><title>XFCE 使用技巧</title><link href="https://recozo.github.io/xfce-shi-yong-ji-qiao.html" rel="alternate"></link><published>2020-09-01T00:16:00+08:00</published><updated>2020-09-01T00:16:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/xfce-shi-yong-ji-qiao.html</id><summary type="html">&lt;div class="section" id="xfce-panel"&gt;
+&lt;h2&gt;XFCE Panel 消失了&lt;/h2&gt;
+&lt;p&gt;在远程桌面中使用本地资源共享硬盘时，时常会死机（原因待查）。&lt;/p&gt;
+&lt;p&gt;有次死机后，重新启动服务器后，远程登录后发 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="xfce-panel"&gt;
+&lt;h2&gt;XFCE Panel 消失了&lt;/h2&gt;
+&lt;p&gt;在远程桌面中使用本地资源共享硬盘时，时常会死机（原因待查）。&lt;/p&gt;
+&lt;p&gt;有次死机后，重新启动服务器后，远程登录后发现顶部的菜单和底部的快捷栏都不见了（本地登录正常）！！！&lt;/p&gt;
+&lt;p&gt;参见：&lt;a class="reference external" href="https://forum.xfce.org/viewtopic.php?id=6751"&gt;https://forum.xfce.org/viewtopic.php?id=6751&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;重置保存的会话缓存后，恢复正常&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ rm -rf ~/.cache/sessions
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="tricks"></category><category term="xfce"></category></entry></feed>

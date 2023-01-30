@@ -1,0 +1,2660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Recozo's Blog - how-to</title><link href="https://recozo.github.io/" rel="alternate"></link><link href="https://recozo.github.io/feeds/how-to.atom.xml" rel="self"></link><id>https://recozo.github.io/</id><updated>2023-01-22T23:44:21+08:00</updated><entry><title>Linux Shell Skills</title><link href="https://recozo.github.io/linux-shell-skills.html" rel="alternate"></link><published>2023-01-22T23:44:21+08:00</published><updated>2023-01-22T23:44:21+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2023-01-22:/linux-shell-skills.html</id><summary type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="debian"&gt;
+&lt;h2&gt;如何查看 debian 包中的文件&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+dpkg -L packagename
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-difference-between-sbin-nologin-and-bin-false"&gt;
+&lt;h2&gt;What's the difference between /sbin/nologin and /bin/false ?&lt;/h2&gt;
+&lt;p&gt;When /sbin/nologin is set as the shell, if user with that shell logs in, they'll get a polite message saying 'This account is currently not available.' This message can be changed with the file /etc/nologin.txt.&lt;/p&gt;
+&lt;p&gt;/bin/false is just a binary that immediately exits, returning false, when it's called, so when someone who has false as shell logs in, they're immediately logged out when false exits. Setting the shell to /bin/true has the same effect of not allowing someone to log in but false is probably used as a convention over true since it's much better at conveying the concept that person doesn't have a shell.&lt;/p&gt;
+&lt;p&gt;Looking at nologin's man page, it says it was created in 4.4 BSD (early 1990s) so it came long after false was created. The use of false as a shell is probably just a convention carried over from the early days of UNIX.&lt;/p&gt;
+&lt;p&gt;nologin is the more user-friendly option, with a customizable message given to the user trying to log in, so you would theoretically want to use that; but both nologin and false will have the same end result of someone not having a shell and not being able to ssh in.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="five-find-command-linux-find-locate-whereis-which-type-1"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.programering.com/a/MjM5gDMwATg.html"&gt;Five find command Linux: find, locate, whereis, which, type&lt;/a&gt;&lt;/h2&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;find&lt;/dt&gt;
+&lt;dd&gt;Find is the most common and most powerful search command, you can find anything you want to find the file in it.&lt;/dd&gt;
+&lt;dt&gt;locate&lt;/dt&gt;
+&lt;dd&gt;The locate command is &amp;quot;another way find -name&amp;quot;, but it is much faster than the latter, because it does not search the directory, but search a database (/var/lib/locatedb), containing all the local file information in the database. Automatic creation of the database of Linux system, and automatic daily updated, so use the locate command to not check the latest change file. To avoid this situation, can before using locate, first useupdatedbCommand, to update the database manually.&lt;/dd&gt;
+&lt;dt&gt;whereis&lt;/dt&gt;
+&lt;dd&gt;The whereis command can only be used for the program name search, and search a binary file (parameter -b), the man description file (parameter -m) and source code files (parameter -s). If you omit the argument, it returns all the information.&lt;/dd&gt;
+&lt;dt&gt;which&lt;/dt&gt;
+&lt;dd&gt;The which command is the role of the PATH variable, in the path specified in the search, a command position, return the first search results and. That is to say, use the which command, you can see a system command exists, and what a position command.&lt;/dd&gt;
+&lt;dt&gt;type&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;The type command can not find command, which is used to distinguish between a command what is included with the shell, or provided by independent binary files outside the shell. If a command is an external command, then use the -p parameter, the command will display the path, the equivalent of the which command.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+type -a echo
+&lt;/pre&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command"&gt;There are two classes of builtins&lt;/a&gt;&lt;/p&gt;
+&lt;ol class="last arabic simple"&gt;
+&lt;li&gt;Some commands have to be built into the shell program itself because they cannot work if they are external.&lt;/li&gt;
+&lt;li&gt;The other class of commands are built into the shell purely for efficiency.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it-1"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://superuser.com/questions/176783/what-is-the-difference-between-executing-a-bash-script-vs-sourcing-it"&gt;What is the difference between executing a Bash script vs sourcing it?&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+./myscript
+
+. myscript
+source myscript
+&lt;/pre&gt;
+&lt;p&gt;./ 代表的是当前目录。
+. myscript 与 source myscript 是一样的，This &amp;quot;spelling&amp;quot; is the official one as defined by POSIX. Bash defined source as an alias to the dot.&lt;/p&gt;
+&lt;p&gt;Executing a script will run the commands in a new shell process.&lt;/p&gt;
+&lt;p&gt;Sourcing a script will run the commands in the current shell process.&lt;/p&gt;
+&lt;p&gt;Use source if you want the script to change the environment in your currently running shell. use execute otherwise.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="linux"></category><category term="shell"></category></entry><entry><title>ReStructuredText 笔记</title><link href="https://recozo.github.io/restructuredtext-skills.html" rel="alternate"></link><published>2023-01-22T23:44:21+08:00</published><updated>2023-01-22T23:44:21+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2023-01-22:/restructuredtext-skills.html</id><summary type="html">&lt;p class="first last"&gt;ReStructuredText 学习笔记，如果发现没看懂，可以查看本文档的原始 reST 文档&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;段落&lt;/h2&gt;
+&lt;p&gt;段落是reST文档中最基本的块。段落只是由一个或多个空行分隔的文本块。与在Python中一样，缩进在reST中很重要，因此同一段落中的所有行必须左对齐到相同的缩进级别。
+缩进的段落会被视为引用段落。&lt;/p&gt;
+&lt;p&gt;这是正常的段落，中文段落有什么要注意的吗？没有发现。
+空格正常吗？好像正常。&lt;/p&gt;
+&lt;blockquote&gt;
+这是中文的缩进部分，可以看到有什么不对的地方吗？没有看到。
+继续缩进部分的内容。&lt;/blockquote&gt;
+&lt;p&gt;恢复正常段落，是正常的了吧！&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;行内标记&lt;/h2&gt;
+&lt;p&gt;标准的reST行内标记非常简单：使用一个 * 用于： &lt;em&gt;斜体&lt;/em&gt; ，两个星号 ** 用于： &lt;strong&gt;粗体&lt;/strong&gt; ，两个反引号 `` 用于： &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;fixed-space&lt;/span&gt; literal(中文有固定间距？)&lt;/tt&gt; 。
+但是如果星号或反引号出现在文本中并且可能与行内标记分隔符混淆，则需要使用反斜杠进行转义，如显示 *被星号包围的内容* 。
+可以将行内标记的用法想像为 (括号包围的内容) ，如果有空格包围或存在于单词中间时不会被视为行内标记，如 5*3=15， * ** `` 。&lt;/p&gt;
+&lt;p&gt;请注意此标记的一些限制：它不能嵌套，内容无法以空格开头或结尾，必须通过非单词字符将其与周围文本分开。
+不过最后一个限制可以使用反斜杠转义空格来解决这个问题，对于中文来说特别管用，注意一下&lt;strong&gt;没有空格&lt;/strong&gt;是吧。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;列表&lt;/h2&gt;
+&lt;p&gt;和HTML一样，支持有序、无序和定义三种列表。
+列表和段落一样，必须有空行分隔，也支持嵌套列表，注意也必须通过空行与父列表分隔。&lt;/p&gt;
+&lt;p&gt;列表项可以由多种符号定义，暂时不想太复杂了，有序使用数字定义，无序使用*定义，等以后有时间再仔细来学吧。TODO&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;有序列表由数字加上.号开始，与内容要有空格，这是列表项一
+也可以有多行，只要缩进级别一样就可以&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项二，一个空格&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项三，一个空格，嘿嘿&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple" start="20"&gt;
+&lt;li&gt;使用其它数字开始序列&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，二个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;嵌套项一，古怪！
+为什么多个空格生成的HTML代码与一个空格的代码不一样？&lt;/li&gt;
+&lt;li&gt;嵌套项二，发现吗？这个和下一个与前边二个的嵌套所生成的HTML不一样！
+难道是pelican的bug??&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;这是有序列表项四，三个空格，嘿嘿&lt;/p&gt;
+&lt;ol class="arabic simple" start="9"&gt;
+&lt;li&gt;嵌套项一&lt;/li&gt;
+&lt;li&gt;自动出数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;列表是不是由段落结束？&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;新的列表吗？&lt;/li&gt;
+&lt;li&gt;不同的列表确实可以由段落分隔&lt;/li&gt;
+&lt;li&gt;这儿使用了#. 但是没有沿用上一个列表的数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;继续列表功能，无序列表&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项一&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表项二
+继续项二的内容&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;无序列表一级嵌套项&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;li&gt;无序列表二级嵌套项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;还原到了最顶级列表&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;继续列表功能，定义列表&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;术语&lt;/dt&gt;
+&lt;dd&gt;定义列表将术语与定义关联在一起
+多个术语之间无须使用空行分隔&lt;/dd&gt;
+&lt;dt&gt;术语不能超过一行&lt;/dt&gt;
+&lt;dd&gt;定义必须相对术语缩进，和术语之间不能有空行分隔，
+否则就变成了引用段落了，是吧，哈哈&lt;/dd&gt;
+&lt;dt&gt;这条术语与上一条有空行分隔&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;定义也可以有多个段落，这是段落一。&lt;/p&gt;
+&lt;p class="last"&gt;这是段落二。
+当使用多个段落时，会导致生成的HTML被包括在P中，导致格式与上边的不一致(P有上下边距)。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h2&gt;预格式文本（代码块）&lt;/h2&gt;
+&lt;p&gt;通过使用特殊标记 :: 结束段落来引入预格式文本，预格式文本必须用空行与周围的内容分隔。
+当其后的文本的缩进回到预格式文本之前段落的同样缩进级别时，预格式文本结束。
+对 :: 的处理如下：&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 如果它作为自己的段落出现，则该段落完全不在文档中
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面有空格，则删除标记&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后什么也没有
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;p&gt;如果前面是非空格，则标记将替换为单个冒号:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 仔细看，上边的段落后边有个冒号
+public class Test
+{
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h2&gt;章节标题&lt;/h2&gt;
+&lt;p&gt;如果内容比较长，可以使用章节标题来划分章节，章节标题由一行文本，加上下划线和上划线（可选）组成，
+上下划线可使用以下符号（ = - ` : ' &amp;quot; ~ ^ _ * + # &amp;lt; &amp;gt; ），上下划线长度不能少于文本的长度，
+使用相同上下线的章节视为同一级别，没有为某个符号固定标题级别，可以参考 Python 样式指南中的约定&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;#, with overline, for parts，有上线，用于编&lt;/li&gt;
+&lt;li&gt;*, with overline, for chapters，有上线，用于章&lt;/li&gt;
+&lt;li&gt;=, for sections，用于节&lt;/li&gt;
+&lt;li&gt;-, for subsections，用于小节&lt;/li&gt;
+&lt;li&gt;^, for subsubsections，用于子小节&lt;/li&gt;
+&lt;li&gt;&amp;quot;, for paragraphs，用于款&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="section-7"&gt;
+&lt;h3&gt;文档标题与子标题&lt;/h3&gt;
+&lt;p&gt;整篇文档的标题与章节标题不一样，你可以在文档开始使用一个唯一的样式进行标记，
+文档的子标题则是紧随文档标题之后，使用另一个唯一的样式标记。
+（在这篇笔记中设置子标题，不知是不是 Pelican 不支持，没有作用呢！？）&lt;/p&gt;
+&lt;p id="target-1"&gt;章节标题可以作为链接目标，如链接到段落，可以使用 &amp;quot;&lt;a class="reference internal" href="#section-2"&gt;段落&lt;/a&gt;&amp;quot;，如果标题文本中含有空格，则还要用反引号包围标题，如 &amp;quot;&lt;a class="reference internal" href="#section-header"&gt;Section Header&lt;/a&gt;&amp;quot;。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-header"&gt;
+&lt;h3&gt;Section Header&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-8"&gt;
+&lt;h2&gt;超链接&lt;/h2&gt;
+&lt;p&gt;在 reST 中，超级链接由二部分组成，
+一是源链接（Source Link），类似于HTML中的链接文本，一个具体的源链接就是一个链接引用了；
+二是目标链接（Target Link），类似于HTML的链接地址;
+源链接与目标链接都是通过 _ 来定义的，
+源链接定义的格式如下： reference-name_，也就是 _ 是在引用名之后；
+与引用名一致的目标链接必须存在于文档中的（位置无所谓），目标链接定义的格式如下： .. _reference-name: link-block 。
+引用名如果包含空格，则需要使用反引号括起来，如 `reference name`。
+以上二部分是原理上的东西，主要用在命名链接中，在实际操作中源链接或目标链接其实都可以省略掉。&lt;/p&gt;
+&lt;p&gt;具体形式可分为以下几种：&lt;/p&gt;
+&lt;p&gt;独立链接：直接输入网址即可，例如：&lt;a class="reference external" href="http://www.debian.org"&gt;http://www.debian.org&lt;/a&gt;，此时没有对应链接文本，直接显示链接地址&lt;/p&gt;
+&lt;p&gt;命名链接：通过引用名来实现的超级链接，只需要定义一个目标链接，可以在文档多处引用。如：
+我喜欢的LINUX版本是 &lt;a class="reference external" href="http://www.debian.org"&gt;Debian&lt;/a&gt; 。（这儿通过引用名来实现，引用名就是 Debian，在本文中其链接目标就定义在本段之后，其实是可以在文档任何位置定义。）&lt;/p&gt;
+&lt;p&gt;匿名链接：链接目标与链接引用都使用 __ 进行标记。如 &lt;a class="reference external" href="http://www.debian.org"&gt;我最喜欢的LINUX发行版本是 Debian&lt;/a&gt; 。（这儿是通过匿名链接来实现，其链接目标就在本段之后定义。）
+创建链接引用时引用名应该尽可能的详细，但是引用名过长对创建链接目标而言就不方便了。
+匿名链接便于为大段文字加上链接，对于一次性的链接也很方便。
+因为没有引用名，只能一次性配对使用，
+文档中链接引用与链接目标的顺序就很重要了，第一个匿名引用对应第一个匿名目标，依此类推。
+因而在编辑时必须注意，特别是对于长文档而言，要小心使用，为了便于阅读和维护，建议链接目标尽量保持在链接引用附近。&lt;/p&gt;
+&lt;p&gt;锚点链接：在定义目标链接时，将链接的目标地址留空，可以在当前位置标记锚点。如下面讲标题链接时就使用了在章节标题那儿设置的锚点链接。&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. _标题链接:
+&lt;/pre&gt;
+&lt;p&gt;标题链接：reST 在定义标题时，还会自动定义一个 &lt;a class="reference internal" href="#target-1"&gt;标题链接&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+标题名称
+========
+
+跳转到 标题名称_
+&lt;/pre&gt;
+&lt;p&gt;嵌入链接与别名：无须定义链接目标，链接引用可以包含（用 &amp;lt; &amp;gt; 括起来的）链接地址或者另一个链接引用，例如：&lt;/p&gt;
+&lt;p&gt;See the &lt;a class="reference external" href="http://www.python.org"&gt;Python home page&lt;/a&gt; for info.
+This &lt;a class="reference external" href="http://www.python.org"&gt;link&lt;/a&gt; is an alias to the link above.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page &amp;lt;http://www.python.org&amp;gt;`_ for info.
+This `link &amp;lt;Python home page_&amp;gt;`_ is an alias to the link above.
+&lt;/pre&gt;
+&lt;p&gt;从代码上来说，以上二句相同于是:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+See the `Python home page`_ for info.
+This link_ is an alias to the link above.
+
+.. _Python home page: http://www.python.org
+.. _link: `Python home page`_
+&lt;/pre&gt;
+&lt;p&gt;尽管这种构造写起来很方便，但是可读性太差，不是很建议使用。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-9"&gt;
+&lt;h2&gt;表格&lt;/h2&gt;
+&lt;p&gt;有二种语法创建表格，一种是 Grid 表格，功能完善但是很笨重，另一种是 Simple 表格，方便创建但功能有限；&lt;/p&gt;
+&lt;p&gt;Simple 表格:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
+&lt;/pre&gt;
+&lt;p&gt;实际效果如下：&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="31%" /&gt;
+&lt;col width="31%" /&gt;
+&lt;col width="38%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head" colspan="2"&gt;Inputs&lt;/th&gt;
+&lt;th class="head"&gt;Output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;th class="head"&gt;A&lt;/th&gt;
+&lt;th class="head"&gt;B&lt;/th&gt;
+&lt;th class="head"&gt;A or B&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;False&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;td&gt;True&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-10"&gt;
+&lt;h2&gt;显示标记&lt;/h2&gt;
+&lt;p&gt;显示标记块（ &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#explicit-markup-blocks"&gt;Explicit Markup Blocks&lt;/a&gt;）是一个文本块，用于大多数需要特殊处理的构造，如 footnotes, citations, hyperlink targets, directives, substitution definitions, and comments 。
+显示标记引导符以两个 . 加空格表示（.. ）;
+显示标记块的第一行由显示标记引导符开始，第二行相对第一行缩进，缩进级别回退到第一行的缩进级别时结束。格式:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. explicit markup block begin
+    second line
+    ...
+    end line
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="directives"&gt;
+&lt;h2&gt;指令（ Directives ）&lt;/h2&gt;
+&lt;p&gt;指令（ &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives"&gt;Directives&lt;/a&gt; ）是显式标记的通用块，是 reST 的扩展机制之一。
+指令格式:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. directive-type:: directive-block
+&lt;/pre&gt;
+&lt;p&gt;由显示标记引导符（.. ）标识，后跟指令类型，两个冒号和空格（以上称之为“指令标记”）。
+指令块则由指令标记后的文本和其后缩进的文本组成，对指令块的解释由指令代码负责，在指令块中可以包含以下三项内容（随意组合）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;指令参数&lt;/li&gt;
+&lt;li&gt;指令选项&lt;/li&gt;
+&lt;li&gt;指令内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-11"&gt;
+&lt;h2&gt;图片指令&lt;/h2&gt;
+&lt;p&gt;使用 &lt;a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#image"&gt;图片指令&lt;/a&gt; 可以在文档中包含图片，例如:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. image:: picture.jpeg
+&lt;/pre&gt;
+&lt;p&gt;图片指令有一个必选参数，和多个可选选项:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.. image:: picture.jpeg
+    :height: 100px
+    :width: 200 px
+    :scale: 50 %
+    :alt: alternate text
+    :align: right
+    :class: common options
+    :name: common options
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="rst"></category><category term="ReStructuredText"></category></entry><entry><title>将音频（视频）转录为文字</title><link href="https://recozo.github.io/speech-recognition.html" rel="alternate"></link><published>2023-01-22T23:44:21+08:00</published><updated>2023-01-22T23:44:21+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2023-01-22:/speech-recognition.html</id><summary type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设 …&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;以下操作在 Windows 10 环境下&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 Virtual Audio Cable。下载地址：&lt;a class="reference external" href="https://www.vb-audio.com/Cable/index.htm"&gt;https://www.vb-audio.com/Cable/index.htm&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装后，会生成了二个虚拟设备：CABLE Input 和 CABLE Output，并且被分别设置为播放和录制的默认设备；&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;此时你会发现播放音频或视频没有声音了，你可以理解为声音已经被传送至 CABLE Input 了，并且被作为 CABLE Output 的输入了，
+也就是我们已经将音频或视频的声音作为话筒的输入了。
+如果你录制的同时还想听到音频或视频的声音，可以打开 CABLE Output 的属性，点击 &lt;em&gt;侦听&lt;/em&gt; 面板，选择 &lt;em&gt;侦听此设备&lt;/em&gt; ，然后 &lt;em&gt;通过此设备播放&lt;/em&gt; 选择你的实际播放设备即可。
+也可以继续下载VB-Audio Additional Virtual Cables，那么还可以另外再创建4个虚拟声卡；
+想玩大点的（如声音混合等），可以下载该网站的其它软件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载 youtube 视频&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;通过在youtube链接中插入my，即可以在线下载该视频，缺点是不支持1080P或以上，不支持选择视频分辨率，也不支持只下载音频；
+假如 youtube 地址是 &lt;a class="reference external" href="https://www.youtube.com/watch?v=q2adWg-Ct6Y"&gt;https://www.youtube.com/watch?v=q2adWg-Ct6Y&lt;/a&gt; ，只须将地址更换为 &lt;a class="reference external" href="https://www.youtubemy.com/watch?v=q2adWg-Ct6Y"&gt;https://www.youtubemy.com/watch?v=q2adWg-Ct6Y&lt;/a&gt; ，就会出现下载界面。&lt;/li&gt;
+&lt;li&gt;通过桌面程序下载，目前我正在使用的是 4K Video Downloader ，主要是因为可以免费使用，并支持下载 youtube 的视频文件或只下载音频文件；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;打开网页 &lt;a class="reference external" href="https://www.textfromtospeech.com/zh/voice-to-text/"&gt;https://www.textfromtospeech.com/zh/voice-to-text/&lt;/a&gt; ，通过播放你下载的视频或音频文件，即可在线转录成文字了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用这个网站是因为发现国内访问速度还行，谷歌也有在线转录功能，但是由于延时太长，导致转录效果不佳。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;如何将文字转换为语音&lt;/h2&gt;
+&lt;p&gt;win10 环境下，无需安装第三方软件，利用 edge 浏览器的朗读功能和录音机功能实现。&lt;/p&gt;
+&lt;p&gt;edge 可以通过在地址栏使用 &lt;a class="reference external" href="file://d:/filename.txt"&gt;file://d:/filename.txt&lt;/a&gt; 打开本地文件，这样的话无须网站支持。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="speech recognition"></category></entry><entry><title>SSH 使用说明</title><link href="https://recozo.github.io/ssh-skills.html" rel="alternate"></link><published>2023-01-22T23:44:21+08:00</published><updated>2023-01-22T23:44:21+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2023-01-22:/ssh-skills.html</id><summary type="html">&lt;div class="section" id="ssh-1"&gt;
+&lt;h2&gt;安装 SSH&lt;/h2&gt;
+&lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ apt list --installed | grep ssh
+## 如果没有安装
+$ sudo apt install openssh-client
+&lt;/pre&gt;
+&lt;p&gt;如果已经安装，是否需要重新生成 SSH 服务器端钥匙？
+如是批安 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="ssh-1"&gt;
+&lt;h2&gt;安装 SSH&lt;/h2&gt;
+&lt;p&gt;检查 SSH 是否安装:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ apt list --installed | grep ssh
+## 如果没有安装
+$ sudo apt install openssh-client
+&lt;/pre&gt;
+&lt;p&gt;如果已经安装，是否需要重新生成 SSH 服务器端钥匙？
+如是批安装，或者复制的虚拟机等……
+通过以下命令重新生成 SSH 服务端钥匙:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd /etc/ssh/
+$ sudo mkdir old_keys
+$ sudo mv ssh_host_* old_keys/
+$ sudo dpkg-reconfigure openssh-server
+$ sudo systemctl restart ssh.service
+&lt;/pre&gt;
+&lt;p&gt;以上重新生成钥匙的操作不会中断当前的 SSH 会话，也就是说可以通过远程 SSH 会话对服务端钥匙重新进行配置。&lt;/p&gt;
+&lt;p&gt;重新生成 SSH 服务端钥匙后需要更新客户端的 known_hosts 文件:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+## 在原来访问过该 SSH 服务的客户端上执行
+## 执行 ssh username&amp;#64;remote-server-name 查看错误提示
+$ ssh-keygen -R &amp;quot;remote-server-name-here&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;&lt;a class="reference internal" href="#autossh-systemd-service"&gt;直接查看实际配置文件&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="ssh-x-forwarding"&gt;
+&lt;h2&gt;SSH 桌面转发（X Forwarding）&lt;/h2&gt;
+&lt;p&gt;要使用桌面转发，SSH 服务器端必须安装 xauth(1) 应用程序（在国产系统中，如银河麒麟 v10，默认没有安装）。如果该应用程序存在，则只需要在 sshd_config 启用桌面转发:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+X11Forwarding yes
+&lt;/pre&gt;
+&lt;p&gt;在 SSH 客户端也可以通过在 ssh_config 中进行设置以使用桌面转发，不过使用命令行直接使用桌面转发更安全与更快捷:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -CX server          # C压缩传输，X启用桌面转发，进入后，运行桌面程序时，桌面会转发至本机显示
+ssh -CY server          # C压缩传输，Y启用桌面转发，与X相比，Y对桌面程序更信任，授权给多，正常用X即可
+ssh -f server command   # 直接执行命令，此时 ssh 在后台运行，返回命令提示符，并在远程服务器执行命令(命令也可以是桌面程序)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="ssh-2"&gt;
+&lt;h2&gt;SSH（隧道）端口转发&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;本地端口转发，常用于将不安全地协议进行加密通讯:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -L localIP:localport:remoteIP:remoteport hostname
+
+# 也可以省略 localIP 此时默认使用客户端的 127.0.0.1 地址
+ssh -L localport:remoteIP:remoteport hostname
+
+# 考虑安全，远程服务器地址也应该为 127.0.0.1，因为该回调地址仅本机可访问
+ssh -L 8080:127.0.0.1:80 serverNameOrIP
+
+如以上最后一条命令，通过访问本机的8080端口，即可以访问远程服务器的80端口，将原来未加密传输的网站内容通过 SSH 进行加密。
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;远程端口转发，常用于访问防火墙之后的服务:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R remoteIP:remoteport:localIP:localport hostname
+
+# 也可以省略 remoteIP 此时默认使用远程服务器端的 127.0.0.1 地址
+ssh -R remoteport:localIP:localport hostname
+
+# 考虑安全，本地客户端地址也应该为 127.0.0.1 或 localhost，因为该回调地址仅本机可访问
+ssh -R 2222:localhost:22 serverNameOrIP
+
+如以上最后一条命令运行后，在 serverNameOrIP 上的用户，通过使用如下命令::
+
+serverNameOrIP $ ssh -p 2222 localhost
+
+即可越过防火墙限制，通过2222端口反过来访问本地客户端机器的服务，如 SSH 或 WEB，即借助现有的 SSH 连接创建了一个隧道以访问本地客户端机器的服务。
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;动态端口转发，常用于SOCKS代理:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -D localaddress:localport hostname
+
+# 也可以省略 localaddress 此时默认使用 127.0.0.1 地址
+ssh -D 9999 hostname
+
+如以上最后一条命令运行后，你可以配置本机浏览器使用 127.0.0.1:9999 SOCKS 代理上网，此时将通过 SSH 服务器上网。
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在后台使用转发功能:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -fNL 2222:localhost:22 hostname &amp;amp;
+&lt;/pre&gt;
+&lt;p&gt;选项请自行使用 man 。&lt;/p&gt;
+&lt;p&gt;其它与转发有关的配置项有，在 sshd_config 中的 AllowTcpForwarding 可以控制是否允许端口转发，
+在 ssh_config 和 sshd_config 中的 GatewayPorts 可决定是否允许除 127.0.0.1 的 IP 地址进行转发。&lt;/p&gt;
+&lt;p&gt;TLDR&lt;/p&gt;
+&lt;p&gt;端口转发主要用途：&lt;/p&gt;
+&lt;p&gt;Where local port forwarding is usually used to wrap a service with
+encryption, remote port forwarding is used to access a service behind a
+firewall&lt;/p&gt;
+&lt;p&gt;本地端口转发（正向代理）：相当于 iptable 的 port forwarding:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -L 5000:localhost:3306 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;远程端口转发（反向代理）：相当于 frp 或者 ngrok:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R 5000:localhost:80 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;如要长期高效的服务，应使用对应的专用软件。如没法安装软件，比如当你处在限制环境下想要访问下某个不可达到的目标，或者某个临时需求，那么 ssh 就是你的兜底方案。&lt;/p&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h3&gt;本地端口转发：&lt;/h3&gt;
+&lt;p&gt;在本地启动端口，把本地端口数据转发到远程服务器，使得远程端口本地可以访问（如用于代理）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -L [&amp;lt;LocalAddress&amp;gt;]:&amp;lt;LocalPort&amp;gt;:&amp;lt;RemoteHost&amp;gt;:&amp;lt;RemotePort&amp;gt; remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="91%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;参数&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;LocalAddress&lt;/td&gt;
+&lt;td&gt;可选参数，如果未指定，远程端口会绑定在本地的所有接口（0.0.0.0），因而也可以仅绑定到本地的 127.0.0.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;LocalPort&lt;/td&gt;
+&lt;td&gt;本地端口，该端口接收到的数据会转发至远程服务器进行处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;RemoteHost&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;远程服务器（remoteServer）上的守护进程所监听的接口，可以是 127.0.0.1，localhost，实际 IP 地址或者 0.0.0.0 （表示所有接口）。
+如果不确定 ，可以执行以下命令查看:&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+netstat -an | grep 3306 | grep LISTEN
+&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;RemotePort&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的实际端口，与 RemoteHost 一起用于接收本地端口（LocalPort）转发的数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteUser&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的 SSH 用户&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteServer&lt;/td&gt;
+&lt;td&gt;远程服务器地址（IP或主机名）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;示例：通过本地端口 5000 远程访问 MySQL 服务器:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -L 5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+## 或者
+ssh -L 127.0.0.1:5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+mysql --host=127.0.0.1 --port=5000
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h3&gt;远程端口转发：&lt;/h3&gt;
+&lt;p&gt;让远端服务器启动端口，把远端端口数据转发到本地，使得本地端口远程可以访问（如用于内网穿透）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R [&amp;lt;RemoteAddress&amp;gt;]:&amp;lt;RemotePort&amp;gt;:&amp;lt;LocalHost&amp;gt;:&amp;lt;LocalPort&amp;gt; remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="91%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;参数&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;RemoteAddress&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;可选参数，如果未指定，远程端口会绑定在远程服务器的所有接口（0.0.0.0，但是只会在 Loopback 接口上启用？），因而也可以仅绑定到特定的接口。
+注意：如果指定了 RemoteAddress ，必须启用远程服务器上的 GatewayPorts 选项:&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+$ vim /etc/ssh/sshd_config
+GatewayPorts yes
+&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;RemotePort&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的实际端口，与 RemoteAddress 一起用于接收数据，接收到的数据会转发至本地进行处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;LocalHost&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;本地守护进程所监听的接口，可以是 127.0.0.1，localhost，实际 IP 地址或者 0.0.0.0 （表示所有接口）。
+如果不确定 ，可以执行以下命令查看:&lt;/p&gt;
+&lt;pre class="last literal-block"&gt;
+netstat -an | grep 80 | grep LISTEN
+&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;LocalPort&lt;/td&gt;
+&lt;td&gt;本地的实际端口，与 LocalHost 一起用于接收远程服务器转发过来的数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteUser&lt;/td&gt;
+&lt;td&gt;远程服务器（remoteServer）上的 SSH 用户&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;remoteServer&lt;/td&gt;
+&lt;td&gt;远程服务器地址（IP或主机名）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;示例：通过远程服务器（公网地址：109.239.48.64）的端口 5000 访问本地的网站:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R 5000:localhost:80 remoteUser&amp;#64;remoteServer
+## 或者
+ssh -R 109.239.48.64:5000:localhost:80 remoteUser&amp;#64;remoteServer
+## 通过浏览器访问以下地址即可访问本地的网站内容
+http://109.239.48.64:5000
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="root"&gt;
+&lt;h3&gt;使用1024以下端口需要 root 权限&lt;/h3&gt;
+&lt;p&gt;所有系统用户都可以分配1024以上的端口号，但是1024（不含）需要 root 权限，
+本地转发时，如果要分配1024以下的本地端口，你需要使用 root 用户或 sudo 执行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sudo ssh -L 50:localhost:3306 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;远程转发时，如果要分配1024以下的远程端口，你必须使用 root 用户进行 SSH 连接:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -R 50:localhost:80 root&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;使用优化（隧道选项）&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="12%" /&gt;
+&lt;col width="88%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;常用参数&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;-N&lt;/td&gt;
+&lt;td&gt;After you connect just hang there (you won’t get a shell prompt)
+SSH man: Do not execute a remote command.
+Note: Only works with SSHv2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-T&lt;/td&gt;
+&lt;td&gt;Disable pseudo-terminal allocation.
+This makes it also safe for binary file transfer which might contain escape characters such as ~C.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-f&lt;/td&gt;
+&lt;td&gt;Requests ssh to go to background just before command execution.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-p&lt;/td&gt;
+&lt;td&gt;Port to connect to on the remote host.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-i&lt;/td&gt;
+&lt;td&gt;Selects a file from which the identity (private key) for public key authentication is read.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;使用以上参数构建的命令如下:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N -L 5000:localhost:3306 remoteUser&amp;#64;remoteServer -p 1022 -i ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+&lt;/pre&gt;
+&lt;p&gt;如果不想每次输入这么长的命令，可以使用 ~/.ssh/config 。&lt;/p&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h3&gt;添加用户与主机&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli
+    HostName        remoteServer
+    User            remoteUser
+&lt;/pre&gt;
+&lt;p&gt;以上为用户与主机创建了一个别名 cli，可以将命令简化为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N -L 5000:localhost:3306 cli -p 1022 -i ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h3&gt;添加端口和证书文件&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli
+    HostName        remoteServer
+    User            remoteUser
+    Port            1022
+    IdentityFile    ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+&lt;/pre&gt;
+&lt;p&gt;现在可以将命令简化为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N -L 5000:localhost:3306 cli
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h3&gt;添加隧道配置&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli-mysql-tunnel
+    HostName        remoteServer
+    User            remoteUser
+    Port            1022
+    IdentityFile    ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+    LocalForward    5000 localhost:3306
+&lt;/pre&gt;
+&lt;p id="ssh-by-config"&gt;现在可以将命令简化为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh -f -T -N cli-mysql-tunnel
+&lt;/pre&gt;
+&lt;p&gt;对照 &lt;a class="reference internal" href="#autossh-by-config"&gt;autossh by config&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh"&gt;
+&lt;h2&gt;使用 AUTOSSH&lt;/h2&gt;
+&lt;p&gt;SSH 没有断线重连功能，可以使用 autossh 自动重建会话或隧道。&lt;/p&gt;
+&lt;p&gt;TLDR&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -o &amp;quot;ServerAliveInterval 30&amp;quot; -o &amp;quot;ServerAliveCountMax 3&amp;quot; -L 5000:localhost:3306 remoteUser&amp;#64;remoteServer
+&lt;/pre&gt;
+&lt;p&gt;或者基于 ~/.ssh/config 配置在后台运行:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -f -T -N cli-mysql-tunnel
+&lt;/pre&gt;
+&lt;div class="section" id="autossh-1"&gt;
+&lt;h3&gt;安装 autossh&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+sudo apt install autossh
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-7"&gt;
+&lt;h3&gt;用法&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+autossh [-V] [-M monitor_port[:echo_port]] [-f] [SSH_OPTIONS]
+
+## 如以上通过本地5000端口转发 MySQL
+ssh -L 5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+## 使用 autossh 命令
+autossh -L 5000:localhost:3306 sqlUser&amp;#64;MySQLServer
+&lt;/pre&gt;
+&lt;p&gt;注意：&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用 autossh 前，请使用 ssh 先进行操作并确保无误；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;autossh 的 -f 选项不会传递至 ssh，因此必须使用公私钥匙进行认证，不支持基于密码或私钥密码认证。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;生成用户的 ssh 密钥，记得私钥不能启用私钥密码:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ssh-keygen                                  # 生成 ssh 使用的密钥
+ssh-copy-id remoteUser&amp;#64;remoteServer         # 将公钥安装到远程服务器
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh-m"&gt;
+&lt;h3&gt;autossh 的 -M 选项&lt;/h3&gt;
+&lt;p&gt;Setting the monitor port to 0 turns the monitoring function off,
+and autossh will only restart ssh upon ssh's exit.
+For example, if you are using a recent version of OpenSSH,
+you may wish to explore using the ServerAliveInterval and ServerAliveCountMax options to have the SSH client exit
+if it finds itself no longer connected to the server.
+In many ways this may be a better solution than the monitoring port.&lt;/p&gt;
+&lt;p&gt;以上内容来自 man autossh。&lt;/p&gt;
+&lt;p&gt;因此推荐方式是:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -o &amp;quot;ServerAliveInterval 30&amp;quot; -o &amp;quot;ServerAliveCountMax 3&amp;quot;
+&lt;/pre&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="15%" /&gt;
+&lt;col width="85%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;选项&lt;/th&gt;
+&lt;th class="head"&gt;解释&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;ServerAliveInterval&lt;/td&gt;
+&lt;td&gt;Sets a timeout interval in seconds after which if no data has been received from the server,
+ssh(1) will send a message through the encrypted channel to request a re‐ sponse from the server.
+The default is 0, indicating that these messages will not be sent to the server.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ServerAliveCountMax&lt;/td&gt;
+&lt;td&gt;&lt;p class="first"&gt;Sets the number of server alive messages which may be sent without ssh(1) receiving any messages back from the server.
+If this threshold is reached while server alive messages are being sent,
+ssh will disconnect from the server, terminating the session.&lt;/p&gt;
+&lt;p class="last"&gt;The default value is 3.
+If, for example, ServerAliveInterval is set to 15 and ServerAliveCountMax is left at the default,
+if the server becomes unresponsive, ssh will disconnect after approximately 45 seconds.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh-ssh-config"&gt;
+&lt;h3&gt;autossh 与 ~/.ssh/config&lt;/h3&gt;
+&lt;p&gt;autossh 也支持 ~/.ssh/config，因此可以继续使用配置文件进行有关的设置，
+继续以上面的配置文件为例，加入 ServerAliveInterval 和 ServerAliveCountMax 二个选项:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vim ~/.ssh/config
+Host cli-mysql-tunnel
+    HostName        remoteServer
+    User            remoteUser
+    Port            1022
+    IdentityFile    ~/.ssh/id_rsa-remoteuser&amp;#64;remoteserver
+    LocalForward    5000 localhost:3306
+    ServerAliveInterval     30
+    ServerAliveCountMax     3
+&lt;/pre&gt;
+&lt;p id="autossh-by-config"&gt;现在我们可以使用以下命令确保断线重连了:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+autossh -M 0 -f -T -N cli-mysql-tunnel
+&lt;/pre&gt;
+&lt;p&gt;对照 &lt;a class="reference internal" href="#ssh-by-config"&gt;ssh by config&lt;/a&gt; ,
+注意 -f 不会传递给 ssh。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh-2"&gt;
+&lt;h3&gt;autossh 环境变量&lt;/h3&gt;
+&lt;p&gt;autossh 也可以通过一些环境变量进行控制，其中比较重要的一个变量是 AUTOSSH_GATETIME:&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;AUTOSSH_GATETIME&lt;/dt&gt;
+&lt;dd&gt;Specifies how long ssh must be up before we consider it a successful connection.
+The default is 30 seconds.
+Note that if AUTOSSH_GATETIME is set to 0, then not only is the gatetime behaviour turned off,
+but autossh also ignores the first run failure of ssh.
+This may be useful when running autossh at boot.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;其它变量说明请自行参阅 man&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autossh-systemd-service"&gt;
+&lt;h3&gt;autossh systemd service&lt;/h3&gt;
+&lt;p&gt;可以通过 systemd 在启动时自动建立转发隧道，不过需要注意的是：
+autossh -f 在 systemd 环境下不受支持。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;客户端&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;客户端的 systemd 配置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install autossh
+
+# vi /etc/systemd/system/autossh-reverse-tunnel.service
+[Unit]
+Description=AutoSSH reverse tunnel service
+After=network.target
+
+[Service]
+Restart=always
+RuntimeMaxSec=86400
+Environment=&amp;quot;AUTOSSH_GATETIME=0&amp;quot;
+ExecStart=/usr/bin/autossh -M 0 -o &amp;quot;ServerAliveInterval 30&amp;quot; -o &amp;quot;ServerAliveCountMax 3&amp;quot; -NR 2221:localhost:22 sshtunnel&amp;#64;remoteserver -p 222
+
+[Install]
+WantedBy=multi-user.target
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用客户端:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# systemctl daemon-reload
+
+# systemctl start autossh-reverse-tunnel.service
+
+# systemctl enable autossh-reverse-tunnel.service
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;服务端&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;SSH 服务配置:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/ssh/sshd222_config
+
+Port 222
+PermitRootLogin no
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+PrintMotd no
+Banner none
+PidFile /var/run/sshd222.pid
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;创建用户:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# useradd -d /home/sshtunnel -s /bin/false -m sshtunnel
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;SSH 密钥仅限于隧道:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkdir /home/sshtunnel/.ssh
+
+# vi /home/sshtunnel/.ssh/authorized_keys
+
+no-pty,no-X11-forwarding,permitopen=&amp;quot;localhost:2221&amp;quot;,command=&amp;quot;/bin/echo do-not-send-commands&amp;quot; ssh-rsa VeryLongsShkeyBlaBlaBlaBla root&amp;#64;hostname
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;systemd 配置文件:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/systemd/system/ssh222.service
+
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target auditd.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t -f /etc/ssh/sshd222_config
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS -f /etc/ssh/sshd222_config
+ExecReload=/usr/sbin/sshd -t -f /etc/ssh/sshd222_config
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;服务端启用:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# systemctl daemon-reload
+
+# systemctl start ssh222.service
+
+# systemctl enable ssh222.service
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="ssh"></category></entry><entry><title>POSTGRESQL 学习</title><link href="https://recozo.github.io/postgresql-xue-xi.html" rel="alternate"></link><published>2020-10-03T20:16:00+08:00</published><updated>2022-05-03T00:33:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-10-03:/postgresql-xue-xi.html</id><summary type="html">&lt;div class="section" id="postgresql-1"&gt;
+&lt;h2&gt;安装配置 PostgreSQL&lt;/h2&gt;
+&lt;p&gt;安装 postgresql 并登录至 postgres 用户环境&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install postgresql
+$ sudo -i -u postgres
+$ psql
+&lt;/pre&gt;
+&lt;p&gt;创建角色以及数据库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;gt;&amp;gt; CREATE ROLE demo_role LOGIN PASSWORD 'demo_password';
+&amp;gt;&amp;gt; CREATE DATABASE demo_db WITH owner = demo_role;
+&lt;/pre&gt;
+&lt;p&gt;默认安 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="postgresql-1"&gt;
+&lt;h2&gt;安装配置 PostgreSQL&lt;/h2&gt;
+&lt;p&gt;安装 postgresql 并登录至 postgres 用户环境&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install postgresql
+$ sudo -i -u postgres
+$ psql
+&lt;/pre&gt;
+&lt;p&gt;创建角色以及数据库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;gt;&amp;gt; CREATE ROLE demo_role LOGIN PASSWORD 'demo_password';
+&amp;gt;&amp;gt; CREATE DATABASE demo_db WITH owner = demo_role;
+&lt;/pre&gt;
+&lt;p&gt;默认安装时，只允许本机访问，可以选择开启远程访问&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vi /etc/postgresql/13/main/postgresql.conf
+# 修改 listen_addresses = '*'， 表示在所有接口上监听，默认只在 127.0.0.1 监听
+
+$ vi /etc/postgresql/13/main/pg_hba.conf
+# 增加一条如下记录，表示允许以下 IP 范围使用角色密码访问
+# host    all             all             10.62.1.0/24            md5
+&lt;/pre&gt;
+&lt;p&gt;修改后要重新启动 postgresql&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo systemctl restart postgresql.service
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="roles"&gt;
+&lt;h2&gt;Roles&lt;/h2&gt;
+&lt;p&gt;PostgreSQL represents accounts as roles.
+Roles that can log in are called login roles.
+Roles that contain other roles are called group roles.
+Roles that are group and can log in are called group login roles.
+However, for easier maintainability and security, DBAs generally don't grant login rights to group roles.
+A role can be designated as superuser.
+Recent versions of PostgreSQL no longer use the terms users and groups.
+For backward compatibility, CREATE USER and CREATE GROUP still work in current version, but shun them and use CREATE ROLE instead.&lt;/p&gt;
+&lt;div class="section" id="creating-login-roles"&gt;
+&lt;h3&gt;Creating Login Roles&lt;/h3&gt;
+&lt;p&gt;Example 2-4. Creating login roles&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CREATE ROLE leo LOGIN PASSWORD 'king' CREATEDB VALID UNTIL 'infinity';
+&lt;/pre&gt;
+&lt;p&gt;Example 2-5. Creating superuser roles&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CREATE ROLE regina LOGIN PASSWORD 'queen' SUPERUSER VALID UNTIL '2020-1-1 00:00';
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="creating-group-roles"&gt;
+&lt;h3&gt;Creating Group Roles&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+CREATE ROLE royalty INHERIT;
+GRANT royalty TO leo;
+GRANT royalty TO regina;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="inheriting-rights-from-group-roles"&gt;
+&lt;h3&gt;Inheriting rights from group roles&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+SET ROLE some_role
+SET SESSION AUTHORIZATION some_role
+&lt;/pre&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Only superusers can execute SET SESSION AUTHORIZATION ,
+and it allows them to impersonate any user regardless of role membership.&lt;/li&gt;
+&lt;li&gt;SET SESSION AUTHORIZATION changes the values of the current_user and session_user variables
+to those of the user being impersonated.
+SET ROLE changes only the current_user variable.&lt;/li&gt;
+&lt;li&gt;Because both the current_user and session_user are changed by SET SESSION AUTHORIZATION ,
+subsequent SET role commands are limited to those allowed by the user being impersonated.
+After SET ROLE , roles can be set to any role that the original user has rights to impersonate.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过编辑 pg_hba.conf 可以修改用户（ROLE）的认证方法，默认使用 peer ，会要求有相应的系统用户，
+通过修改为 md5，可以使用密码验证 或修改为 trust， 可以直接登录无须验证。&lt;/p&gt;
+&lt;p&gt;参见： &lt;a class="reference external" href="https://www.postgresql.org/docs/current/auth-methods.html"&gt;https://www.postgresql.org/docs/current/auth-methods.html&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="database-creation"&gt;
+&lt;h2&gt;Database Creation&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+CREATE DATABASE mydb;
+&lt;/pre&gt;
+&lt;p&gt;This creates a copy, owned by the login role that issued the command,
+of the template1 default. Any role with CREATEDB rights can create new databases.&lt;/p&gt;
+&lt;div class="section" id="template-databases"&gt;
+&lt;h3&gt;Template Databases&lt;/h3&gt;
+&lt;p&gt;A template database is a database that serves as a model for other databases.
+The default PostgreSQL installation comes with two template databases: template0 and template1 .
+If you don’t specify a template database to follow when you create a database,
+the template1 database is used as the template for the new database.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CREATE DATABASE my_db TEMPLATE my_template_db;
+UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'mydb';
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="using-schemas"&gt;
+&lt;h3&gt;Using Schemas&lt;/h3&gt;
+&lt;p&gt;Schemas organize your database into logical groups.
+It’s up to you how to organize your schemas.&lt;/p&gt;
+&lt;p&gt;Another common way to organize schemas is by roles.
+We can take advantage of the default search path set in postgresql.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+search_path = &amp;quot;$user&amp;quot;, public;
+&lt;/pre&gt;
+&lt;p&gt;Another practice that we strongly advocate is to create schemas to house extensions:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CREATE SCHEMA my_extensions;
+ALTER DATABASE mydb SET search_path='&amp;quot;$user&amp;quot;, public, my_extensions';
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="privileges"&gt;
+&lt;h2&gt;Privileges&lt;/h2&gt;
+&lt;p&gt;Privileges (often called permissions) can be tricky to administer in PostgreSQL
+because of the fine granular control at your disposal.
+Security can bore down to the object level.
+You could assign different privileges to each column of your table, if that ever becomes necessary.&lt;/p&gt;
+&lt;div class="section" id="types-of-privileges"&gt;
+&lt;h3&gt;Types of Privileges&lt;/h3&gt;
+&lt;p&gt;Some of the object-level privileges you find in PostgreSQL are
+SELECT , INSERT , UPDATE , ALTER , EXECUTE , TRUNCATE ,
+and a qualifier to those called WITH GRANT .
+Note that privileges are relevant only with respect to a particular database asset.
+For example, TRUNCATE for functions and EXECUTE for tables make no sense.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="getting-started"&gt;
+&lt;h3&gt;Getting Started&lt;/h3&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;PostgreSQL creates one superuser and one database for you at installation, both named postgres.
+Log into your server as postgres .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Before creating your first database, create a role that will own the database and can log in,
+such as:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CREATE ROLE mydb_admin LOGIN PASSWORD 'something';
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Create the database and set the owner:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+CREATE DATABASE mydb WITH owner = mydb_admin;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Now log in as the mydb_admin user and start setting up additional schemas and tables.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="grant"&gt;
+&lt;h3&gt;GRANT&lt;/h3&gt;
+&lt;p&gt;The GRANT command assigns privileges to others. The basic usage is:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+GRANT some_privilege TO some_role;
+&lt;/pre&gt;
+&lt;p&gt;A few things to keep in mind when it comes to GRANT :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;You need to be the holder of the privilege that you’re granting
+and you must have grant privilege yourself. You can’t give away what you don’t have.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Some privileges always remain with the owner of an object and can never be granted away.
+These include DROP and ALTER .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;The owner of an object already has all privileges.
+Granting an owner privilege in what it already owns is unnecessary.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;When granting privileges, you can add WITH GRANT OPTION .
+This means that the grantee can grant onwards:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO mydb_admin WITH GRANT OPTION;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;To grant all relevant privileges on an object use ALL instead of the specific privilege:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+GRANT SELECT, REFERENCES, TRIGGER ON ALL TABLES IN SCHEMA my_schema TO PUBLIC;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;The ALL alias can also be used to grant for all objects within a database or schema:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+GRANT SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA my_schema TO PUBLIC;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;To grant privileges to all roles, you can use the alias PUBLIC&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+GRANT USAGE ON SCHEMA my_schema TO PUBLIC;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Some privileges are by default granted to PUBLIC .
+These are CONNECT and CREATE TEMP TABLE for databases, EXECUTE for functions, and USAGE for languages.
+In many cases you might consider revoking some of defaults for your own safety.
+Use the REVOKE command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+REVOKE EXECUTE ON ALL FUNCTIONS IN SCHEMA my_schema FROM PUBLIC;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="default-privileges"&gt;
+&lt;h3&gt;Default Privileges&lt;/h3&gt;
+&lt;p&gt;PostgreSQL 9.0 introduced default privileges,
+which allow users to set privileges on all database assets within a particular schema or database,
+as well as in advance of their creation.
+Adding or changing default privileges won’t affect current privilege settings.&lt;/p&gt;
+&lt;p&gt;Example 2-6. Defining default privileges on a schema:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+GRANT USAGE ON SCHEMA my_schema TO PUBLIC;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT SELECT, REFERENCES ON TABLES TO PUBLIC;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT ALL ON TABLES TO mydb_admin WITH GRANT OPTION;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT SELECT, UPDATE ON SEQUENCES TO public;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT ALL ON FUNCTIONS TO mydb_admin WITH GRANT OPTION;
+ALTER DEFAULT PRIVILEGES IN SCHEMA my_schema GRANT USAGE ON TYPES TO PUBLIC;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="privilege-idiosyncrasies"&gt;
+&lt;h3&gt;Privilege Idiosyncrasies&lt;/h3&gt;
+&lt;p&gt;Unlike in other database products,
+being the owner of a PostgreSQL database does not give you access to all objects in the database,
+but it does grant you privileges to whatever objects you create and allows you to drop the database.&lt;/p&gt;
+&lt;p&gt;Another role can create objects that you can’t access in your owned database.
+Interestingly, though, you can still drop the whole database.&lt;/p&gt;
+&lt;p&gt;People often forget to set GRANT USAGE ON SCHEMA or GRANT ALL ON SCHEMA.
+Even if your tables and functions have rights assigned to a role,
+these tables and functions will still not be accessible
+if the role has no USAGE rights to the schema.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="postgresql"></category><category term="database"></category></entry><entry><title>在 DEBIAN 11 上安装 dotnet core 并启用 Serenity</title><link href="https://recozo.github.io/zai-debian-11-shang-an-zhuang-dotnet-core-bing-qi-yong-serenity.html" rel="alternate"></link><published>2022-05-02T21:24:00+08:00</published><updated>2022-05-02T21:24:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2022-05-02:/zai-debian-11-shang-an-zhuang-dotnet-core-bing-qi-yong-serenity.html</id><summary type="html">&lt;p&gt;本配置在 debian 11 下测试通过，默认环境为全新安装，仅安装 SSH，
+创建了一个普通用户 recozo，该用户开启 sudo 功能。&lt;/p&gt;
+&lt;p&gt;参见：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://docs.microsoft.com/en-us/troubleshoot/developer/webapps/aspnetcore/practice-troubleshoot-linux/introduction"&gt;https://docs.microsoft.com/en-us/troubleshoot …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;本配置在 debian 11 下测试通过，默认环境为全新安装，仅安装 SSH，
+创建了一个普通用户 recozo，该用户开启 sudo 功能。&lt;/p&gt;
+&lt;p&gt;参见：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://docs.microsoft.com/en-us/troubleshoot/developer/webapps/aspnetcore/practice-troubleshoot-linux/introduction"&gt;https://docs.microsoft.com/en-us/troubleshoot/developer/webapps/aspnetcore/practice-troubleshoot-linux/introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-6.0"&gt;https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-6.0&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="dotnet"&gt;
+&lt;h2&gt;一、安装 DOTNET&lt;/h2&gt;
+&lt;p&gt;使用以下命令安装 dotnet sdk&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt intalll wget
+$ wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+$ sudo dpkg -i packages-microsoft-prod.deb
+$ rm packages-microsoft-prod.deb
+$ sudo apt update
+$ sudo apt install -y apt-transport-https
+$ sudo apt install -y dotnet-sdk-6.0
+# 由于目前 serenity 还是使用 aspnetcore 5，暂时还要安装这个
+$ sudo apt install -y aspnetcore-runtime-5.0
+$ dotnet --list-sdks
+$ dotnet --list-runtimes
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;二、创建测试网站（参照）&lt;/h2&gt;
+&lt;p&gt;创建一个 aspnetcore 网站&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ dotnet new globaljson -o MySolution/MyProject
+$ dotnet new web -o MySolution/MyProject/
+$ dotnet new sln -o MySolution/
+$ dotnet sln MySolution add MySolution/MyProject
+$ cd MySolution/
+# 以下二条语句怎么不能成功执行了，好像成功执行过的
+$ dotnet run
+$ dotnet run --urls=&amp;quot;http://0.0.0.0:5001&amp;quot;
+# 现在要求必须指定项目
+$ dotnet run --project MyProject --urls=&amp;quot;http://0.0.0.0:5000;https://0.0.0.0:5001&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;生成网站发布代码，一般会将网站代码部署在 /var/www 目录下&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ dotnet publish --configuration Release
+$ dotnet MyProject/bin/Release/net6.0/publish/MyProject.dll
+$ sudo cp -a ~/MySolution/MyProject/bin/Release/net6.0/publish/ /var/www/web02.rcz.cn/
+&lt;/pre&gt;
+&lt;p&gt;在实际操作中发现一下问题，就是上面第二句 dotnet MyProject/bin/Release/net6.0/publish/MyProject.dll
+，如果是 serenity ，由于默认要读取当前目录下的配置文件，但是由于运行时所在目录与工作目录不一致时，导致出错。
+怎么解决？？？ TODO...&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;三、自动运行网站 ::&lt;/h2&gt;
+&lt;p&gt;创建该网站 daemon ，以确保重启服务器或出错后能够自动运行网站&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/systemd/system/web02.rcz.cn.service
+$ sudo systemctl enable web02.rcz.cn.service
+$ sudo systemctl start web02.rcz.cn.service
+$ systemctl status web02.rcz.cn.service
+&lt;/pre&gt;
+&lt;p&gt;web02.rcz.cn.server 代码&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[Unit]
+Description=web02.rcz.cn is a demo website template
+
+[Service]
+WorkingDirectory=/var/www/web02.rcz.cn/
+ExecStart=/usr/bin/dotnet /var/www/web02.rcz.cn/MyProject.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=web02.rcz.cn-identifier
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Development
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+Environment=ASPNETCORE_URLS=http://localhost:5001
+
+[Install]
+WantedBy=multi-user.target
+&lt;/pre&gt;
+&lt;p&gt;请根据实际情况修改，默认 aspnetcore 网站分别使用 5000 和 5001 作为网站的 http 与 https 访问端口，
+如果要运行多个网站时，可以通过指定 ASPNETCORE_URLS 指定端口。由于我们使用 nginx 反向代理，
+不需要 https 。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="nginx"&gt;
+&lt;h2&gt;四、启用 nginx&lt;/h2&gt;
+&lt;p&gt;使用以下命令安装 nginx&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install nginx
+$ systemctl status nginx
+&lt;/pre&gt;
+&lt;p&gt;启用网站的反向代理&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/nginx/sites-available/web02.rcz.cn
+$ sudo ln -s /etc/nginx/sites-available/web02.rcz.cn /etc/nginx/sites-enabled
+$ sudo nginx -T
+$ sudo nginx -s reload
+&lt;/pre&gt;
+&lt;p&gt;注意：创建软链接时，必须使用完整路径； nginx 必须进行重新载入才能生效网站配置&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="https"&gt;
+&lt;h2&gt;五、对网站启用 HTTPS&lt;/h2&gt;
+&lt;p&gt;使用以下命令安装 certbot&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install snapd
+$ sudo snap install core; sudo snap refresh core
+$ sudo snap install --classic certbot
+# 以下软链接是否有必要，退出再登录后，发现路径中已经加入了 /snap/bin
+$ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+&lt;/pre&gt;
+&lt;p&gt;使用以下命令获取证书并自动网站配置（需要事先进行域名配置，防火墙上进行公网 IP 与内网服务器 IP 的映射，
+简单来说，就要保证能事先通过域名以 HTTP 方式访问网站）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo certbot --nginx
+$ cat /etc/nginx/sites-enabled/web02.rcz.cn
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;六、常用故障检测命令&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo journalctl -fu web02.rcz.cn.service
+$ sudo ss -tulp
+$ sudo vi /var/log/nginx/error.log
+&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class="section" id="debian-serenity"&gt;
+&lt;h2&gt;七、在 Debian 环境下运行 serenity 网站&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://serenity.is/docs/postgresql"&gt;https://serenity.is/docs/postgresql&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;1、安装并配置 postgresql 数据库，参见 POSTGRESQL 学习。
+以下假设数据库为 demo_db ，角色密码分别为 demo_role 和 demo_password；&lt;/p&gt;
+&lt;p&gt;2、修改项目文件以启用 postgresql。
+在项目中使用 NUGET， Registering Npgsql Provider；
+修改项目文件， Open the Startup.cs file under /Initialization/ and
+register PostgreSQL DbProviderFactory；
+修改数据库连接串， 即在 .Net Core appsettings.json 中，Setting Connection Strings；
+修改完成后，测试运行。&lt;/p&gt;
+&lt;p&gt;3、在 visual studio 2022 中生成发布代码并上传至网站服务器的 /var/www/demo_serenity.rcz.cn；&lt;/p&gt;
+&lt;p&gt;4、参照以上步骤设置网站域名、自动重启、反射代理以及数字证书等。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="serenity"></category><category term="asp.net core"></category><category term="dotnet core"></category></entry><entry><title>用户登录日志文件</title><link href="https://recozo.github.io/login-log.html" rel="alternate"></link><published>2021-11-01T10:43:00+08:00</published><updated>2021-11-01T10:43:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2021-11-01:/login-log.html</id><summary type="html">&lt;p class="first last"&gt;用户登录日志文件及管理&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="last-var-log-wtmp"&gt;
+&lt;h2&gt;命令 last 以及 /var/log/wtmp&lt;/h2&gt;
+&lt;p&gt;/var/log/wtmp 是一个二进制文件，不能用 vi 直接查看，可能使用 last 或 who 进行查看:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# last
+# who /var/log/wtmp
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="var-log-secure"&gt;
+&lt;h2&gt;找不到 /var/log/secure 文件&lt;/h2&gt;
+&lt;p&gt;原来服务器的ssh登录等操作日志都是/var/log/secure，但 linux 的新发行版已经不再使用，改为使用rsyslog。
+过程：先检查了一下ssh服务是否正常，vim /etc/ssh/sshd_config，检查到其中:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+LogLevel INFO
+SyslogFacility AUTHPRIV
+&lt;/pre&gt;
+&lt;p&gt;没有问题。
+然后查看rsyslog的配置文件 /etc/rsyslog.d/50-default.conf（我的电脑里是这个）。发现登录的配置为:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+auth,authpriv.*                 /var/log/auth.log
+&lt;/pre&gt;
+&lt;p&gt;说明系统登录文件是/var/log/auth.log，基于这个文件来写脚本即可。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="wtmp"></category><category term="secure"></category><category term="rsyslog"></category></entry><entry><title>Install FreeRadius On Debian 10</title><link href="https://recozo.github.io/install-freeradius-on-debian.html" rel="alternate"></link><published>2020-11-21T10:12:00+08:00</published><updated>2020-11-21T10:43:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-11-21:/install-freeradius-on-debian.html</id><summary type="html">&lt;p class="first last"&gt;Getting setup freeradius with postgreSQL and support client's device limit&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;本文假定系统为全新安装的 DEBIAN 10，正常安装DEBIAN，开启SSH，SUDO功能。
+通过安装 FreeRadius 和 PostgreSQL，支持常规的安装。
+本安装教程最主要的功能在于支持 H3C 的 802.1x，并且限制用户允许登录访问的设备数量。
+TODO: 对客户端启用证书的功能待下次测试并完善&lt;/p&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;一、安装&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+# apt install freeradius freeradius-postgresql postgresql postgresql-client
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="postgresql"&gt;
+&lt;h2&gt;二、配置 PostgreSQL&lt;/h2&gt;
+&lt;p&gt;参考链接：
+&lt;a class="reference external" href="https://wiki.freeradius.org/guide/SQL-HOWTO-for-freeradius-3.x-on-Debian-Ubuntu"&gt;https://wiki.freeradius.org/guide/SQL-HOWTO-for-freeradius-3.x-on-Debian-Ubuntu&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;切换至 postgres 用户，执行 psql&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo -i -u postgres
+$ psql
+&lt;/pre&gt;
+&lt;p&gt;通过 psql 创建数据库角色与数据库&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;gt;&amp;gt; CREATE ROLE radius LOGIN PASSWORD 'radpass';
+&amp;gt;&amp;gt; CREATE DATABASE radius WITH owner = radius;
+&lt;/pre&gt;
+&lt;p&gt;退出 postgres 用户，回到 recozo 用户环境&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cd /etc/freeradius/3.0/mods-config/sql/main/postgresql
+# psql -h localhost -U radius radius &amp;lt; schema.sql
+# psql -h localhost -U radius radius &amp;lt; setup.sql      -- 如果执行了 CREATE ROLE 可以不执行
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="freeradius-3-sql"&gt;
+&lt;h2&gt;三、配置 FreeRadius 3 启用 sql&lt;/h2&gt;
+&lt;p&gt;参考链接： &lt;a class="reference external" href="https://networkradius.com/doc/3.0.10/raddb/mods-available/eap/peap.html"&gt;https://networkradius.com/doc/3.0.10/raddb/mods-available/eap/peap.html&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/freeradius/3.0/sites-available/default
+--------------------EDIT--------------------
+    uncomment sql in authorize, accounting, session, post-auth section
+--------------------------------------------
+
+# vi /etc/freeradius/3.0/sites-available/inner-tunnel
+--------------------EDIT--------------------
+    uncomment sql in authorize, session, post-auth section
+--------------------------------------------
+
+# vi /etc/freeradius/3.0/mods-available/sql
+--------------------EDIT--------------------
+sql {
+    driver = &amp;quot;rlm_sql_postgresql&amp;quot;
+    dialect = &amp;quot;postgresql&amp;quot;
+
+    # Connection info:
+    server = &amp;quot;localhost&amp;quot;
+    port = 5432
+    login = &amp;quot;radius&amp;quot;
+    password = &amp;quot;setup.sql中设置的口令&amp;quot;
+
+    # Database table configuration for everything except Oracle
+
+    radius_db = &amp;quot;radius&amp;quot;
+
+    # Set to ‘yes’ to read radius clients from the database (‘nas’ table)
+    # Clients will ONLY be read on server startup.
+    read_clients = yes
+
+    # Table to keep radius client info
+    client_table = &amp;quot;nas&amp;quot;
+--------------------------------------------
+
+# cd /etc/freeradius/3.0/mods-enabled
+# ln -s ../mods-available/sql sql
+# chown -h freerad:freerad /etc/freeradius/3.0/mods-enabled/sql
+# cd /etc/freeradius/3.0/mods-config/sql/main/postgresql
+
+# vi rczmacsetup.sql
+--------------------ADD---------------------
+/*
+* Table structure for table 'rczmaclimit'
+*/
+CREATE TABLE rczmaclimit (
+        UserName                text PRIMARY KEY,
+        MacLimit                integer NOT NULL DEFAULT 1,  -- 0 Unlimited
+        Remark                  text NOT NULL DEFAULT ''
+);
+GRANT SELECT on rczmaclimit TO radius;
+
+/*
+* Table structure for table 'rczmaccheck'
+*/
+CREATE TABLE rczmaccheck (
+        id                      serial PRIMARY KEY,
+        UserName                text NOT NULL,
+        CallingStationId        text NOT NULL,
+        AuthDate                timestamp with time zone NOT NULL default now()
+);
+create index rczmaccheck_UserName on rczmaccheck (UserName,CallingStationId);
+GRANT SELECT, INSERT, UPDATE on rczmaccheck TO radius;
+GRANT USAGE, SELECT ON SEQUENCE rczmaccheck_id_seq TO radius;
+
+
+/*
+* Stored Procedure for authorize_check_query
+*/
+CREATE OR REPLACE FUNCTION rczmac_authorize_check(rczuserName TEXT, rczcallingStationId TEXT)
+RETURNS TABLE (id integer, UserName text, Attribute text, Value text, Op varchar(2))
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    isOk        boolean DEFAULT false;
+    tmpMacLimit    integer;
+    tmpMacTotal    integer;
+BEGIN
+    IF EXISTS(
+        SELECT *
+        FROM rczmaccheck
+        WHERE rczmaccheck.UserName = rczmac_authorize_check.rczuserName
+        AND rczmaccheck.CallingStationId = rczmac_authorize_check.rczcallingStationId
+        )
+    THEN
+        RAISE LOG '用户: % MAC: % ，MAC已登记', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
+        isOk = true;
+    ELSE
+        SELECT MacLimit INTO tmpMacLimit
+        FROM rczmaclimit
+        WHERE rczmaclimit.UserName = rczmac_authorize_check.rczuserName;
+
+        IF NOT FOUND THEN
+            RAISE LOG '用户: % MAC: % ，MAC上限无记录', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
+            tmpMacLimit = 1;
+        END IF;
+
+        IF tmpMacLimit = 0 THEN
+            RAISE LOG '用户: % MAC: % ，MAC上限为0', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
+            isOk = true;
+        ELSE
+            SELECT COUNT(*) INTO tmpMacTotal
+            FROM rczmaccheck
+            WHERE rczmaccheck.UserName = rczmac_authorize_check.rczuserName;
+
+            IF tmpMacLimit &amp;gt; tmpMacTotal THEN
+                RAISE LOG '用户: % MAC: % ，MAC未登记且未达到上限', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
+                isOk = true;
+            ELSE
+                RAISE LOG '用户: % MAC: % ，MAC达到上限禁止登录', rczmac_authorize_check.rczuserName, rczmac_authorize_check.rczcallingStationId;
+                isOk = false;
+            END IF;
+        END IF;
+    END IF;
+
+    RAISE LOG '用户: % 的MAC限制检查结果为： %', rczmac_authorize_check.rczuserName, isOk;
+
+    RETURN QUERY
+    -- 如果 isOk 不通过，不返回用户检查项
+    SELECT radcheck.id, radcheck.UserName, radcheck.Attribute, radcheck.Value, radcheck.Op
+    FROM radcheck
+    WHERE radcheck.UserName = rczmac_authorize_check.rczuserName AND isOk
+    ORDER BY id;
+END;
+$$;
+
+/*
+* Stored Procedure for post-auth-query
+*/
+CREATE OR REPLACE PROCEDURE rczmac_post_auth(rczuserName TEXT, rczPass TEXT, rczReply TEXT, rczcallingStationId TEXT)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    tmpAuthDate     timestamp DEFAULT now();
+BEGIN
+    INSERT INTO radpostauth(username, pass, reply, CallingStationId, authdate)
+    VALUES (rczuserName, rczPass, rczReply, rczcallingStationId, tmpAuthDate);
+
+    IF rczReply = 'Access-Accept' THEN
+        IF EXISTS(
+            SELECT *
+            FROM rczmaccheck
+            WHERE rczmaccheck.UserName = rczmac_post_auth.rczuserName
+            AND rczmaccheck.CallingStationId = rczmac_post_auth.rczcallingStationId
+            )
+        THEN
+            RAISE LOG '用户: % MAC: % ，MAC已存在', rczmac_post_auth.rczuserName, rczmac_post_auth.rczcallingStationId;
+        ELSE
+            RAISE LOG '用户: % MAC: % ，MAC已新增', rczmac_post_auth.rczuserName, rczmac_post_auth.rczcallingStationId;
+
+            INSERT INTO rczmaccheck(UserName, CallingStationId, AuthDate)
+            VALUES (rczuserName, rczcallingStationId, tmpAuthDate);
+        END IF;
+    END IF;
+END;
+$$;
+--------------------------------------------
+
+# psql -h localhost -U radius radius &amp;lt; rczmacsetup.sql
+
+# vi /etc/freeradius/3.0/mods-config/sql/main/postgresql/queries.conf
+--------------------EDIT--------------------
+#  Authorization Queries
+authorize_check_query = &amp;quot;\
+    SELECT * FROM rczmac_authorize_check( \
+        '%{User-Name}', \
+        '%{Calling-Station-Id}')&amp;quot;
+
+# postauth_query                - Insert some info after authentication
+post-auth {
+    query = &amp;quot;CALL rczmac_post_auth( \
+                '%{User-Name}', \
+                '%{%{User-Password}:-Chap-Password}', \
+                '%{reply:Packet-Type}', \
+                '%{Calling-Station-Id}')&amp;quot;
+--------------------------------------------
+
+# vi /etc/freeradius/3.0/sites-available/inner-tunnel
+--------------------ADD---------------------
+#
+#  Look in an SQL database.  The schema of the database
+#  is meant to mirror the &amp;quot;users&amp;quot; file.
+#
+#  See &amp;quot;Authorization Queries&amp;quot; in sql.conf
+update request {
+        &amp;amp;Calling-Station-Id := outer.request:Calling-Station-Id
+}
+sql
+--------------------------------------------
+
+# systemctl enable freeradius
+# systemctl restart freeradius
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="sql"&gt;
+&lt;h2&gt;四、验证SQL是否安装正确（可选）&lt;/h2&gt;
+&lt;p&gt;开二个终端，分别运行 FreeRadius 和 测试&lt;/p&gt;
+&lt;p&gt;终端一&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# systemctl stop freeradius
+# freeradius -X
+&lt;/pre&gt;
+&lt;p&gt;终端二&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# psql -h localhost -U postgres radius
+radius=# insert into nas (nasname, shortname, secret, description) values ('xxx.xxx.xxx.xxx', 'Short Name', 'secure secret', 'description');        -- 加入要允许访问的NAS设备信息
+radius=# insert into radcheck (username,attribute,op,value) values('username', 'Cleartext-Password', ':=', 'password');     -- 加入要允许访问的用户信息
+radius=# \q
+# radtest username password localhost 0 testing123
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="eapol-test-eap"&gt;
+&lt;h2&gt;五、生成 eapol_test 工具并验证 eap （可选）&lt;/h2&gt;
+&lt;p&gt;开二个终端，分别运行 FreeRadius 和 测试&lt;/p&gt;
+&lt;p&gt;终端一&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# systemctl stop freeradius
+# freeradius -X
+&lt;/pre&gt;
+&lt;p&gt;终端二首先生成 eapol_test&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install pkg-config
+$ sudo apt install build-essential
+$ sudo apt install libssl-dev
+$ sudo apt install libnl-genl-3-dev
+$ sudo apt install libdbus-1-dev
+$ wget https://w1.fi/releases/wpa_supplicant-2.9.tar.gz
+$ tar -zxf wpa_supplicant-2.9.tar.gz
+$ cd wpa_supplicant-2.9/wpa_supplicant/
+$ cp defconfig .config
+$ vi .config
+-------------------EDIT---------------------
+    CONFIG_EAPOL_TEST=y
+--------------------------------------------
+$ make eapol_test
+/* 在全新安装的 Debian 11 中编译出错，原来在 Debian 10 下没有出错 */
+/* https://patchwork.ozlabs.org/project/hostap/patch/20191018020419.28686-2-masashi.honma&amp;#64;gmail.com/ */
+/* 2022-01-05 */
+$ mkdir ~/bin
+$ cp eapol_test ~/bin
+&lt;/pre&gt;
+&lt;p&gt;继续在终端二测试 eap 功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/bin
+$ vi eap-ttls-pap.conf
+-------------------ADD----------------------
+network={
+    key_mgmt=WPA-EAP
+    eap=TTLS
+    identity=&amp;quot;username&amp;quot;
+    anonymous_identity=&amp;quot;anonymous&amp;quot;
+    password=&amp;quot;password&amp;quot;
+    phase2=&amp;quot;auth=PAP&amp;quot;
+}
+--------------------------------------------
+$ ./eapol_test -c eap-ttls-pap.conf -s testing123
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="eap"&gt;
+&lt;h2&gt;六、生成 eap 证书（可选，但是强烈建议）&lt;/h2&gt;
+&lt;p&gt;参考链接： &lt;a class="reference external" href="https://networkradius.com/doc/FreeRADIUS-Implementation-Ch6.pdf"&gt;https://networkradius.com/doc/FreeRADIUS-Implementation-Ch6.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考链接： &lt;a class="reference external" href="http://deployingradius.com/documents/configuration/certificates.html"&gt;http://deployingradius.com/documents/configuration/certificates.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;一般来说，802.1X 下建议使用自己的CA，生成自签名证书并将根证书安装在用户终端上。
+如果用户终端不安装根证书或使用第三方证书的话，存在以下安全隐患：
+1、不安装根证书时，存在伪造服务器的可能（创建一个同名SSID的无线，使用伪造的radius服务器），导致用户名与密码泄露；
+2、如果启用 EAP-TLS 并使用第三方根证书的话，此时只要是该机构签发的用户证书均有效，导致用户证书不受控。
+一般情况下这不是我们想要的结果；因此，如果要使用其它CA的证书，请仔细考虑清楚。&lt;/p&gt;
+&lt;p&gt;注意：debian 下的 freeradius 会自动对 EAP 使用 ssl-cert 所生成的 ssl-cert-snakeoil 证书。
+该证书是基于debian的自签名证书，主要用于方便需要创建SSL证书的软件包安装，
+如果 snakeoil 证书过期，可以使用以下命令重新生成 sudo make-ssl-cert generate-default-snakeoil --force-overwrite ，
+也就是不用进行证书生成操作，也可以保证 freeradius 支持 EAP。
+不过在生产环境下不应该使用该证书，而应根据实际生成或使用对应的证书。
+测试中发现在 debian 环境下的 freeradius -X 不会自动生成证书（这点似乎与freeradius 官方的说明不一致）。&lt;/p&gt;
+&lt;p&gt;删除原来生成的证书（生产环境下慎用）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cd /etc/freeradius/3.0/certs
+# rm -f *.pem *.der *.csr *.crt *.key *.p12 serial* index.txt*
+&lt;/pre&gt;
+&lt;p&gt;生成根证书&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/freeradius/3.0/certs/ca.cnf
+--------------------EDIT--------------------
+[ CA_default ]
+default_days            = 3600
+
+[ req ]
+input_password = whateverCA
+output_password = whateverCA
+
+[certificate_authority]
+countryName             = CN
+stateOrProvinceName     = Jiangxi
+localityName            = Pingxiang
+organizationName        = Organization Name
+emailAddress            = radius&amp;#64;example.com
+commonName              = &amp;quot;XXXXXX Certificate Authority&amp;quot;
+--------------------------------------------
+
+# make ca.pem
+# make ca.der
+&lt;/pre&gt;
+&lt;p&gt;生成服务器证书（countryName, stateOrProvinceName, localityName 要与根证书一致？？）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/freeradius/3.0/certs/server.cnf
+--------------------EDIT--------------------
+[ CA_default ]
+default_days            = 3600
+
+[ req ]
+input_password = whateverSVR
+output_password = whateverSVR
+
+[server]
+countryName             = CN
+stateOrProvinceName     = Jiangxi
+localityName            = Pingxiang
+organizationName        = Organization Name
+emailAddress            = radius&amp;#64;example.com
+commonName              = &amp;quot;XXXXXX Server Certificate&amp;quot;
+--------------------------------------------
+
+# make server.pem
+&lt;/pre&gt;
+&lt;p&gt;修改 eap 配置以使用新创建的证书&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/freeradius/3.0/mods-available/eap
+--------------------EDIT--------------------
+tls-config tls-common {
+    private_key_password = whateverSVR
+    private_key_file = ${cadir}/server.key
+    certificate_file = ${cadir}/server.pem
+    ca_file = ${cadir}/ca.pem
+}
+--------------------------------------------
+
+# chown freerad:freerad server.key
+# chown freerad:freerad server.pem
+# chown freerad:freerad ca.pem
+
+# systemctl restart freeradius
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="h3c-radius-802-1x"&gt;
+&lt;h2&gt;七、在 H3C 设备上配置 Radius 并启用（无线）802.1x&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="section" id="x"&gt;
+&lt;h2&gt;八、配置终端的 802.1x 访问&lt;/h2&gt;
+&lt;p&gt;参考链接： &lt;a class="reference external" href="https://schoolsysadmin.blogspot.com/2016/03/freeradius-production-ssl-certificates.html"&gt;https://schoolsysadmin.blogspot.com/2016/03/freeradius-production-ssl-certificates.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;将根CA文件（ca.der）公开，方便用户在终端设备上导入；&lt;/p&gt;
+&lt;p&gt;windows 下配置无线&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="FreeRadius"></category><category term="PostgreSQL"></category><category term="MAC Limit"></category></entry><entry><title>使用 BIND9 创建DNS服务器</title><link href="https://recozo.github.io/shi-yong-bind9-chuang-jian-dnsfu-wu-qi.html" rel="alternate"></link><published>2020-11-21T10:12:00+08:00</published><updated>2020-11-21T10:43:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-11-21:/shi-yong-bind9-chuang-jian-dnsfu-wu-qi.html</id><summary type="html">&lt;p&gt;本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，该用户开启 sudo 功能。&lt;/p&gt;
+&lt;p&gt;参 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;本配置在 debian 10 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，该用户开启 sudo 功能。&lt;/p&gt;
+&lt;p&gt;参见：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.debian.org/bind9"&gt;https://wiki.debian.org/bind9&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.linuxbabe.com/debian/dns-resolver-debian-10-buster-bind9"&gt;https://www.linuxbabe.com/debian/dns-resolver-debian-10-buster-bind9&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="bind9"&gt;
+&lt;h2&gt;一、安装 BIND9&lt;/h2&gt;
+&lt;p&gt;使用以下命令安装 BIND9&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install bind9 bind9-doc dnsutils resolvconf
+&lt;/pre&gt;
+&lt;p&gt;检查版本及运行信息&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo named -v
+$ systemctl status bind9
+$ sudo netstat -lnptu | grep named
+$ sudo rndc status
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="configurations-for-a-local-dns-resolver"&gt;
+&lt;h2&gt;二、Configurations for a Local DNS Resolver&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+sudo vi /etc/bind/named.conf.options
+&lt;/pre&gt;
+&lt;p&gt;In the options clause, add the following lines. Replace IP addresses in the allow-recursion statement with your own local network addresses.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+directory &amp;quot;/var/cache/bind&amp;quot;;
+
+// If there is a firewall between you and nameservers you want
+// to talk to, you may need to fix the firewall to allow multiple
+// ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+// If your ISP provided one or more IP addresses for stable
+// nameservers, you probably want to use them as forwarders.
+// Uncomment the following block, and insert the addresses replacing
+// the all-0's placeholder.
+
+// forwarders {
+//      0.0.0.0;
+// };
+
+//========================================================================
+// If BIND logs error messages about the root key being expired,
+// you will need to update your keys.  See https://www.isc.org/bind-keys
+//========================================================================
+// dnssec-validation auto;
+
+// listen-on-v6 { any; };
+
+// add by Recozo begin
+
+// enable the query log
+querylog yes;
+
+// Transmit requests to 192.168.1.1 if
+// this server doesn't know how to resolve them
+forward only;
+forwarders { 202.101.224.68; };
+
+auth-nxdomain no;    # conform to RFC1035
+
+// From 9.9.5 ARM, disables interfaces scanning to prevent unwanted stop listening
+interface-interval 0;
+// Listen on local interfaces only(IPV4)
+listen-on-v6 { none; };
+listen-on { 127.0.0.1; 10.62.9.105; };
+
+// Accept requests for internal network only
+allow-query { 127.0.0.1; 10.62.0.0/16; };
+
+// Do not make public version of BIND
+version none;
+
+// add by Recozo end
+&lt;/pre&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo named-checkconf
+$ sudo systemctl restart bind9
+$ dig xxx.domainname.com
+$ sudo journalctl -eu bind9
+&lt;/pre&gt;
+&lt;p&gt;三、Setting the Default DNS Resolver on Debian 10 Buster Server&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sudo systemctl start bind9-resolvconf
+
+sudo systemctl enable bind9-resolvconf
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="bind9"></category><category term="dns"></category></entry><entry><title>使用 OpenVPN 安全访问业务网络</title><link href="https://recozo.github.io/shi-yong-openvpn-an-quan-fang-wen-ye-wu-wang-luo.html" rel="alternate"></link><published>2020-09-01T10:12:00+08:00</published><updated>2020-10-02T10:43:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-09-01:/shi-yong-openvpn-an-quan-fang-wen-ye-wu-wang-luo.html</id><summary type="html">&lt;p&gt;本配置方法用于正常使用OPENVPN的同时，启用CA与证书令牌，
+如有需要还可附加启用RADIUS用户与口令认证。&lt;/p&gt;
+&lt;p&gt;本配置在 debian 11 下测试通过，默认环境为全新安装，仅安装 SSH …&lt;/p&gt;</summary><content type="html">&lt;p&gt;本配置方法用于正常使用OPENVPN的同时，启用CA与证书令牌，
+如有需要还可附加启用RADIUS用户与口令认证。&lt;/p&gt;
+&lt;p&gt;本配置在 debian 11 下测试通过，默认环境为全新安装，仅安装 SSH 和 基础工具软件，
+创建了一个普通用户 recozo，该用户开启 sudo 功能，并且配置好了内外网卡地址。&lt;/p&gt;
+&lt;p&gt;参见：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10"&gt;https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.osradar.com/openvpn-authentication-with-freeradius/"&gt;https://www.osradar.com/openvpn-authentication-with-freeradius/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://openvpn.net/community-resources/how-to/#using-alternative-authentication-methods"&gt;https://openvpn.net/community-resources/how-to/#using-alternative-authentication-methods&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;零、初始化&lt;/h2&gt;
+&lt;p&gt;进入 root 用户，使用以下命令初始化系统&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt install sudo
+# adduser recozo sudo
+# timedatectl set-timezone Asia/Shanghai
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="openvpn-1"&gt;
+&lt;h2&gt;一、安装OpenVPN&lt;/h2&gt;
+&lt;p&gt;使用以下命令安装 OpenVPN&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install openvpn
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;二、创建服务器证书和加密文件等&lt;/h2&gt;
+&lt;p&gt;安装完OPENVPN后，默认自动安装了 easyrsa，可简化证书的日常管理操作。&lt;/p&gt;
+&lt;p&gt;以下使用普通用户 recozo 进行操作，假定 CA 工作目录为 ~/bizCA
+（该目录名可以根据需要自行设定，也可以在以后的操作中修改目录名，甚至可以删除该目录，前提是你要作废或重置 CA ）&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;初始化 easy-rsa&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ make-cadir ~/bizCA &amp;amp;&amp;amp; cd ~/bizCA
+$ vi vars
+&lt;/pre&gt;
+&lt;p&gt;对以下参数进行配置，以设置新证书的默认值&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+set_var EASYRSA_REQ_COUNTRY     &amp;quot;US&amp;quot;
+set_var EASYRSA_REQ_PROVINCE    &amp;quot;California&amp;quot;
+set_var EASYRSA_REQ_CITY        &amp;quot;San Francisco&amp;quot;
+set_var EASYRSA_REQ_ORG         &amp;quot;Copyleft Certificate Co&amp;quot;
+set_var EASYRSA_REQ_EMAIL       &amp;quot;me&amp;#64;example.net&amp;quot;
+set_var EASYRSA_REQ_OU          &amp;quot;My Organizational Unit&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;初始化 ca 环境&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa init-pki
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;生成CA证书&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa build-ca nopass
+&lt;/pre&gt;
+&lt;p&gt;以上命令会生成 ca.crt 和 ca.key 两个文件，分别代表该 CA 的公钥与私钥(私钥必须严格保密),
+根据实际可设置 Common Name(如 Company-Name CA)或使用默认值&lt;/p&gt;
+&lt;p&gt;将以上生成的 ca 证书复制到 OpenVPN 目录下&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo cp pki/ca.crt /etc/openvpn/
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;生成服务器证书&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa gen-req VPNSVR nopass
+$ ./easyrsa sign-req server VPNSVR
+&lt;/pre&gt;
+&lt;p&gt;或者&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa build-server-full VPNSVR nopass
+&lt;/pre&gt;
+&lt;p&gt;将以上生成的服务器证书复制到 OpenVPN 目录下&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo cp pki/private/VPNSVR.key /etc/openvpn/
+$ sudo cp pki/issued/VPNSVR.crt /etc/openvpn/
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;生成用于密钥交换的dh&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa gen-dh
+$ sudo cp pki/dh.pem /etc/openvpn/dh2048.pem
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;生成的HMAC签名&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo openvpn --genkey secret ta.key
+$ sudo chown recozo:recozo ta.key
+$ sudo cp ta.key /etc/openvpn/
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="openvpn-2"&gt;
+&lt;h2&gt;三、配置 OpenVPN 服务端&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;配置服务端配置文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf /etc/openvpn/
+$ sudo vi /etc/openvpn/server.conf
+&lt;/pre&gt;
+&lt;p&gt;更新 server.conf 文件内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+;proto tcp
+proto udp
+
+ca ca.crt
+cert VPNSVR.crt
+key VPNSVR.key
+
+dh dh2048.pem
+
+topology subnet
+
+push &amp;quot;redirect-gateway def1 bypass-dhcp&amp;quot;        # 将客户端所有流量均从VPN转发，需要在防火墙设置NAT转换
+push &amp;quot;dhcp-option DNS 208.67.222.222&amp;quot;           # 视情况，DNS也可以不设置
+push &amp;quot;dhcp-option DNS 208.67.220.220&amp;quot;           # 视情况，DNS也可以不设置
+
+tls-auth ta.key 0                               # This file is secret
+
+cipher AES-256-CBC
+auth SHA256
+
+user nobody                                     # Windows 下无须设置
+group nogroup                                   # Windows 下无须设置
+
+log-append  /var/log/openvpn/openvpn.log        # 启用日志功能
+
+# sndbuf 0                                      # 网上搜索解决OPENVPN速度过慢的解决方案
+# rcvbuf 0                                      # 不过好像没有什么用啊
+sndbuf 393216
+rcvbuf 393216
+
+push &amp;quot;sndbuf 393216&amp;quot;
+push &amp;quot;rcvbuf 393216&amp;quot;
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用 IP 转发（需要完成以下配置防火墙步骤，以启用NAT转发）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/sysctl.conf
+&lt;/pre&gt;
+&lt;p&gt;修改 sysctl.conf 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+net.ipv4.ip_forward=1
+&lt;/pre&gt;
+&lt;p&gt;激活转发&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo sysctl -p
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用服务端&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo systemctl start openvpn&amp;#64;server
+$ sudo systemctl enable openvpn&amp;#64;server
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;四、配置防火墙&lt;/h2&gt;
+&lt;p&gt;如果客户端要访问除OPENVPN所在服务器外的其它网络地址，配置 NAT 转换&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install iptables
+$ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+&lt;/pre&gt;
+&lt;p&gt;以下为防火墙强化操作，请根据需要使用，适用于不安全环境下使用。
+使用 iptables-persistent 持久化保存防火墙规则，根据需要，仅启用IPV4，关闭IPV6。
+以下默认使用双网口，eth0为外网口，eth1为内（业务）网口，如果为单网口，请自行脑补。&lt;/p&gt;
+&lt;p&gt;参考链接：
+&lt;a class="reference external" href="https://www.linode.com/docs/networking/vpn/set-up-a-hardened-openvpn-server/"&gt;https://www.linode.com/docs/networking/vpn/set-up-a-hardened-openvpn-server/&lt;/a&gt;&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装 iptables-persistent&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install iptables-persistent
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;编辑IPV4规则&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/iptables/rules.v4
+&lt;/pre&gt;
+&lt;p&gt;将该文件的内容替换为以下内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+*filter
+
+# Allow all loopback (lo) traffic and reject anything
+# to localhost that does not originate from lo.
+-A INPUT -i lo -j ACCEPT
+-A INPUT ! -i lo -s 127.0.0.0/8 -j REJECT
+-A OUTPUT -o lo -j ACCEPT
+
+# Allow ping and ICMP error returns.
+-A INPUT -p icmp -m state --state NEW --icmp-type 8 -j ACCEPT
+-A INPUT -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A OUTPUT -p icmp -j ACCEPT
+
+# Allow SSH.
+-A INPUT -i eth0 -p tcp -m state --state NEW,ESTABLISHED --dport 22 -j ACCEPT
+-A OUTPUT -o eth0 -p tcp -m state --state ESTABLISHED --sport 22 -j ACCEPT
+
+# 允许管理电脑互通访问
+-A INPUT -i eth0 -s 10.62.192.252/30 -j ACCEPT
+-A OUTPUT -o eth0 -d 10.62.192.252/30 -j ACCEPT
+
+# 只允许业务电脑访问，Allow UDP traffic on port 1194.
+-A INPUT -i eth0 -p udp -s 10.62.200.0/21 -m state --state NEW,ESTABLISHED --dport 1194 -j ACCEPT
+-A OUTPUT -o eth0 -p udp -d 10.62.200.0/21 -m state --state ESTABLISHED --sport 1194 -j ACCEPT
+
+# Allow DNS resolution and limited HTTP/S on eth0.
+# Necessary for updating the server and timekeeping.
+-A INPUT -i eth0 -p udp -m state --state ESTABLISHED --sport 53 -j ACCEPT
+-A OUTPUT -o eth0 -p udp -m state --state NEW,ESTABLISHED --dport 53 -j ACCEPT
+-A INPUT -i eth0 -p tcp -m state --state ESTABLISHED --sport 53 -j ACCEPT
+-A OUTPUT -o eth0 -p tcp -m state --state NEW,ESTABLISHED --dport 53 -j ACCEPT
+
+-A INPUT -i eth0 -p tcp -m state --state ESTABLISHED --sport 80 -j ACCEPT
+-A OUTPUT -o eth0 -p tcp -m state --state NEW,ESTABLISHED --dport 80 -j ACCEPT
+-A INPUT -i eth0 -p tcp -m state --state ESTABLISHED --sport 443 -j ACCEPT
+-A OUTPUT -o eth0 -p tcp -m state --state NEW,ESTABLISHED --dport 443 -j ACCEPT
+
+# Allow traffic on the TUN interface so OpenVPN can communicate.
+-A INPUT -i tun0 -j ACCEPT
+-A FORWARD -i tun0 -j ACCEPT
+-A OUTPUT -o tun0 -j ACCEPT
+
+# Allow forwarding traffic only from the VPN.
+-A FORWARD -i tun0 -o eth1 -s 10.8.0.0/24 -j ACCEPT
+-A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Log any packets which don't fit the rules above.
+# (optional but useful)
+-A INPUT -m limit --limit 3/min -j LOG --log-prefix &amp;quot;iptables_INPUT_denied: &amp;quot; --log-level 4
+-A FORWARD -m limit --limit 3/min -j LOG --log-prefix &amp;quot;iptables_FORWARD_denied: &amp;quot; --log-level 4
+-A OUTPUT -m limit --limit 3/min -j LOG --log-prefix &amp;quot;iptables_OUTPUT_denied: &amp;quot; --log-level 4
+
+# then reject them.
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+-A OUTPUT -j REJECT
+
+COMMIT
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;编辑IPV6规则（由于我们不需要IPV6，全部禁用）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/iptables/rules.v6
+&lt;/pre&gt;
+&lt;p&gt;将该文件的内容替换为以下内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+*filter
+
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+-A OUTPUT -j REJECT
+
+COMMIT
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用防火墙规则&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo iptables-restore &amp;lt; /etc/iptables/rules.v4
+$ sudo ip6tables-restore &amp;lt; /etc/iptables/rules.v6
+$ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth1 -j MASQUERADE
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;保存规则&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo dpkg-reconfigure iptables-persistent
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;禁用IPV6功能&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/sysctl.d/99-sysctl.conf
+&lt;/pre&gt;
+&lt;p&gt;添加或修改以下内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.eth0.disable_ipv6 = 1
+&lt;/pre&gt;
+&lt;p&gt;激活以上配置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo sysctl -p
+&lt;/pre&gt;
+&lt;p&gt;注释掉IPV6的localhost解析&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/hosts
+
+#::1     localhost ip6-localhost ip6-loopback
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;查看防火墙规则与日志&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo iptables -S                                      # 查看规则
+$ sudo tail -f /var/log/messages                        # 查看日志
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;五、配置业务路由示例（双网卡）&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vi /etc/network/interfaces
+&lt;/pre&gt;
+&lt;p&gt;参考以下内容更新 interfaces 文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# The primary network interface
+allow-hotplug eth0
+iface eth0 inet static
+        address 10.62.9.10/24
+        # gateway 10.62.9.114
+        # post-up ip route add default via 10.62.9.254 dev eth0
+        # luxi vip hosts
+        post-up ip route add 10.62.1.0/24 via 10.62.9.254 dev eth0
+        post-up ip route add 10.62.192.252/30 via 10.62.9.254 dev eth0
+        # luxi business private networks
+        post-up ip route add 10.62.200.0/21 via 10.62.9.254 dev eth0
+        # dns-* options are implemented by the resolvconf package, if installed
+        dns-nameservers 10.62.9.114
+
+# The vlan716 network interface
+allow-hotplug eth1
+iface eth1 inet static
+        address 172.10.85.253/25
+        post-up ip route add default via 172.10.85.254 dev eth1
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="openvpn-3"&gt;
+&lt;h2&gt;六、下发 OpenVPN 路由&lt;/h2&gt;
+&lt;p&gt;可以根据需要在 /etc/openvpn/server.conf 中配置以下命令来指定客户端的路由设置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+push &amp;quot;route 10.62.9.100 255.255.255.255 net_gateway&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;以上配置用于确保客户端能够正常访问指定的（安全认证）服务器。&lt;/p&gt;
+&lt;p&gt;参见以下示例&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# redirect all default traffic via the VPN
+push &amp;quot;redirect-gateway def1&amp;quot;
+# redirect the Intranet network 192.168.1/24 via the VPN
+push &amp;quot;route 192.168.1.0 255.255.255.0&amp;quot;
+# redirect another network to NOT go via the VPN
+push &amp;quot;route 10.10.0.0 255.255.255.0 net_gateway&amp;quot;
+# redirect a host using a domainname to NOT go via the VPN
+push &amp;quot;route www.google.ca 255.255.255.255 net_gateway&amp;quot;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h2&gt;七、准备客户端配置管理文件&lt;/h2&gt;
+&lt;p&gt;为方便客户端的配置管理，创建一个专用目录和用于自动生成客户端配置的文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ mkdir -p ~/client-configs/files
+&lt;/pre&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h3&gt;不使用令牌认证的常规配置&lt;/h3&gt;
+&lt;pre class="literal-block"&gt;
+$ cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/client-configs/base.conf
+$ vi ~/client-configs/base.conf
+&lt;/pre&gt;
+&lt;p&gt;使用以下内容更新 base.conf 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+proto udp                               # 与 server.conf 保持一致
+remote 10.62.9.24 1194                  # 修改为本OPENVPN服务器的IP地址与端口号
+user nobody                             # 仅适用于LINUX 客户端
+group nogroup                           # 仅适用于LINUX 客户端
+#ca ca.crt                              # 注释掉，包含在OVPN文件中
+#cert client.crt                        # 注释掉，包含在OVPN文件中
+#key client.key                         # 注释掉，包含在OVPN文件中
+#tls-auth ta.key 1                      # 注释掉，包含在OVPN文件中
+key-direction 1
+cipher AES-256-CBC                      # 与 server.conf 保持一致
+auth SHA256                             # 与 server.conf 保持一致
+auth-nocache                            # 避免出现安全警告
+
+# script-security 2                     # 仅适用于LINUX 客户端，自行决定是否添加
+# up /etc/openvpn/update-resolv-conf    # 仅适用于LINUX 客户端，自行决定是否添加
+# down /etc/openvpn/update-resolv-conf  # 仅适用于LINUX 客户端，自行决定是否添加
+&lt;/pre&gt;
+&lt;p&gt;生成 OVPN 的脚本&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vi ~/client-configs/make_config.sh
+&lt;/pre&gt;
+&lt;p&gt;使用以下内容生成 make_config.sh 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#!/bin/bash
+
+# First argument: Client identifier
+
+CA_DIR=~/bizCA/
+OUTPUT_DIR=~/client-configs/files
+BASE_CONFIG=~/client-configs/base.conf
+
+cat ${BASE_CONFIG} \
+        &amp;lt;(echo -e '&amp;lt;ca&amp;gt;') \
+        ${CA_DIR}pki/ca.crt \
+        &amp;lt;(echo -e '&amp;lt;/ca&amp;gt;\n&amp;lt;cert&amp;gt;') \
+        ${CA_DIR}pki/issued/${1}.crt \
+        &amp;lt;(echo -e '&amp;lt;/cert&amp;gt;\n&amp;lt;key&amp;gt;') \
+        ${CA_DIR}pki/private/${1}.key \
+        &amp;lt;(echo -e '&amp;lt;/key&amp;gt;\n&amp;lt;tls-auth&amp;gt;') \
+        ${CA_DIR}/ta.key \
+        &amp;lt;(echo -e '&amp;lt;/tls-auth&amp;gt;') \
+        &amp;gt; ${OUTPUT_DIR}/${1}.ovpn
+&lt;/pre&gt;
+&lt;p&gt;将脚本修改为可执行文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ chmod 700 ~/client-configs/make_config.sh
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-7"&gt;
+&lt;h3&gt;使用飞天令牌的安全认证&lt;/h3&gt;
+&lt;p&gt;启用epass1000ND的令牌认证，需要在客户端上预先安装epass1000ND的中间件
+（使用EPASS1000ND（支持win10） v2.5 2015发布的），
+然后在客户端配置文件中增加pkcs11-providers和pkcs11-id，
+令牌制作方法见生成客户端证书以及配置文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/client-configs/tokenbase.conf
+$ vi ~/client-configs/tokenbase.conf
+&lt;/pre&gt;
+&lt;p&gt;使用以下内容更新 tokenbase.conf 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+proto udp                               # 与 server.conf 保持一致
+remote 10.62.9.24 1194                  # 修改为本OPENVPN服务器的IP地址与端口号
+user nobody                             # 仅适用于LINUX 客户端
+group nogroup                           # 仅适用于LINUX 客户端
+#ca ca.crt                              # 注释掉，包含在OVPN文件中
+#cert client.crt                        # 注释掉，包含在OVPN文件中
+#key client.key                         # 注释掉，包含在OVPN文件中
+#tls-auth ta.key 1                      # 注释掉，包含在OVPN文件中
+key-direction 1
+cipher AES-256-CBC                      # 与 server.conf 保持一致
+auth SHA256                             # 与 server.conf 保持一致
+auth-nocache                            # 避免出现安全警告
+# script-security 2                     # 仅适用于LINUX 客户端，自行决定是否添加
+# up /etc/openvpn/update-resolv-conf    # 仅适用于LINUX 客户端，自行决定是否添加
+# down /etc/openvpn/update-resolv-conf  # 仅适用于LINUX 客户端，自行决定是否添加
+
+pkcs11-providers 'c:\windows\system32\ngp11v211.dll'
+pkcs11-id 'TODO'                        # 需要生成令牌后获取实际 ID 后替换 TODO
+&lt;/pre&gt;
+&lt;p&gt;生成 OVPN 的脚本&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ vi ~/client-configs/tokenmake_config.sh
+&lt;/pre&gt;
+&lt;p&gt;使用以下内容生成 tokenmake_config.sh 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#!/bin/bash
+
+# First argument: Client identifier
+
+CA_DIR=/home/recozo/bizCA
+OUTPUT_DIR=/home/recozo/client-configs/files
+BASE_CONFIG=/home/recozo/client-configs/tokenbase.conf
+
+cat ${BASE_CONFIG} \
+        &amp;lt;(echo -e '&amp;lt;ca&amp;gt;') \
+        ${CA_DIR}/pki/ca.crt \
+        &amp;lt;(echo -e '&amp;lt;/ca&amp;gt;\n&amp;lt;tls-auth&amp;gt;') \
+        ${CA_DIR}/ta.key \
+        &amp;lt;(echo -e '&amp;lt;/tls-auth&amp;gt;') \
+        &amp;gt; ${OUTPUT_DIR}/${1}.ovpn
+&lt;/pre&gt;
+&lt;p&gt;将脚本修改为可执行文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ chmod 700 ~/client-configs/tokenmake_config.sh
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-8"&gt;
+&lt;h2&gt;八、生成客户端证书以及配置文件&lt;/h2&gt;
+&lt;p&gt;生成客户端证书&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa gen-req VPNCLI0520-001 nopass
+$ ./easyrsa sign-req client VPNCLI0520-001
+&lt;/pre&gt;
+&lt;p&gt;或者&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ./easyrsa build-client-full VPNCLI-001 nopass
+&lt;/pre&gt;
+&lt;div class="section" id="section-9"&gt;
+&lt;h3&gt;不使用令牌认证的常规配置&lt;/h3&gt;
+&lt;p&gt;执行脚本生成 OVPN 文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ~/client-configs/make_config.sh VPNCLI-001
+&lt;/pre&gt;
+&lt;p&gt;以上命令会在 ~/client-configs/files 目录下生成 VPNCLI-001.ovpn 文件，
+将该配置文件复制给客户端即可(具体使用请参考客户端的程序说明)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-10"&gt;
+&lt;h3&gt;使用飞天令牌的安全认证&lt;/h3&gt;
+&lt;p&gt;启用epass1000ND的令牌认证，需要在客户端上预先安装 PUTTY 和 epass1000ND 的中间件
+（使用EPASS1000ND（支持win10） v2.5 2015发布的），
+然后修改 ovpn 文件中的 pkcs11-id。&lt;/p&gt;
+&lt;p&gt;在服务器上生成 ovpn 与 证书文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ~/client-configs/tokenmake_config.sh VPNCLI0520-001
+$ ./easyrsa export-p12 VPNCLI0520-001 noca
+&lt;/pre&gt;
+&lt;p&gt;以上命令会在 pki/private 目录中生成 pkcs#12 证书文件，可用于导入至 epass1000ND
+（附：$ ./easyrsa 可以查看该命令所支持的全部功能）&lt;/p&gt;
+&lt;p&gt;将证书文件导入令牌的注意事项：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;目前只在windows环境下成功完成了操作（ windows 7 以及 windows 10 ）&lt;/li&gt;
+&lt;li&gt;使用的令牌管理软件（目录）为 EPASS1000ND（支持win10）\win2.5\pki\V2.5-20150919\PKIcdrom\CDROM_CN\PKI&lt;/li&gt;
+&lt;li&gt;令牌（USB KEY）第一次使用时，要进行初始化，插入 USB KEY 后，执行
+EPASS1000ND（支持win10）\win2.5\pki\V2.5-20150919\PKIcdrom\CDROM_CN\PKI\Utilities\PKIINIT\PKIInit_M32.exe&lt;/li&gt;
+&lt;li&gt;令牌的管理与用户密码统一设置规则定义： 管理密码为路由器密码，用户密码为vlan号+id
+(如：VPNCLI0716-001 的用户密码为 0716 + 001 = 0717)&lt;/li&gt;
+&lt;li&gt;使用 EPASS1000ND（支持win10）\win2.5\pki\V2.5-20150919\PKIcdrom\CDROM_CN\PKI\Utilities\ePassNgMgr.exe
+导入前面所生成的证书&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以下命令在安装了 OpenVPN 的 Windows 环境下运行，首先借助 pscp 复制刚才在服务器上生成的 ovpn 与 证书文件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+C:\Users\recozo&amp;gt;pscp recozo&amp;#64;10.62.9.24:client-configs/files/VPNCLI0520-001.ovpn ./
+C:\Users\recozo&amp;gt;pscp recozo&amp;#64;10.62.9.24:bizCA/pki/private/VPNCLI0520-001.p12 ./
+&lt;/pre&gt;
+&lt;p&gt;将p12导入令牌后，立即获取 Serialized id
+（注意：openvpn2.4版本下显示的 Serialized id 不被支持，必须使用 openvpn 2.3版本获取 Serialized id，
+你可以将 2.3版的文件复制到 windows 上，运行以下命令前定位到 2.3 版本的目录下）&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+.\openvpn --show-pkcs11-ids &amp;quot;c:\windows\system32\ngp11v211.dll&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;将获取的 Serialized id 替换 ovpn 文件中的 pkcs11-id （即 TODO），
+将该配置文件和令牌给客户即可。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="openvpn-radiusplugin"&gt;
+&lt;h2&gt;九、为 OpenVPN 服务器安装 RadiusPlugin&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;解决依赖问题&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# apt-get install libgcrypt20-dev build-essential
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载插件&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# wget http://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;解压缩&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# tar xf radiusplugin_v2.1a_beta1.tar.gz
+# cd radiusplugin_v2.1a_beta1
+# make
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;把编译好的模块拷贝适合的位置&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkdir /etc/openvpn/radius
+# cp radiusplugin.so /etc/openvpn/radius
+# cp radiusplugin.cnf /etc/openvpn/radius
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;配置 radiusplugin.cnf，配置前请在FreeRadius中增加nas记录&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+（insert into nas (nasname, shortname, secret, description) values (&amp;quot;Your Server IP&amp;quot;, &amp;quot;NAS001&amp;quot;, &amp;quot;password&amp;quot;, &amp;quot;单位名称 VLAN ID 的 OPENVPN&amp;quot;); ）
+
+# vi /etc/openvpn/radius/radiusplugin.cnf
+&lt;/pre&gt;
+&lt;p&gt;修改 radiusplugin.cnf 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+NAS-IP-Address=Your Server IP           #根据本机实际修改
+server
+{
+        # The UDP port for radius accounting.
+        acctport=1813
+        # The UDP port for radius authentication.
+        authport=1812
+        # The name or ip address of the radius server.
+        name=Your Radius Server IP              #根据FreeRadius服务器实际修改
+        # How many times should the plugin send the if there is no response?
+        retry=1
+        # How long should the plugin wait for a response?
+        wait=1
+        # The shared secret.
+        sharedsecret=password   # 与 FreeRadius 中的 nas 记录一致
+}
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;启用RADIUS&lt;/p&gt;
+&lt;p&gt;修改 server.conf&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/openvpn/server.conf
+&lt;/pre&gt;
+&lt;p&gt;在 server.conf 中增加以下内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+plugin /etc/openvpn/radius/radiusplugin.so /etc/openvpn/radius/radiusplugin.cnf
+&lt;/pre&gt;
+&lt;p&gt;修改 base.conf 或 tokenbase.conf&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vi /etc/openvpn/client/base.conf
+&lt;/pre&gt;
+&lt;p&gt;在文件中加入下面这行内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+auth-user-pass
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="openvpn"></category><category term="usb key"></category><category term="ca"></category></entry><entry><title>使用 Pelican 维护静态网站</title><link href="https://recozo.github.io/install-pelican-on-debian.html" rel="alternate"></link><published>2020-02-03T13:49:00+08:00</published><updated>2020-08-28T00:49:00+08:00</updated><author><name>Recozo</name></author><id>tag:recozo.github.io,2020-02-03:/install-pelican-on-debian.html</id><summary type="html">&lt;p&gt;Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。
+其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;支持 reStructuredText 编写内容&lt;/li&gt;
+&lt;li&gt;使用 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Pelican 是一个使用Python编写开发的静态网站静态网站内容生成器。
+其实在 github 上有官方推荐的静态网站内容生成器，但是基于以下原因还是选择了 Pelican&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;支持 reStructuredText 编写内容&lt;/li&gt;
+&lt;li&gt;使用 Python 开发&lt;/li&gt;
+&lt;li&gt;打算转向 Python 进行程序开发，好吧，这理由有点勉强……&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;安装系统，可参照安装远程开发桌面环境&lt;/h2&gt;
+&lt;p&gt;记得执行以下命令设置git用户信息:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt install git
+$ git config --global user.email &amp;quot;recozo&amp;#64;outlook.com&amp;quot;
+$ git config --global user.name &amp;quot;Recozo&amp;quot;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pelican-1"&gt;
+&lt;h2&gt;安装 PELICAN&lt;/h2&gt;
+&lt;p&gt;输入以下命令安装pelican并设置相关的运行环境:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents
+$ mkdir mysite &amp;amp;&amp;amp; cd mysite
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install pelican python-magic wheel ghp-import sphinx sphinx-autobuild rstcheck
+$ pip freeze | grep pelican &amp;gt; requirements.txt
+$ pip freeze | grep python-magic &amp;gt; requirements.txt
+$ pip freeze | grep ghp-import &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep sphinx &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep sphinx-autobuild &amp;gt;&amp;gt; requirements.txt
+$ pip freeze | grep rstcheck &amp;gt;&amp;gt; requirements.txt
+$ pelican-quickstart
+$ touch README.rst
+$ vi .gitignore
+&lt;/pre&gt;
+&lt;p&gt;参照 &lt;a class="reference external" href="https://github.com/github/gitignore/blob/master/Python.gitignore"&gt;https://github.com/github/gitignore/blob/master/Python.gitignore&lt;/a&gt;
+以及以下内容录入 .gitignore 内容&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#pelican
+output/
+&lt;/pre&gt;
+&lt;p&gt;继续执行以下命令&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git init
+$ git add -A
+$ git commit -a -m 'Initial commit'
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;发布第一篇文章&lt;/h2&gt;
+&lt;p&gt;# 在 content 目录中保存文章:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+vi content/welcome-to-my-blog.rst
+&lt;/pre&gt;
+&lt;p&gt;示例:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Welcome to my blog !
+####################
+
+:date: 2020-08-28 01:30
+:modified: 2020-08-29 10:15
+:tags: essay
+:category: article
+
+Hello, welcome to my first blog !
+&lt;/pre&gt;
+&lt;p&gt;保存文件。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;查看当前所有配置&lt;/h2&gt;
+&lt;p&gt;使用以下命令可以查看当前的所有配置（包括默认配置）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican --print-settings
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;使用主题&lt;/h2&gt;
+&lt;p&gt;在社区管理维护的 &lt;a class="reference external" href="https://github.com/getpelican/pelican-themes"&gt;Pelican Themes&lt;/a&gt; 中，
+有多个主题可供使用，目前我们使用的是 Flex 。
+尽管可以直接通过 Pelican Themes 安装并使用主题，但是更新有所滞后，
+所以我们还是直接克隆 Flex 的 github 库（在我们自己的 Fork）。&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;下载主题&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/Documents
+$&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;https://github.com/recozo/Flex.git
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;安装主题&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;pelican-themes&lt;span class="w"&gt; &lt;/span&gt;--install&lt;span class="w"&gt; &lt;/span&gt;~/Documents/Flex&lt;span class="w"&gt; &lt;/span&gt;--verbose
+$&lt;span class="w"&gt; &lt;/span&gt;pelican-themes&lt;span class="w"&gt; &lt;/span&gt;--list
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用主题，可以通过 pelican content -t your-theme-path
+也可以通过在配置文件中定义 THEME 启用主题&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# pelicanconf.py&lt;/span&gt;
+&lt;span class="n"&gt;THEME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;./.venv/lib/python3.10/site-packages/pelican/themes/Flex&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h2&gt;链接到内部内容&lt;/h2&gt;
+&lt;p&gt;内部内容指保存在 content 目录中的文件（如图片、PDF等）&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用 filename&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://recozo.github.io/images/test01.jpeg"&gt;a link relative to the current image file&lt;/a&gt;
+&lt;a class="reference external" href="https://recozo.github.io/pdfs/PythonTestingWithSelenium.pdf"&gt;a link relative to the current pdf file&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;使用 static，此时即使指定的文件所在目录不在 STATIC_PATHS 中，
+该文件（及目录）也会被复制到 output 目录中&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://recozo.github.io/images/test01.jpeg"&gt;a link static to the current image file&lt;/a&gt;
+&lt;a class="reference external" href="https://recozo.github.io/pdfs/PythonTestingWithSelenium.pdf"&gt;a link static to the current pdf file&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="restructuredtext"&gt;
+&lt;h2&gt;启用 restructuredtext 扩展&lt;/h2&gt;
+&lt;p&gt;安装 reStructuredText 扩展后， &lt;a class="reference external" href="https://docs.restructuredtext.net/articles/prerequisites"&gt;请查看使用该扩展前的前置依赖&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;第一次使用时，可使用 sphinx-quickstart 创建相关配置。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h2&gt;查看网站效果以及内容&lt;/h2&gt;
+&lt;p&gt;运行以下命令生成网站内容（网站内容有更新时自动重新生成，忽略缓存以避免更新内容不显示）:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican --autoreload --listen --ignore-cache
+&lt;/pre&gt;
+&lt;p&gt;在浏览器中访问以下地址可检查网站效果:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+http://localhost:8000
+&lt;/pre&gt;
+&lt;p&gt;可以开几个终端，编辑信息，然后在浏览器中查看编辑后的效果&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="github"&gt;
+&lt;h2&gt;使用 GITHUB 发布网站以及源文件&lt;/h2&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;在 github.com 创建项目 recozo.github.io，将本地与项目进行绑定:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git remote add origin https://github.com/recozo/recozo.github.io.git
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;将源文件保存为 pelican 分支:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ git push -u origin master:pelican
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;发布项目网站(&lt;a class="reference external" href="https://recozo.github.io"&gt;https://recozo.github.io&lt;/a&gt;)内容:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ pelican content/ -o output -s publishconf.py
+$ ghp-import output -b gh-pages
+$ git push origin gh-pages:master
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="git-recozo-github-io"&gt;
+&lt;h2&gt;使用 GIT 在本地还原 recozo.github.io 项目&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/Documents
+$ git clone https://github.com/recozo/recozo.github.io.git pelican
+$ cd pelican/
+$ git branch -m master
+$ git fetch origin master:gh-pages
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="git"&gt;
+&lt;h2&gt;利用 GIT 恢复或撤销操作&lt;/h2&gt;
+&lt;p&gt;如果需要恢复或撤销已经提交了的操作&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;git reset --soft HEAD~
+把该分支移动回原来的位置，而不会改变索引和工作目录&lt;/li&gt;
+&lt;li&gt;git reset [--mixed] HEAD~
+撤销一上次的提交，还会取消暂存区所有的东西&lt;/li&gt;
+&lt;li&gt;git reset --hard HEAD~
+撤销了最后的提交、git add 和 git commit 命令 以及 工作目录中的所有工作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果需要同时撤销已经发布到GITHUB的操作&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# 查看提交的日志（版本）
+git log
+# 本地仓库回退到某一版本
+git reset --hard xxxx
+# 强制 PUSH，此时远程分支已经恢复成指定的 commit 了
+git push origin master --force
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-7"&gt;
+&lt;h2&gt;关于浏览器缓冲的问题&lt;/h2&gt;
+&lt;p&gt;将 Pelican 从 4.2 升级到了 4.5 ，当访问 &lt;a class="reference external" href="http://127.0.0.1:8000"&gt;http://127.0.0.1:8000&lt;/a&gt; 时，
+总是不能打开 index.html，每次都弹出下载界面，无论是 Firefox 还是 Chrome，都这毛病，以为是升级的原因，
+重新弄了台虚拟机，重新安装还是出这个问题，浪费了二天的时间找原因（不过也不是完全浪费，学到了如何 DEBUG），
+最后发现是浏览器缓存导致的问题，删除缓存后能正常访问，但是由于缓存功能没有关闭，后续仍然会出问题。&lt;/p&gt;
+&lt;p&gt;不建议停用浏览器的缓存功能， Firefox 支持启用开发者模式时禁用 HTTP 缓存 （F12 进入开发者模式，
+F1 进入设置即可在 Advanced settings 看到这个选项 Disable HTTP Cache(when toolbox is open)），
+爽不？！&lt;/p&gt;
+&lt;p&gt;注意，要安装 python-magic ，在 pelican 的 server.py 的 guess_type 是通过 python-magic 进行处理的，
+如果未安装，即仍然会弹出下载界面。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vscode-pelican"&gt;
+&lt;h2&gt;在 VSCODE 中调试 Pelican&lt;/h2&gt;
+&lt;p&gt;在 .vscode 目录下新建一个 launch.json 文件，录入以下内容，即可在 VSCODE 中对 Pelican 进行断点调试了:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    &amp;quot;version&amp;quot;: &amp;quot;0.2.0&amp;quot;,
+    &amp;quot;configurations&amp;quot;: [
+
+        {
+            &amp;quot;name&amp;quot;: &amp;quot;Python: Module&amp;quot;,
+            &amp;quot;type&amp;quot;: &amp;quot;python&amp;quot;,
+            &amp;quot;request&amp;quot;: &amp;quot;launch&amp;quot;,
+            &amp;quot;module&amp;quot;: &amp;quot;pelican&amp;quot;,
+            &amp;quot;args&amp;quot;:[&amp;quot;--listen&amp;quot;],
+            &amp;quot;justMyCode&amp;quot;: false,
+        }
+    ]
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+</content><category term="how-to"></category><category term="pelican"></category><category term="git"></category><category term="github"></category><category term="vscode"></category></entry></feed>
